@@ -1,0 +1,98 @@
+[
+  {
+    "id": "maksum",
+    "nombre": "maksum",
+    "beatsPerBar": 4,
+    "descripcion": "Ritmo egipcio muy usado en la danza oriental.",
+    "origen": "Egipto",
+    "steps": [
+      { "img": "dumCorchea.png", "sound": "dum.wav" },
+      { "img": "blank.png" },
+      { "img": "takCorchea.png", "sound": "tak.wav" },
+      { "img": "blank.png" },
+      { "img": "blank.png" },
+      { "img": "blank.png" },
+      { "img": "takCorchea.png", "sound": "tak.wav" },
+      { "img": "blank.png" },
+      { "img": "dumNegra.png", "sound": "dum.wav" },
+      { "img": "blank.png" },
+      { "img": "blank.png" },
+      { "img": "blank.png" },
+      { "img": "takNegra.png", "sound": "tak.wav" },
+      { "img": "blank.png" },
+      { "img": "blank.png" },
+      { "img": "blank.png" }
+    ],
+    "audio": "/audios/maqsoum_full.mp3"
+  },
+  {
+    "id": "saidi",
+    "nombre": "Saidi",
+    "beatsPerBar": 4,
+    "descripcion": "Ritmo egipcio muy usado en la danza oriental.",
+    "origen": "Egipto",
+    "steps": [
+      { "img": "dumCorchea.png", "sound": "dum.wav" },
+      { "img": "blank.png" },
+      { "img": "takCorchea.png", "sound": "tak.wav" },
+      { "img": "blank.png" },
+      { "img": "blank.png" },
+      { "img": "blank.png" },
+      { "img": "dumCorchea.png", "sound": "dum.wav" },
+      { "img": "blank.png" },
+      { "img": "dumNegra.png", "sound": "dum.wav" },
+      { "img": "blank.png" },
+      { "img": "blank.png" },
+      { "img": "blank.png" },
+      { "img": "takNegra.png", "sound": "tak.wav" },
+      { "img": "blank.png" },
+      { "img": "blank.png" },
+      { "img": "blank.png" }
+    ],
+    "audio": "/audios/saidi_full.mp3"
+  },
+  {
+    "id": "baladi",
+    "nombre": "baladi",
+    "beatsPerBar": 4,
+    "descripcion": "Ritmo egipcio muy usado en la danza oriental.",
+    "origen": "Egipto",
+    "steps": [
+      { "img": "dumCorchea.png", "sound": "dum.wav" },
+      { "img": "blank.png" },
+      { "img": "dumCorchea.png", "sound": "dum.wav" },
+      { "img": "blank.png" },
+      { "img": "blank.png" },
+      { "img": "blank.png" },
+      { "img": "takCorchea.png", "sound": "tak.wav" },
+      { "img": "blank.png" },
+      { "img": "dumNegra.png", "sound": "dum.wav" },
+      { "img": "blank.png" },
+      { "img": "blank.png" },
+      { "img": "blank.png" },
+      { "img": "takNegra.png", "sound": "tak.wav" },
+      { "img": "blank.png" },
+      { "img": "blank.png" },
+      { "img": "blank.png" }
+    ],
+    "audio": "/audios/baladi_full.mp3"
+  },
+  {
+    "id": "malfuf",
+    "nombre": "Malfuf",
+    "beatsPerBar": 2,
+    "descripcion": "Ritmo egipcio muy usado en la danza oriental.",
+    "origen": "Egipto",
+    "steps": [
+      { "img": "dumCorchea.png", "sound": "dum.wav" },
+      { "img": "blank.png" },
+      { "img": "blank.png" },
+      { "img": "takCorchea.png", "sound": "tak.wav" },
+      { "img": "blank.png" },
+      { "img": "blank.png" },
+      { "img": "takCorchea.png", "sound": "tak.wav" },
+      { "img": "blank.png" }
+    ],
+    "audio": "/audios/malfuf_full.mp3"
+  }
+]
