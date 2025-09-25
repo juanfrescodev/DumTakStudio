@@ -1,0 +1,98 @@
+[
+  {
+    "id": "maksum",
+    "nombre": "maksum",
+    "beatsPerBar": 4,
+    "descripcion": "Ritmo egipcio muy usado en la danza oriental.",
+    "origen": "Egipto",
+    "steps": [
+      { "img": "/ritmos/dumCorchea.png", "sound": "/ritmos/dum.wav" },
+      { "img": "/ritmos/blank.png" },
+      { "img": "/ritmos/takCorchea.png", "sound": "/ritmos/tak.wav" },
+      { "img": "/ritmos/blank.png" },
+      { "img": "/ritmos/blank.png" },
+      { "img": "/ritmos/blank.png" },
+      { "img": "/ritmos/takCorchea.png", "sound": "/ritmos/tak.wav" },
+      { "img": "/ritmos/blank.png" },
+      { "img": "/ritmos/dumNegra.png", "sound": "/ritmos/dum.wav" },
+      { "img": "/ritmos/blank.png" },
+      { "img": "/ritmos/blank.png" },
+      { "img": "/ritmos/blank.png" },
+      { "img": "/ritmos/takNegra.png", "sound": "/ritmos/tak.wav" },
+      { "img": "/ritmos/blank.png" },
+      { "img": "/ritmos/blank.png" },
+      { "img": "/ritmos/blank.png" }
+    ],
+    "audio": "/audios/maqsoum_full.mp3"
+  },
+  {
+    "id": "saidi",
+    "nombre": "Saidi",
+    "beatsPerBar": 4,
+    "descripcion": "Ritmo egipcio muy usado en la danza oriental.",
+    "origen": "Egipto",
+    "steps": [
+      { "img": "/ritmos/dumCorchea.png", "sound": "/ritmos/dum.wav" },
+      { "img": "/ritmos/blank.png" },
+      { "img": "/ritmos/takCorchea.png", "sound": "/ritmos/tak.wav" },
+      { "img": "/ritmos/blank.png" },
+      { "img": "/ritmos/blank.png" },
+      { "img": "/ritmos/blank.png" },
+      { "img": "/ritmos/dumCorchea.png", "sound": "/ritmos/dum.wav" },
+      { "img": "/ritmos/blank.png" },
+      { "img": "/ritmos/dumNegra.png", "sound": "/ritmos/dum.wav" },
+      { "img": "/ritmos/blank.png" },
+      { "img": "/ritmos/blank.png" },
+      { "img": "/ritmos/blank.png" },
+      { "img": "/ritmos/takNegra.png", "sound": "/ritmos/tak.wav" },
+      { "img": "/ritmos/blank.png" },
+      { "img": "/ritmos/blank.png" },
+      { "img": "/ritmos/blank.png" }
+    ],
+    "audio": "/audios/saidi_full.mp3"
+  },
+  {
+    "id": "baladi",
+    "nombre": "baladi",
+    "beatsPerBar": 4,
+    "descripcion": "Ritmo egipcio muy usado en la danza oriental.",
+    "origen": "Egipto",
+    "steps": [
+      { "img": "/ritmos/dumCorchea.png", "sound": "/ritmos/dum.wav" },
+      { "img": "/ritmos/blank.png" },
+      { "img": "/ritmos/dumCorchea.png", "sound": "/ritmos/dum.wav" },
+      { "img": "/ritmos/blank.png" },
+      { "img": "/ritmos/blank.png" },
+      { "img": "/ritmos/blank.png" },
+      { "img": "/ritmos/takCorchea.png", "sound": "/ritmos/tak.wav" },
+      { "img": "/ritmos/blank.png" },
+      { "img": "/ritmos/dumNegra.png", "sound": "/ritmos/dum.wav" },
+      { "img": "/ritmos/blank.png" },
+      { "img": "/ritmos/blank.png" },
+      { "img": "/ritmos/blank.png" },
+      { "img": "/ritmos/takNegra.png", "sound": "/ritmos/tak.wav" },
+      { "img": "/ritmos/blank.png" },
+      { "img": "/ritmos/blank.png" },
+      { "img": "/ritmos/blank.png" }
+    ],
+    "audio": "/audios/baladi_full.mp3"
+  },
+  {
+    "id": "malfuf",
+    "nombre": "Malfuf",
+    "beatsPerBar": 2,
+    "descripcion": "Ritmo egipcio muy usado en la danza oriental.",
+    "origen": "Egipto",
+    "steps": [
+      { "img": "/ritmos/dumCorchea.png", "sound": "/ritmos/dum.wav" },
+      { "img": "/ritmos/blank.png" },
+      { "img": "/ritmos/blank.png" },
+      { "img": "/ritmos/takCorchea.png", "sound": "/ritmos/tak.wav" },
+      { "img": "/ritmos/blank.png" },
+      { "img": "/ritmos/blank.png" },
+      { "img": "/ritmos/takCorchea.png", "sound": "/ritmos/tak.wav" },
+      { "img": "/ritmos/blank.png" }
+    ],
+    "audio": "/audios/malfuf_full.mp3"
+  }
+]
