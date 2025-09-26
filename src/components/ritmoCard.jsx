@@ -11,12 +11,24 @@ export default function RitmoCard({ ritmo }) {
   }));
 
   return (
-    <div className="w-full max-w-md mx-auto">
-      <div className="bg-white rounded-2xl shadow p-4">
-        <h2 className="text-xl font-bold mb-2">{ritmo.nombre}</h2>
+    <div className="w-screen min-h-screen bg-white">
+      {/* Cabecera informativa */}
+      <div className="px-4 py-6 md:px-12 lg:px-24">
+        <h2 className="text-2xl font-bold mb-2">{ritmo.nombre}</h2>
         <p className="text-sm text-gray-600 mb-2">{ritmo.descripcion}</p>
         <p className="text-xs text-gray-500 mb-4">Origen: {ritmo.origen}</p>
 
+        {ritmo.audio && (
+          <audio
+            controls
+            src={`${base}ritmos/${ritmo.audio}`}
+            className="w-full mt-4"
+          />
+        )}
+      </div>
+
+      {/* Visualización rítmica a pantalla completa */}
+      <div className="w-full px-2 md:px-6 lg:px-12">
         {ritmo.steps ? (
           <MetronomeSequencer
             steps={stepsConRutaCompleta}
@@ -30,14 +42,6 @@ export default function RitmoCard({ ritmo }) {
             className="w-24 h-24 object-contain rounded-lg mb-4"
           />
         ) : null}
-
-        {ritmo.audio && (
-          <audio
-            controls
-            src={`${base}ritmos/${ritmo.audio}`}
-            className="w-full mt-4"
-          />
-        )}
       </div>
     </div>
   );

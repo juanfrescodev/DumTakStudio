@@ -1,6 +1,6 @@
 // src/App.jsx
 import { useEffect, useState } from "react";
-import RitmoCard from "./components/RitmoCard";
+import RitmoCard from "./components/ritmoCard";
 import ritmosData from "./data/ritmos.json";
 import RitmoPlaylist from "./components/RitmoPlaylist";
 import RitmoTrivia from "./components/RitmoTrivia";
