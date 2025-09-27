@@ -25,8 +25,7 @@
           { "img": "/blank.png" },
           { "img": "/blank.png" },
           { "img": "/blank.png" }
-        ],
-        "audio": "/audios/maqsoum_base.mp3"
+        ]   
       },
       "arreglo": {
         "descripcion": "Versión con adornos y variaciones",
@@ -47,10 +46,10 @@
           { "img": "/blank.png" },
           { "img": "/takSemiCorchea.png", "sound": "/tek.wav" },
           { "img": "/takSemiCorchea.png", "sound": "/tek.wav" }
-        ],
-        "audio": "/audios/maqsoum_arreglo.mp3"
+        ]
       }
-    }
+    },
+    "audio": "/audios/maqsoum_full.wav"
   },
   {
     "id": "saidi",
@@ -76,7 +75,7 @@
       { "img": "/blank.png" },
       { "img": "/blank.png" }
     ],
-    "audio": "/audios/saidi_full.mp3"
+    "audio": "/audios/saidi_full.wav"
   },
   {
     "id": "baladi",
@@ -102,7 +101,7 @@
       { "img": "/blank.png" },
       { "img": "/blank.png" }
     ],
-    "audio": "/audios/baladi_full.mp3"
+    "audio": "/audios/baladi_full.wav"
   },
     {
     "id": "wahda",
@@ -128,7 +127,7 @@
       { "img": "/blank.png" },
       { "img": "/blank.png" }
     ],
-    "audio": "/audios/wahda_full.mp3"
+    "audio": "/audios/wahda_full.wav"
   },
       {
     "id": "sombati",
@@ -154,7 +153,7 @@
       { "img": "/blank.png" },
       { "img": "/blank.png" }
     ],
-    "audio": "/audios/sombati_full.mp3"
+    "audio": "/audios/sombati_full.wav"
   },
       {
     "id": "rumba masri",
@@ -180,7 +179,7 @@
       { "img": "/blank.png" },
       { "img": "/blank.png" }
     ],
-    "audio": "/audios/rumba_masri_full.mp3"
+    "audio": "/audios/rumba_masri_full.wav"
   },
       {
     "id": "conga masri",
@@ -206,7 +205,7 @@
       { "img": "/blank.png" },
       { "img": "/blank.png" }
     ],
-    "audio": "/audios/conga_masri_full.mp3"
+    "audio": "/audios/conga_masri_full.wav"
   },
       {
     "id": "sherk",
@@ -232,7 +231,7 @@
       { "img": "/blank.png" },
       { "img": "/blank.png" }
     ],
-    "audio": "/audios/sherk_full.mp3"
+    "audio": "/audios/sherk_full.wav"
   },
   {
     "id": "malfuf",
@@ -250,7 +249,7 @@
       { "img": "/takCorchea.png", "sound": "/tak.wav" },
       { "img": "/blank.png" }
     ],
-    "audio": "/audios/malfuf_full.mp3"
+    "audio": "/audios/malfuf_full.wav"
   },
         {
     "id": "wahda kebir",
@@ -292,7 +291,7 @@
       { "img": "/blank.png" },
       { "img": "/blank.png" }
     ],
-    "audio": "/audios/wahda_kebir_full.mp3"
+    "audio": "/audios/wahda_kebir_full.wav"
   },
         {
     "id": "cheftetelli",
@@ -334,6 +333,6 @@
       { "img": "/blank.png" },
       { "img": "/blank.png" }
     ],
-    "audio": "/audios/cheftetelli_full.mp3"
+    "audio": "/audios/cheftetelli_full.wav"
   }
 ]
