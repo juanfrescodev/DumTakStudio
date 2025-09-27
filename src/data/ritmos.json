@@ -5,25 +5,52 @@
     "beatsPerBar": 4,
     "descripcion": "Ritmo egipcio muy usado en la danza oriental.",
     "origen": "Egipto",
-    "steps": [
-      { "img": "/dumCorchea.png", "sound": "/dum.wav" },
-      { "img": "/blank.png" },
-      { "img": "/takCorchea.png", "sound": "/tak.wav" },
-      { "img": "/blank.png" },
-      { "img": "/blank.png" },
-      { "img": "/blank.png" },
-      { "img": "/takCorchea.png", "sound": "/tak.wav" },
-      { "img": "/blank.png" },
-      { "img": "/dumNegra.png", "sound": "/dum.wav" },
-      { "img": "/blank.png" },
-      { "img": "/blank.png" },
-      { "img": "/blank.png" },
-      { "img": "/takNegra.png", "sound": "/tak.wav" },
-      { "img": "/blank.png" },
-      { "img": "/blank.png" },
-      { "img": "/blank.png" }
-    ],
-    "audio": "/audios/maqsoum_full.mp3"
+    "variantes": {
+      "base": {
+        "descripcion": "Versión tradicional del ritmo",
+        "steps": [
+          { "img": "/dumCorchea.png", "sound": "/dum.wav" },
+          { "img": "/blank.png" },
+          { "img": "/takCorchea.png", "sound": "/tak.wav" },
+          { "img": "/blank.png" },
+          { "img": "/blank.png" },
+          { "img": "/blank.png" },
+          { "img": "/takCorchea.png", "sound": "/tak.wav" },
+          { "img": "/blank.png" },
+          { "img": "/dumNegra.png", "sound": "/dum.wav" },
+          { "img": "/blank.png" },
+          { "img": "/blank.png" },
+          { "img": "/blank.png" },
+          { "img": "/takNegra.png", "sound": "/tak.wav" },
+          { "img": "/blank.png" },
+          { "img": "/blank.png" },
+          { "img": "/blank.png" }
+        ],
+        "audio": "/audios/maqsoum_base.mp3"
+      },
+      "arreglo": {
+        "descripcion": "Versión con adornos y variaciones",
+        "steps": [
+          { "img": "/dumCorchea.png", "sound": "/dum.wav" },
+          { "img": "/blank.png" },
+          { "img": "/takCorchea.png", "sound": "/tak.wav" },
+          { "img": "/blank.png" },
+          { "img": "/takSemiCorchea.png", "sound": "/tek.wav" },
+          { "img": "/takSemiCorchea.png", "sound": "/tek.wav" },
+          { "img": "/takCorchea.png", "sound": "/tak.wav" },
+          { "img": "/blank.png" },
+          { "img": "/dumNegra.png", "sound": "/dum.wav" },
+          { "img": "/blank.png" },
+          { "img": "/takSemiCorchea.png", "sound": "/tek.wav" },
+          { "img": "/takSemiCorchea.png", "sound": "/tek.wav" },
+          { "img": "/takNegra.png", "sound": "/tak.wav" },
+          { "img": "/blank.png" },
+          { "img": "/takSemiCorchea.png", "sound": "/tek.wav" },
+          { "img": "/takSemiCorchea.png", "sound": "/tek.wav" }
+        ],
+        "audio": "/audios/maqsoum_arreglo.mp3"
+      }
+    }
   },
   {
     "id": "saidi",

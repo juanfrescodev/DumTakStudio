@@ -1,13 +1,13 @@
-// src/components/MetronomeSequencer.jsx
 import React, { useEffect, useRef, useState } from "react";
 
-export default function MetronomeSequencer({ steps = [], initialBpm = 90, beatsPerBar = 4 }) {
+export default function MetronomeSequencer({ ritmo, variante = "base", initialBpm = 90 }) {
   const [bpm, setBpm] = useState(initialBpm);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
   const [audioReady, setAudioReady] = useState(false);
   const [stepSize, setStepSize] = useState(40);
   const [modoVisual, setModoVisual] = useState("secuencial");
+  const hasStartedRef = useRef(false);
 
   const audioCtxRef = useRef(null);
   const samplesRef = useRef({});
@@ -19,8 +19,17 @@ export default function MetronomeSequencer({ steps = [], initialBpm = 90, beatsP
   const visualContainerRef = useRef(null);
   const stepRefs = useRef([]);
 
+  const varianteData = ritmo?.variantes?.[variante];
+  const steps = varianteData?.steps || [];
+  const beatsPerBar = ritmo?.beatsPerBar || 4;
+  const audioSrc = varianteData?.audio || null;
+
   const stepsPerBeat = steps.length / beatsPerBar;
   const secondsPerStep = () => (60 / bpm) / stepsPerBeat;
+
+  useEffect(() => {
+    hasStartedRef.current = true;
+  }, []);
 
   useEffect(() => {
     const loadAll = async () => {
@@ -41,30 +50,30 @@ export default function MetronomeSequencer({ steps = [], initialBpm = 90, beatsP
       setAudioReady(true);
     };
 
-    loadAll();
+    if (steps.length > 0) {
+      loadAll();
+    }
   }, [steps]);
 
   useEffect(() => {
     const calcularTamaño = () => {
       if (visualContainerRef.current) {
         const anchoDisponible = visualContainerRef.current.offsetWidth;
-
         const pasosPorFila = modoVisual === "metrico"
           ? beatsPerBar
           : Math.min(steps.length, 16);
-
         const nuevoTamaño = Math.floor(anchoDisponible / pasosPorFila) - 4;
         setStepSize(Math.max(24, Math.min(nuevoTamaño, 60)));
       }
     };
 
-  calcularTamaño();
-  window.addEventListener("resize", calcularTamaño);
-  return () => window.removeEventListener("resize", calcularTamaño);
-}, [steps.length, modoVisual, beatsPerBar]);
-
+    calcularTamaño();
+    window.addEventListener("resize", calcularTamaño);
+    return () => window.removeEventListener("resize", calcularTamaño);
+  }, [steps.length, modoVisual, beatsPerBar]);
 
   useEffect(() => {
+    if (!isPlaying) return;
     if (modoVisual === "secuencial" && stepRefs.current[currentStep]) {
       stepRefs.current[currentStep].scrollIntoView({
         behavior: "smooth",
@@ -72,7 +81,7 @@ export default function MetronomeSequencer({ steps = [], initialBpm = 90, beatsP
         block: "nearest",
       });
     }
-  }, [currentStep, modoVisual]);
+  }, [currentStep, modoVisual, isPlaying]);
 
   const playStepSound = (step, time) => {
     const buffer = samplesRef.current[step?.sound];
@@ -154,7 +163,7 @@ export default function MetronomeSequencer({ steps = [], initialBpm = 90, beatsP
     <div className="w-full bg-white rounded-xl shadow p-4 mt-4">
       <div className="flex justify-between items-center mb-3">
         <p className="text-sm text-gray-700 font-medium">
-          Compás: {beatsPerBar}/4 — {steps.length} semicorcheas
+          {ritmo?.nombre} — Variante: <strong>{variante}</strong> — {beatsPerBar}/4 — {steps.length} semicorcheas
         </p>
         <button
           onClick={() =>
@@ -206,8 +215,9 @@ export default function MetronomeSequencer({ steps = [], initialBpm = 90, beatsP
                 ref={(el) => (stepRefs.current[i] = el)}
                 style={{ width: stepSize, height: stepSize }}
                 className={`flex-shrink-0 rounded-lg flex items-center justify-center transition-all duration-150
-                  ${isActive ? "scale-110 ring-4 ring-yellow-300 brightness-125 animate-pulse" : "opacity-70 hover:opacity-100"}
-                  ${isPulseStart ? "border-l-2 border-gray-400 pl-1" : ""}`}
+                ${isActive ? "scale-110 ring-4 ring-yellow-300 brightness-125 animate-pulse" : "opacity-70 hover:opacity-100"}
+                  ${isPulseStart ? "border-l-2 border-gray-400 pl-1" : ""}
+                `}
               >
                 {s.img ? (
                   <img
@@ -227,47 +237,48 @@ export default function MetronomeSequencer({ steps = [], initialBpm = 90, beatsP
           })}
         </div>
       ) : (
-      <div
-        ref={visualContainerRef}
-        className="w-full px-2 md:px-6 lg:px-12 py-2 flex flex-wrap gap-4 justify-start overflow-x-auto"
-      >
-        {compases.map((compas, i) => (
-          <div
-            key={i}
-            className="flex gap-2 p-2 rounded-lg border border-gray-300 bg-gray-50"
-          >
-            {compas.map((s, j) => {
-              const stepIndex = i * beatsPerBar + j;
-              const isActive = stepIndex === currentStep;
-              const isPulseStart = stepIndex % 4 === 0;
+        <div
+          ref={visualContainerRef}
+          className="w-full px-2 md:px-6 lg:px-12 py-2 flex flex-wrap gap-4 justify-start overflow-x-auto"
+        >
+          {compases.map((compas, i) => (
+            <div
+              key={i}
+              className="flex gap-2 p-2 rounded-lg border border-gray-300 bg-gray-50"
+            >
+              {compas.map((s, j) => {
+                const stepIndex = i * beatsPerBar + j;
+                const isActive = stepIndex === currentStep;
+                const isPulseStart = stepIndex % 4 === 0;
 
-              return (
-                <div
-                  key={j}
-                  style={{ width: stepSize, height: stepSize }}
-                  className={`flex-shrink-0 rounded-lg flex items-center justify-center transition-all duration-150
-                    ${isActive ? "scale-110 ring-4 ring-yellow-300 brightness-125 animate-pulse" : "opacity-70 hover:opacity-100"}
-                    ${isPulseStart ? "border-l-2 border-gray-400 pl-1" : ""}`}
-                >
-                  {s.img ? (
-                    <img
-                      src={s.img}
-                      alt={`step-${stepIndex}`}
-                      style={{ width: stepSize * 0.6, height: stepSize * 0.6 }}
-                      className="object-contain max-w-full max-h-full"
-                    />
-                  ) : (
-                    <div
-                      style={{ width: stepSize * 0.6, height: stepSize * 0.6 }}
-                      className="bg-gray-200 rounded-full"
-                    />
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        ))}
-      </div>
+                return (
+                  <div
+                    key={j}
+                    style={{ width: stepSize, height: stepSize }}
+                    className={`flex-shrink-0 rounded-lg flex items-center justify-center transition-all duration-150
+                      ${isActive ? "scale-110 ring-4 ring-yellow-300 brightness-125 animate-pulse" : "opacity-70 hover:opacity-100"}
+                      ${isPulseStart ? "border-l-2 border-gray-400 pl-1" : ""}
+                    `}
+                  >
+                    {s.img ? (
+                      <img
+                        src={s.img}
+                        alt={`step-${stepIndex}`}
+                        style={{ width: stepSize * 0.6, height: stepSize * 0.6 }}
+                        className="object-contain max-w-full max-h-full"
+                      />
+                    ) : (
+                      <div
+                        style={{ width: stepSize * 0.6, height: stepSize * 0.6 }}
+                        className="bg-gray-200 rounded-full"
+                      />
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          ))}
+        </div>
       )}
     </div>
   );

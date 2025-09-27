@@ -6,6 +6,13 @@ import RitmoPlaylist from "./components/RitmoPlaylist";
 import RitmoTrivia from "./components/RitmoTrivia";
 
 export default function App() {
+
+  useEffect(() => {
+    fetch('https://ritmos-backend.onrender.com/ping')
+      .then(() => console.log('Backend activado'))
+      .catch(err => console.error('Error al despertar el backend', err));
+  }, []);
+
   const [ritmos, setRitmos] = useState([]);
   const [playlist, setPlaylist] = useState([]);
 

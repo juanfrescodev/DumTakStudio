@@ -138,6 +138,7 @@ export default function RitmoPlaylist({ playlist, initialBpm = 90 }) {
       audioCtxRef.current = new (window.AudioContext || window.webkitAudioContext)();
     }
 
+    // 👇 Esto es clave: activarlo dentro del evento
     await audioCtxRef.current.resume().catch(() => {});
     isPlayingRef.current = true;
     setIsPlaying(true);
