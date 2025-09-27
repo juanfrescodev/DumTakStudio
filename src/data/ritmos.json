@@ -57,52 +57,83 @@
     "beatsPerBar": 4,
     "descripcion": "Ritmo egipcio muy usado en la danza oriental.",
     "origen": "Egipto",
-    "steps": [
-      { "img": "/dumCorchea.png", "sound": "/dum.wav" },
-      { "img": "/blank.png" },
-      { "img": "/takCorchea.png", "sound": "/tak.wav" },
-      { "img": "/blank.png" },
-      { "img": "/blank.png" },
-      { "img": "/blank.png" },
-      { "img": "/dumCorchea.png", "sound": "/dum.wav" },
-      { "img": "/blank.png" },
-      { "img": "/dumNegra.png", "sound": "/dum.wav" },
-      { "img": "/blank.png" },
-      { "img": "/blank.png" },
-      { "img": "/blank.png" },
-      { "img": "/takNegra.png", "sound": "/tak.wav" },
-      { "img": "/blank.png" },
-      { "img": "/blank.png" },
-      { "img": "/blank.png" }
-    ],
-    "audio": "/audios/saidi_full.wav"
+    "variantes": {
+      "base": {
+        "descripcion": "Versión tradicional del ritmo",
+        "steps": [
+          { "img": "/dumCorchea.png", "sound": "/dum.wav" },
+          { "img": "/blank.png" },
+          { "img": "/takCorchea.png", "sound": "/tak.wav" },
+          { "img": "/blank.png" },
+          { "img": "/blank.png" },
+          { "img": "/blank.png" },
+          { "img": "/dumCorchea.png", "sound": "/dum.wav" },
+          { "img": "/blank.png" },
+          { "img": "/dumNegra.png", "sound": "/dum.wav" },
+          { "img": "/blank.png" },
+          { "img": "/blank.png" },
+          { "img": "/blank.png" },
+          { "img": "/takNegra.png", "sound": "/tak.wav" },
+          { "img": "/blank.png" },
+          { "img": "/blank.png" },
+          { "img": "/blank.png" }
+        ]
+      },
+      "arreglo": {
+        "descripcion": "Versión con adornos y variaciones",
+        "steps": [
+          { "img": "/dumCorchea.png", "sound": "/dum.wav" },
+          { "img": "/blank.png" },
+          { "img": "/takCorchea.png", "sound": "/tak.wav" },
+          { "img": "/takSemiCorchea.png", "sound": "/tek.wav" },
+          { "img": "/takSemiCorchea.png", "sound": "/tek.wav" },
+          { "img": "/blank.png" },
+          { "img": "/dumCorchea.png", "sound": "/dum.wav" },
+          { "img": "/blank.png" },
+          { "img": "/dumNegra.png", "sound": "/dum.wav" },
+          { "img": "/blank.png" },
+          { "img": "/takSemiCorchea.png", "sound": "/tek.wav" },
+          { "img": "/takSemiCorchea.png", "sound": "/tek.wav" },
+          { "img": "/takNegra.png", "sound": "/tak.wav" },
+          { "img": "/blank.png" },
+          { "img": "/takSemiCorchea.png", "sound": "/tek.wav" },
+          { "img": "/takSemiCorchea.png", "sound": "/tek.wav" }
+        ]
+      }
   },
+  "audio": "/audios/saidi_full.wav"
+  }
   {
     "id": "baladi",
     "nombre": "baladi",
     "beatsPerBar": 4,
     "descripcion": "Ritmo egipcio muy usado en la danza oriental.",
     "origen": "Egipto",
-    "steps": [
-      { "img": "/dumCorchea.png", "sound": "/dum.wav" },
-      { "img": "/blank.png" },
-      { "img": "/dumCorchea.png", "sound": "/dum.wav" },
-      { "img": "/blank.png" },
-      { "img": "/blank.png" },
-      { "img": "/blank.png" },
-      { "img": "/takCorchea.png", "sound": "/tak.wav" },
-      { "img": "/blank.png" },
-      { "img": "/dumNegra.png", "sound": "/dum.wav" },
-      { "img": "/blank.png" },
-      { "img": "/blank.png" },
-      { "img": "/blank.png" },
-      { "img": "/takNegra.png", "sound": "/tak.wav" },
-      { "img": "/blank.png" },
-      { "img": "/blank.png" },
-      { "img": "/blank.png" }
-    ],
+     "variantes": {
+      "base": {
+        "descripcion": "Versión tradicional del ritmo",
+        "steps": [
+          { "img": "/dumCorchea.png", "sound": "/dum.wav" },
+          { "img": "/blank.png" },
+          { "img": "/dumCorchea.png", "sound": "/dum.wav" },
+          { "img": "/blank.png" },
+          { "img": "/blank.png" },
+          { "img": "/blank.png" },
+          { "img": "/takCorchea.png", "sound": "/tak.wav" },
+          { "img": "/blank.png" },
+          { "img": "/dumNegra.png", "sound": "/dum.wav" },
+          { "img": "/blank.png" },
+          { "img": "/blank.png" },
+          { "img": "/blank.png" },
+          { "img": "/takNegra.png", "sound": "/tak.wav" },
+          { "img": "/blank.png" },
+          { "img": "/blank.png" },
+          { "img": "/blank.png" }
+        ],
+    },
     "audio": "/audios/baladi_full.wav"
   },
+  
     {
     "id": "wahda",
     "nombre": "Wahda(Tawil)",
