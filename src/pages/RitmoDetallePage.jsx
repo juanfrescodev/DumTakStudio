@@ -1,4 +1,5 @@
 // src/pages/RitmoDetallePage.jsx
+import Navbar from "../components/Navbar";
 import { useParams, Link } from "react-router-dom";
 import ritmosData from "../data/ritmos.json";
 import RitmoCard from "../components/RitmoCard";
