@@ -9,47 +9,47 @@
       "base": {
         "descripcion": "Versión tradicional del ritmo",
         "steps": [
-          { "img": "/dumCorchea.png", "sound": "/dum.wav" },
+          { "img": "/dumCorchea.png", "sound": "/dum.mp3" },
           { "img": "/blank.png" },
-          { "img": "/takCorchea.png", "sound": "/tak.wav" },
-          { "img": "/blank.png" },
-          { "img": "/blank.png" },
-          { "img": "/blank.png" },
-          { "img": "/takCorchea.png", "sound": "/tak.wav" },
-          { "img": "/blank.png" },
-          { "img": "/dumNegra.png", "sound": "/dum.wav" },
+          { "img": "/takCorchea.png", "sound": "/tak.mp3" },
           { "img": "/blank.png" },
           { "img": "/blank.png" },
           { "img": "/blank.png" },
-          { "img": "/takNegra.png", "sound": "/tak.wav" },
+          { "img": "/takCorchea.png", "sound": "/tak.mp3" },
+          { "img": "/blank.png" },
+          { "img": "/dumNegra.png", "sound": "/dum.mp3" },
+          { "img": "/blank.png" },
+          { "img": "/blank.png" },
+          { "img": "/blank.png" },
+          { "img": "/takNegra.png", "sound": "/tak.mp3" },
           { "img": "/blank.png" },
           { "img": "/blank.png" },
           { "img": "/blank.png" }
-        ]   
+        ]
       },
       "arreglo": {
         "descripcion": "Versión con adornos y variaciones",
         "steps": [
-          { "img": "/dumCorchea.png", "sound": "/dum.wav" },
+          { "img": "/dumCorchea.png", "sound": "/dum.mp3" },
           { "img": "/blank.png" },
-          { "img": "/takCorchea.png", "sound": "/tak.wav" },
+          { "img": "/takCorchea.png", "sound": "/tak.mp3" },
           { "img": "/blank.png" },
-          { "img": "/takSemiCorchea.png", "sound": "/tek.wav" },
-          { "img": "/takSemiCorchea.png", "sound": "/tek.wav" },
-          { "img": "/takCorchea.png", "sound": "/tak.wav" },
+          { "img": "/takSemiCorchea.png", "sound": "/tek.mp3" },
+          { "img": "/takSemiCorchea.png", "sound": "/tek.mp3" },
+          { "img": "/takCorchea.png", "sound": "/tak.mp3" },
           { "img": "/blank.png" },
-          { "img": "/dumNegra.png", "sound": "/dum.wav" },
+          { "img": "/dumNegra.png", "sound": "/dum.mp3" },
           { "img": "/blank.png" },
-          { "img": "/takSemiCorchea.png", "sound": "/tek.wav" },
-          { "img": "/takSemiCorchea.png", "sound": "/tek.wav" },
-          { "img": "/takNegra.png", "sound": "/tak.wav" },
+          { "img": "/takSemiCorchea.png", "sound": "/tek.mp3" },
+          { "img": "/takSemiCorchea.png", "sound": "/tek.mp3" },
+          { "img": "/takNegra.png", "sound": "/tak.mp3" },
           { "img": "/blank.png" },
-          { "img": "/takSemiCorchea.png", "sound": "/tek.wav" },
-          { "img": "/takSemiCorchea.png", "sound": "/tek.wav" }
+          { "img": "/takSemiCorchea.png", "sound": "/tek.mp3" },
+          { "img": "/takSemiCorchea.png", "sound": "/tek.mp3" }
         ]
       }
     },
-    "audio": "/audios/maqsoum_full.wav"
+    "audio": "/maksum_full.mp3"
   },
   {
     "id": "saidi",
@@ -61,19 +61,19 @@
       "base": {
         "descripcion": "Versión tradicional del ritmo",
         "steps": [
-          { "img": "/dumCorchea.png", "sound": "/dum.wav" },
+          { "img": "/dumCorchea.png", "sound": "/dum.mp3" },
           { "img": "/blank.png" },
-          { "img": "/takCorchea.png", "sound": "/tak.wav" },
-          { "img": "/blank.png" },
-          { "img": "/blank.png" },
-          { "img": "/blank.png" },
-          { "img": "/dumCorchea.png", "sound": "/dum.wav" },
-          { "img": "/blank.png" },
-          { "img": "/dumNegra.png", "sound": "/dum.wav" },
+          { "img": "/takCorchea.png", "sound": "/tak.mp3" },
           { "img": "/blank.png" },
           { "img": "/blank.png" },
           { "img": "/blank.png" },
-          { "img": "/takNegra.png", "sound": "/tak.wav" },
+          { "img": "/dumCorchea.png", "sound": "/dum.mp3" },
+          { "img": "/blank.png" },
+          { "img": "/dumNegra.png", "sound": "/dum.mp3" },
+          { "img": "/blank.png" },
+          { "img": "/blank.png" },
+          { "img": "/blank.png" },
+          { "img": "/takNegra.png", "sound": "/tak.mp3" },
           { "img": "/blank.png" },
           { "img": "/blank.png" },
           { "img": "/blank.png" }
@@ -82,56 +82,78 @@
       "arreglo": {
         "descripcion": "Versión con adornos y variaciones",
         "steps": [
-          { "img": "/dumCorchea.png", "sound": "/dum.wav" },
+          { "img": "/dumCorchea.png", "sound": "/dum.mp3" },
           { "img": "/blank.png" },
-          { "img": "/takCorchea.png", "sound": "/tak.wav" },
-          { "img": "/takSemiCorchea.png", "sound": "/tek.wav" },
-          { "img": "/takSemiCorchea.png", "sound": "/tek.wav" },
+          { "img": "/takCorchea.png", "sound": "/tak.mp3" },
           { "img": "/blank.png" },
-          { "img": "/dumCorchea.png", "sound": "/dum.wav" },
+          { "img": "/takSemiCorchea.png", "sound": "/tek.mp3" },
+          { "img": "/takSemiCorchea.png", "sound": "/tek.mp3" },
+          { "img": "/dumCorchea.png", "sound": "/dum.mp3" },
           { "img": "/blank.png" },
-          { "img": "/dumNegra.png", "sound": "/dum.wav" },
+          { "img": "/dumNegra.png", "sound": "/dum.mp3" },
           { "img": "/blank.png" },
-          { "img": "/takSemiCorchea.png", "sound": "/tek.wav" },
-          { "img": "/takSemiCorchea.png", "sound": "/tek.wav" },
-          { "img": "/takNegra.png", "sound": "/tak.wav" },
+          { "img": "/takSemiCorchea.png", "sound": "/tek.mp3" },
+          { "img": "/takSemiCorchea.png", "sound": "/tek.mp3" },
+          { "img": "/takNegra.png", "sound": "/tak.mp3" },
           { "img": "/blank.png" },
-          { "img": "/takSemiCorchea.png", "sound": "/tek.wav" },
-          { "img": "/takSemiCorchea.png", "sound": "/tek.wav" }
+          { "img": "/takSemiCorchea.png", "sound": "/tek.mp3" },
+          { "img": "/takSemiCorchea.png", "sound": "/tek.mp3" }
         ]
       }
+    },
+    "audio": "/saidi_full.mp3"
   },
-  "audio": "/audios/saidi_full.wav"
-  }
   {
     "id": "baladi",
     "nombre": "baladi",
     "beatsPerBar": 4,
     "descripcion": "Ritmo egipcio muy usado en la danza oriental.",
     "origen": "Egipto",
-     "variantes": {
+    "variantes": {
       "base": {
         "descripcion": "Versión tradicional del ritmo",
         "steps": [
-          { "img": "/dumCorchea.png", "sound": "/dum.wav" },
+          { "img": "/dumCorchea.png", "sound": "/dum.mp3" },
           { "img": "/blank.png" },
-          { "img": "/dumCorchea.png", "sound": "/dum.wav" },
-          { "img": "/blank.png" },
-          { "img": "/blank.png" },
-          { "img": "/blank.png" },
-          { "img": "/takCorchea.png", "sound": "/tak.wav" },
-          { "img": "/blank.png" },
-          { "img": "/dumNegra.png", "sound": "/dum.wav" },
+          { "img": "/dumCorchea.png", "sound": "/dum.mp3" },
           { "img": "/blank.png" },
           { "img": "/blank.png" },
           { "img": "/blank.png" },
-          { "img": "/takNegra.png", "sound": "/tak.wav" },
+          { "img": "/takCorchea.png", "sound": "/tak.mp3" },
+          { "img": "/blank.png" },
+          { "img": "/dumNegra.png", "sound": "/dum.mp3" },
+          { "img": "/blank.png" },
+          { "img": "/blank.png" },
+          { "img": "/blank.png" },
+          { "img": "/takNegra.png", "sound": "/tak.mp3" },
           { "img": "/blank.png" },
           { "img": "/blank.png" },
           { "img": "/blank.png" }
-        ],
+        ]
+      },
+      "arreglo": {
+        "descripcion": "Versión con adornos y variaciones",
+        "steps": [
+          { "img": "/dumCorchea.png", "sound": "/dum.mp3" },
+          { "img": "/blank.png" },
+          { "img": "/dumCorchea.png", "sound": "/dum.mp3" },
+          { "img": "/blank.png" },
+          { "img": "/takSemiCorchea.png", "sound": "/tek.mp3" },
+          { "img": "/takSemiCorchea.png", "sound": "/tek.mp3" },
+          { "img": "/takCorchea.png", "sound": "/tak.mp3" },
+          { "img": "/blank.png" },
+          { "img": "/dumNegra.png", "sound": "/dum.mp3" },
+          { "img": "/blank.png" },
+          { "img": "/takSemiCorchea.png", "sound": "/tek.mp3" },
+          { "img": "/takSemiCorchea.png", "sound": "/tek.mp3" },
+          { "img": "/takNegra.png", "sound": "/tak.mp3" },
+          { "img": "/blank.png" },
+          { "img": "/takSemiCorchea.png", "sound": "/tek.mp3" },
+          { "img": "/takSemiCorchea.png", "sound": "/tek.mp3" }
+        ]
+      }
     },
-    "audio": "/audios/baladi_full.wav"
+    "audio": "/baladi_full.mp3"
   },
   
     {
@@ -140,25 +162,51 @@
     "beatsPerBar": 4,
     "descripcion": "Ritmo egipcio muy usado en la danza oriental.",
     "origen": "Egipto",
-    "steps": [
-      { "img": "/dumCorchea.png", "sound": "/dum.wav" },
-      { "img": "/blank.png" },
-      { "img": "/blank.png" },
-      { "img": "/blank.png" },
-      { "img": "/blank.png" },
-      { "img": "/blank.png" },
-      { "img": "/takNegra.png", "sound": "/tak.wav" },
-      { "img": "/blank.png" },
-      { "img": "/blank.png" },
-      { "img": "/blank.png" },
-      { "img": "/blank.png" },
-      { "img": "/blank.png" },
-      { "img": "/takNegra.png", "sound": "/tak.wav" },
-      { "img": "/blank.png" },
-      { "img": "/blank.png" },
-      { "img": "/blank.png" }
-    ],
-    "audio": "/audios/wahda_full.wav"
+    "variantes": {
+      "base": {
+        "descripcion": "Versión tradicional del ritmo",
+        "steps": [
+          { "img": "/dumCorchea.png", "sound": "/dum.mp3" },
+          { "img": "/blank.png" },
+          { "img": "/blank.png" },
+          { "img": "/blank.png" },
+          { "img": "/blank.png" },
+          { "img": "/blank.png" },
+          { "img": "/takNegra.png", "sound": "/tak.mp3" },
+          { "img": "/blank.png" },
+          { "img": "/blank.png" },
+          { "img": "/blank.png" },
+          { "img": "/blank.png" },
+          { "img": "/blank.png" },
+          { "img": "/takNegra.png", "sound": "/tak.mp3" },
+          { "img": "/blank.png" },
+          { "img": "/blank.png" },
+          { "img": "/blank.png" }
+        ]
+      },
+      "arreglo": {
+        "descripcion": "Versión con adornos y variaciones",
+        "steps": [
+          { "img": "/dumCorchea.png", "sound": "/dum.mp3" },
+          { "img": "/blank.png" },
+          { "img": "/takSemiCorchea.png", "sound": "/tek.mp3" },
+          { "img": "/takSemiCorchea.png", "sound": "/tek.mp3" },
+          { "img": "/takSemiCorchea.png", "sound": "/tek.mp3" },
+          { "img": "/takSemiCorchea.png", "sound": "/tek.mp3" },
+          { "img": "/takNegra.png", "sound": "/tak.mp3" },
+          { "img": "/blank.png" },
+          { "img": "/takSemiCorchea.png", "sound": "/tek.mp3" },
+          { "img": "/takSemiCorchea.png", "sound": "/tek.mp3" },
+          { "img": "/takSemiCorchea.png", "sound": "/tek.mp3" },
+          { "img": "/takSemiCorchea.png", "sound": "/tek.mp3" },
+          { "img": "/takNegra.png", "sound": "/tak.mp3" },
+          { "img": "/blank.png" },
+          { "img": "/takSemiCorchea.png", "sound": "/tek.mp3" },
+          { "img": "/takSemiCorchea.png", "sound": "/tek.mp3" }
+        ]
+      }
+    },
+    "audio": "/wahda_full.mp3"
   },
       {
     "id": "sombati",
@@ -166,25 +214,51 @@
     "beatsPerBar": 4,
     "descripcion": "Ritmo egipcio muy usado en la danza oriental.",
     "origen": "Egipto",
-    "steps": [
-      { "img": "/dumCorchea.png", "sound": "/dum.wav" },
-      { "img": "/blank.png" },
-      { "img": "/blank.png" },
-      { "img": "/takCorchea.png", "sound": "/tak.wav" },
-      { "img": "/blank.png" },
-      { "img": "/blank.png" },
-      { "img": "/takCorchea.png", "sound": "/tak.wav" },
-      { "img": "/blank.png" },
-      { "img": "/dumNegra.png", "sound": "/dum.wav" },
-      { "img": "/blank.png" },
-      { "img": "/blank.png" },
-      { "img": "/blank.png" },
-      { "img": "/takNegra.png", "sound": "/tak.wav" },
-      { "img": "/blank.png" },
-      { "img": "/blank.png" },
-      { "img": "/blank.png" }
-    ],
-    "audio": "/audios/sombati_full.wav"
+    "variantes": {
+      "base": {
+        "descripcion": "Versión tradicional del ritmo",
+        "steps": [
+          { "img": "/dumCorchea.png", "sound": "/dum.mp3" },
+          { "img": "/blank.png" },
+          { "img": "/blank.png" },
+          { "img": "/takCorchea.png", "sound": "/tak.mp3" },
+          { "img": "/blank.png" },
+          { "img": "/blank.png" },
+          { "img": "/takCorchea.png", "sound": "/tak.mp3" },
+          { "img": "/blank.png" },
+          { "img": "/dumNegra.png", "sound": "/dum.mp3" },
+          { "img": "/blank.png" },
+          { "img": "/blank.png" },
+          { "img": "/blank.png" },
+          { "img": "/takNegra.png", "sound": "/tak.mp3" },
+          { "img": "/blank.png" },
+          { "img": "/blank.png" },
+          { "img": "/blank.png" }
+        ]
+      },
+      "arreglo": {
+        "descripcion": "Versión con adornos y variaciones",
+        "steps": [
+          { "img": "/dumCorchea.png", "sound": "/dum.mp3" },
+          { "img": "/blank.png" },
+          { "img": "/takSemiCorchea.png", "sound": "/tek.mp3" },
+          { "img": "/takCorchea.png", "sound": "/tak.mp3" },
+          { "img": "/blank.png" },
+          { "img": "/takSemiCorchea.png", "sound": "/tek.mp3" },
+          { "img": "/takCorchea.png", "sound": "/tak.mp3" },
+          { "img": "/blank.png" },
+          { "img": "/dumNegra.png", "sound": "/dum.mp3" },
+          { "img": "/blank.png" },
+          { "img": "/takSemiCorchea.png", "sound": "/tek.mp3" },
+          { "img": "/takSemiCorchea.png", "sound": "/tek.mp3" },
+          { "img": "/takNegra.png", "sound": "/tak.mp3" },
+          { "img": "/blank.png" },
+          { "img": "/takSemiCorchea.png", "sound": "/tek.mp3" },
+          { "img": "/takSemiCorchea.png", "sound": "/tek.mp3" }
+        ]
+      }
+    },
+    "audio": "/sombati_full.mp3"
   },
       {
     "id": "rumba masri",
@@ -193,24 +267,24 @@
     "descripcion": "Ritmo egipcio muy usado en la danza oriental.",
     "origen": "Egipto",
     "steps": [
-      { "img": "/dumNegra.png", "sound": "/dum.wav" },
+      { "img": "/dumNegra.png", "sound": "/dum.mp3" },
       { "img": "/blank.png" },
       { "img": "/blank.png" },
       { "img": "/blank.png" },
       { "img": "/blank.png" },
       { "img": "/blank.png" },
-      { "img": "/takCorchea.png", "sound": "/tak.wav" },
+      { "img": "/takCorchea.png", "sound": "/tak.mp3" },
       { "img": "/blank.png" },
       { "img": "/blank.png" },
       { "img": "/blank.png" },
-      { "img": "/takCorchea.png", "sound": "/tak.wav" },
+      { "img": "/takCorchea.png", "sound": "/tak.mp3" },
       { "img": "/blank.png" },
-      { "img": "/dumNegra.png", "sound": "/dum.wav" },
+      { "img": "/dumNegra.png", "sound": "/dum.mp3" },
       { "img": "/blank.png" },
       { "img": "/blank.png" },
       { "img": "/blank.png" }
     ],
-    "audio": "/audios/rumba_masri_full.wav"
+    "audio": "/rumba_masri_full.mp3"
   },
       {
     "id": "conga masri",
@@ -219,24 +293,24 @@
     "descripcion": "Ritmo egipcio muy usado en la danza oriental.",
     "origen": "Egipto",
     "steps": [
-      { "img": "/dumNegra.png", "sound": "/dum.wav" },
+      { "img": "/dumNegra.png", "sound": "/dum.mp3" },
       { "img": "/blank.png" },
       { "img": "/blank.png" },
       { "img": "/blank.png" },
-      { "img": "/takNegra.png", "sound": "/tak.wav" },
+      { "img": "/takNegra.png", "sound": "/tak.mp3" },
       { "img": "/blank.png" },
       { "img": "/blank.png" },
       { "img": "/blank.png" },
-      { "img": "/dumCorchea.png", "sound": "/dum.wav" },
+      { "img": "/dumCorchea.png", "sound": "/dum.mp3" },
       { "img": "/blank.png" },
-      { "img": "/takCorchea.png", "sound": "/tak.wav" },
+      { "img": "/takCorchea.png", "sound": "/tak.mp3" },
       { "img": "/blank.png" },
       { "img": "/blank.png" },
       { "img": "/blank.png" },
       { "img": "/blank.png" },
       { "img": "/blank.png" }
     ],
-    "audio": "/audios/conga_masri_full.wav"
+    "audio": "/conga_masri_full.mp3"
   },
       {
     "id": "sherk",
@@ -245,24 +319,24 @@
     "descripcion": "Ritmo egipcio muy usado en la danza oriental.",
     "origen": "Egipto",
     "steps": [
-      { "img": "/dumNegra.png", "sound": "/dum.wav" },
+      { "img": "/dumNegra.png", "sound": "/dum.mp3" },
       { "img": "/blank.png" },
       { "img": "/blank.png" },
       { "img": "/blank.png" },
-      { "img": "/takNegra.png", "sound": "/tak.wav" },
+      { "img": "/takNegra.png", "sound": "/tak.mp3" },
       { "img": "/blank.png" },
       { "img": "/blank.png" },
       { "img": "/blank.png" },
-      { "img": "/dumCorchea.png", "sound": "/dum.wav" },
+      { "img": "/dumCorchea.png", "sound": "/dum.mp3" },
       { "img": "/blank.png" },
-      { "img": "/dumCorchea.png", "sound": "/dum.wav" },
+      { "img": "/dumCorchea.png", "sound": "/dum.mp3" },
       { "img": "/blank.png" },
-      { "img": "/takNegra.png", "sound": "/tak.wav" },
+      { "img": "/takNegra.png", "sound": "/tak.mp3" },
       { "img": "/blank.png" },
       { "img": "/blank.png" },
       { "img": "/blank.png" }
     ],
-    "audio": "/audios/sherk_full.wav"
+    "audio": "/sherk_full.mp3"
   },
   {
     "id": "malfuf",
@@ -270,42 +344,96 @@
     "beatsPerBar": 2,
     "descripcion": "Ritmo egipcio muy usado en la danza oriental.",
     "origen": "Egipto",
-    "steps": [
-      { "img": "/dumCorchea.png", "sound": "/dum.wav" },
-      { "img": "/blank.png" },
-      { "img": "/blank.png" },
-      { "img": "/takCorchea.png", "sound": "/tak.wav" },
-      { "img": "/blank.png" },
-      { "img": "/blank.png" },
-      { "img": "/takCorchea.png", "sound": "/tak.wav" },
-      { "img": "/blank.png" }
-    ],
-    "audio": "/audios/malfuf_full.wav"
+    "variantes": {
+      "base": {
+        "descripcion": "Versión tradicional del ritmo",
+        "steps": [
+          { "img": "/dumCorchea.png", "sound": "/dum.mp3" },
+          { "img": "/blank.png" },
+          { "img": "/blank.png" },
+          { "img": "/takCorchea.png", "sound": "/tak.mp3" },
+          { "img": "/blank.png" },
+          { "img": "/blank.png" },
+          { "img": "/takCorchea.png", "sound": "/tak.mp3" },
+          { "img": "/blank.png" }
+        ]
+      },
+      "arreglo": {
+        "descripcion": "Versión con adornos y variaciones",
+        "steps": [
+          { "img": "/dumCorchea.png", "sound": "/dum.mp3" },
+          { "img": "/blank.png" },
+          { "img": "/takSemiCorchea.png", "sound": "/tek.mp3" },
+          { "img": "/takCorchea.png", "sound": "/tak.mp3" },
+          { "img": "/blank.png" },
+          { "img": "/takSemiCorchea.png", "sound": "/tek.mp3" },
+          { "img": "/takCorchea.png", "sound": "/tak.mp3" },
+          { "img": "/blank.png" }
+        ]
+      }
+    },
+    "audio": "/malfuf_full.mp3"
   },
-        {
+  {
+    "id": "maksum sarie",
+    "nombre": "Maksum Sarie",
+    "beatsPerBar": 2,
+    "descripcion": "Ritmo egipcio muy usado en la danza oriental.",
+    "origen": "Egipto",
+    "variantes": {
+      "base": {
+        "descripcion": "Versión tradicional del ritmo",
+        "steps": [
+          { "img": "/dumSemiCorchea.png", "sound": "/dum.mp3" },
+          { "img": "/takCorchea.png", "sound": "/tak.mp3" },
+          {"img": "/blank.png" },
+          { "img": "/takSemiCorchea.png", "sound": "/tak.mp3" },
+          { "img": "/dumCorchea.png", "sound": "/dum.mp3" },
+          { "img": "/blank.png" },
+          { "img": "/takCorchea.png", "sound": "/tak.mp3" },
+          { "img": "/blank.png" }
+        ]
+      },
+      "arreglo": {
+        "descripcion": "Versión con adornos y variaciones",
+        "steps": [
+          { "img": "/dumSemiCorchea.png", "sound": "/dum.mp3" },
+          { "img": "/takSemiCorchea.png", "sound": "/tak.mp3" },
+          { "img": "/takSemiCorchea.png", "sound": "/tek.mp3" },
+          { "img": "/takSemiCorchea.png", "sound": "/tak.mp3" },
+          { "img": "/dumSemiCorchea.png", "sound": "/dum.mp3" },
+          { "img": "/takSemiCorchea.png", "sound": "/tek.mp3" },
+          { "img": "/takSemiCorchea.png", "sound": "/tak.mp3" },
+          { "img": "/takSemiCorchea.png", "sound": "/tek.mp3" }
+        ]
+      }
+    },
+    "audio": "/maksum_sarie_full.mp3"
+  },
+    {
     "id": "wahda kebir",
     "nombre": "Wahda Kebir",
     "beatsPerBar": 8,
     "descripcion": "Ritmo egipcio muy usado en la danza oriental.",
     "origen": "Egipto",
     "steps": [
-      { "img": "/dumNegra.png", "sound": "/dum.wav" },
+      { "img": "/dumNegra.png", "sound": "/dum.mp3" },
       { "img": "/blank.png" },
       { "img": "/blank.png" },
       { "img": "/blank.png" },
       { "img": "/blank.png" },
       { "img": "/blank.png" },
-      { "img": "/takNegra.png", "sound": "/tak.wav" },
+      { "img": "/takNegra.png", "sound": "/tak.mp3" },
       { "img": "/blank.png" },
       { "img": "/blank.png" },
       { "img": "/blank.png" },
       { "img": "/blank.png" },
       { "img": "/blank.png" },
-      { "img": "/takNegra.png", "sound": "/tak.wav" },
+      { "img": "/takNegra.png", "sound": "/tak.mp3" },
       { "img": "/blank.png" },
       { "img": "/blank.png" },
       { "img": "/blank.png" },
-      { "img": "/dumNegra.png", "sound": "/dum.wav" },
+      { "img": "/dumNegra.png", "sound": "/dum.mp3" },
       { "img": "/blank.png" },
       { "img": "/blank.png" },
       { "img": "/blank.png" },
@@ -313,7 +441,7 @@
       { "img": "/blank.png" },
       { "img": "/blank.png" },
       { "img": "/blank.png" },
-      { "img": "/takNegra.png", "sound": "/tak.wav" },
+      { "img": "/takNegra.png", "sound": "/tak.mp3" },
       { "img": "/blank.png" },
       { "img": "/blank.png" },
       { "img": "/blank.png" },
@@ -322,7 +450,7 @@
       { "img": "/blank.png" },
       { "img": "/blank.png" }
     ],
-    "audio": "/audios/wahda_kebir_full.wav"
+    "audio": "/wahda_kebir_full.mp3"
   },
         {
     "id": "cheftetelli",
@@ -331,31 +459,31 @@
     "descripcion": "Ritmo egipcio muy usado en la danza oriental.",
     "origen": "Egipto",
     "steps": [
-      { "img": "/dumNegra.png", "sound": "/dum.wav" },
+      { "img": "/dumNegra.png", "sound": "/dum.mp3" },
       { "img": "/blank.png" },
       { "img": "/blank.png" },
       { "img": "/blank.png" },
-      { "img": "/takCorchea.png", "sound": "/tak.wav" },
+      { "img": "/takCorchea.png", "sound": "/tak.mp3" },
       { "img": "/blank.png" },
-      { "img": "/takCorchea.png", "sound": "/tak.wav" },
-      { "img": "/blank.png" },
-      { "img": "/blank.png" },
-      { "img": "/blank.png" },
-      { "img": "/takCorchea.png", "sound": "/tak.wav" },
-      { "img": "/blank.png" },
-      { "img": "/takNegra.png", "sound": "/tak.wav" },
+      { "img": "/takCorchea.png", "sound": "/tak.mp3" },
       { "img": "/blank.png" },
       { "img": "/blank.png" },
       { "img": "/blank.png" },
-      { "img": "/dumNegra.png", "sound": "/dum.wav" },
+      { "img": "/takCorchea.png", "sound": "/tak.mp3" },
+      { "img": "/blank.png" },
+      { "img": "/takNegra.png", "sound": "/tak.mp3" },
       { "img": "/blank.png" },
       { "img": "/blank.png" },
       { "img": "/blank.png" },
-      { "img": "/dumNegra.png", "sound": "/dum.wav" },
+      { "img": "/dumNegra.png", "sound": "/dum.mp3" },
       { "img": "/blank.png" },
       { "img": "/blank.png" },
       { "img": "/blank.png" },
-      { "img": "/takNegra.png", "sound": "/tak.wav" },
+      { "img": "/dumNegra.png", "sound": "/dum.mp3" },
+      { "img": "/blank.png" },
+      { "img": "/blank.png" },
+      { "img": "/blank.png" },
+      { "img": "/takNegra.png", "sound": "/tak.mp3" },
       { "img": "/blank.png" },
       { "img": "/blank.png" },
       { "img": "/blank.png" },
@@ -364,6 +492,6 @@
       { "img": "/blank.png" },
       { "img": "/blank.png" }
     ],
-    "audio": "/audios/cheftetelli_full.wav"
+    "audio": "/cheftetelli_full.mp3"
   }
 ]

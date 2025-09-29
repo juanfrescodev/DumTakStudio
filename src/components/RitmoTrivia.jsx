@@ -1,19 +1,9 @@
-// src/components/RitmoTriviaSteps.jsx
 import { useState, useEffect, useRef } from "react";
 import ritmosData from "../data/ritmos.json";
 
 export default function RitmoTriviaSteps() {
   const base = import.meta.env.BASE_URL;
-
-  const ritmosConRutas = ritmosData.map((r) => {
-    const stepsConRutaCompleta = r.steps?.map((s) => ({
-      ...s,
-      sound: s.sound ? `${base}ritmos/${s.sound.replace(/^\/+/, "")}` : null,
-      img: s.img ? `${base}ritmos/${s.img.replace(/^\/+/, "")}` : null,
-    })) || [];
-
-    return { ...r, steps: stepsConRutaCompleta };
-  });
+  const ritmosConRutas = ritmosData;
 
   const [currentRitmo, setCurrentRitmo] = useState(null);
   const [options, setOptions] = useState([]);
@@ -34,17 +24,27 @@ export default function RitmoTriviaSteps() {
       const ctx = new (window.AudioContext || window.webkitAudioContext)();
       audioCtxRef.current = ctx;
 
-      const allSteps = ritmosConRutas.flatMap((r) => r.steps || []);
+      const allSteps = ritmosConRutas.flatMap((r) => {
+        const variantes = r.variantes;
+        const baseSteps = variantes?.base?.steps || [];
+        const arregloSteps = variantes?.arreglo?.steps || [];
+        const legacySteps = r.steps || [];
+        return [...baseSteps, ...arregloSteps, ...legacySteps];
+      });
+
       await Promise.all(
         allSteps.map(async (s) => {
-          if (s.sound && !samplesRef.current[s.sound]) {
-            try {
-              const res = await fetch(s.sound);
-              const buf = await res.arrayBuffer();
-              const audioBuf = await ctx.decodeAudioData(buf);
-              samplesRef.current[s.sound] = audioBuf;
-            } catch (err) {
-              console.warn("⚠️ Error cargando sonido:", s.sound, err);
+          if (s.sound) {
+            const key = `ritmos/${s.sound.replace(/^\/+/, "")}`;
+            if (!samplesRef.current[key]) {
+              try {
+                const res = await fetch(`${base}${key}`);
+                const buf = await res.arrayBuffer();
+                const audioBuf = await ctx.decodeAudioData(buf);
+                samplesRef.current[key] = audioBuf;
+              } catch (err) {
+                console.warn("⚠️ Error cargando sonido:", key, err);
+              }
             }
           }
         })
@@ -61,12 +61,15 @@ export default function RitmoTriviaSteps() {
   }, []);
 
   const generarNuevaPregunta = () => {
-    const ritmosConSteps = ritmosConRutas.filter((r) => r.steps);
-    const elegido = ritmosConSteps[Math.floor(Math.random() * ritmosConSteps.length)];
+    const ritmosValidos = ritmosConRutas.filter((r) =>
+      r.steps || r.variantes?.base?.steps || r.variantes?.arreglo?.steps
+    );
+
+    const elegido = ritmosValidos[Math.floor(Math.random() * ritmosValidos.length)];
 
     const opciones = [elegido];
     while (opciones.length < 4) {
-      const candidato = ritmosConSteps[Math.floor(Math.random() * ritmosConSteps.length)];
+      const candidato = ritmosValidos[Math.floor(Math.random() * ritmosValidos.length)];
       if (!opciones.find((o) => o.id === candidato.id)) {
         opciones.push(candidato);
       }
@@ -81,7 +84,8 @@ export default function RitmoTriviaSteps() {
   const shuffleArray = (arr) => [...arr].sort(() => Math.random() - 0.5);
 
   const playStep = (step, time) => {
-    const buffer = samplesRef.current[step?.sound];
+    const key = `ritmos/${step?.sound}`;
+    const buffer = samplesRef.current[key];
     if (buffer && audioCtxRef.current) {
       const source = audioCtxRef.current.createBufferSource();
       source.buffer = buffer;
@@ -91,15 +95,35 @@ export default function RitmoTriviaSteps() {
   };
 
   const playSequence = () => {
-    if (!audioReady || !currentRitmo?.steps) return;
+    if (!audioReady || !currentRitmo) return;
+
+    let steps;
+
+    const variantes = currentRitmo.variantes;
+    if (variantes?.base?.steps && variantes?.arreglo?.steps) {
+      const modo = Math.random() < 0.5 ? "base" : "arreglo";
+      steps = variantes[modo].steps;
+    } else if (variantes?.base?.steps) {
+      steps = variantes.base.steps;
+    } else if (currentRitmo.steps) {
+      steps = currentRitmo.steps;
+    } else {
+      console.warn("Ritmo sin secuencia reproducible:", currentRitmo.id);
+      return;
+    }
+
+    const stepsConRutaCompleta = steps.map((s) => ({
+      ...s,
+      sound: s.sound ? s.sound.replace(/^\/+/, "") : null,
+      img: s.img ? `${base}ritmos/${s.img.replace(/^\/+/, "")}` : null,
+    }));
 
     const ctx = audioCtxRef.current;
-    const steps = currentRitmo.steps;
     const bpm = 90;
-    const stepsPerBeat = steps.length / (currentRitmo.beatsPerBar || 4);
+    const stepsPerBeat = stepsConRutaCompleta.length / (currentRitmo.beatsPerBar || 4);
     const stepDuration = (60 / bpm) / stepsPerBeat;
 
-    steps.forEach((step, i) => {
+    stepsConRutaCompleta.forEach((step, i) => {
       const time = ctx.currentTime + i * stepDuration;
       playStep(step, time);
     });

@@ -3,6 +3,7 @@ import ritmosData from "../data/ritmos.json";
 
 export default function RitmoPlaylist({ playlist, initialBpm = 90 }) {
   const [editablePlaylist, setEditablePlaylist] = useState(playlist);
+  const [modoPorRitmo, setModoPorRitmo] = useState({});
   const [currentBlockIndex, setCurrentBlockIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [audioReady, setAudioReady] = useState(false);
@@ -16,6 +17,8 @@ export default function RitmoPlaylist({ playlist, initialBpm = 90 }) {
   const totalDurationRef = useRef(0);
   const isPlayingRef = useRef(false);
 
+  const base = import.meta.env.BASE_URL;
+
   const colorMap = {
     maksum: "bg-red-500",
     malfuf: "bg-blue-500",
@@ -25,17 +28,20 @@ export default function RitmoPlaylist({ playlist, initialBpm = 90 }) {
     default: "bg-gray-500",
   };
 
-  const base = import.meta.env.BASE_URL;
-
   useEffect(() => {
     setEditablePlaylist(playlist);
   }, [playlist]);
 
   const blocks = editablePlaylist.map(({ id, bars }) => {
     const ritmo = ritmosData.find((r) => r.id === id);
-    if (!ritmo || !ritmo.steps) return null;
+    if (!ritmo) return null;
 
-    const stepsConRutaCompleta = ritmo.steps.map((s) => ({
+    const variantes = ritmo.variantes;
+    const modo = modoPorRitmo[id] || "base";
+    const steps = variantes?.[modo]?.steps ?? ritmo?.steps;
+    if (!steps) return null;
+
+    const stepsConRutaCompleta = steps.map((s) => ({
       ...s,
       sound: s.sound ? `${base}ritmos/${s.sound}` : null,
       img: s.img ? `${base}ritmos/${s.img}` : null,
@@ -138,7 +144,6 @@ export default function RitmoPlaylist({ playlist, initialBpm = 90 }) {
       audioCtxRef.current = new (window.AudioContext || window.webkitAudioContext)();
     }
 
-    // 👇 Esto es clave: activarlo dentro del evento
     await audioCtxRef.current.resume().catch(() => {});
     isPlayingRef.current = true;
     setIsPlaying(true);
@@ -181,6 +186,7 @@ export default function RitmoPlaylist({ playlist, initialBpm = 90 }) {
         {blocks.map((b, i) => {
           const isActive = i === currentBlockIndex;
           const color = colorMap[b.id] || colorMap.default;
+          const tieneVariantes = ritmosData.find(r => r.id === b.id)?.variantes;
 
           return (
             <div
@@ -193,6 +199,22 @@ export default function RitmoPlaylist({ playlist, initialBpm = 90 }) {
                 <span>{b.nombre}</span>
               </div>
               <p className="text-sm mt-1">x{b.bars} compases</p>
+
+              {tieneVariantes && (
+                <div className="mt-2">
+                  <label className="text-sm text-white mr-2">Modo:</label>
+                  <select
+                    value={modoPorRitmo[b.id] || "base"}
+                    onChange={(e) => {
+                      setModoPorRitmo(prev => ({ ...prev, [b.id]: e.target.value }));
+                    }}
+                    className="text-sm px-2 py-1 rounded bg-white text-gray-800"
+                  >
+                    <option value="base">Base</option>
+                    <option value="arreglo">Arreglo</option>
+                  </select>
+                </div>
+              )}
 
               <div className="flex gap-2 mt-2">
                 <button

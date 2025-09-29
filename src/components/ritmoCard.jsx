@@ -50,13 +50,25 @@ export default function RitmoCard({ ritmo }) {
           </div>
         )}
 
-        {/* Audio */}
+        {/* Audio de variante */}
         {varianteData?.audio && (
           <audio
             controls
             src={`${base}ritmos/${varianteData.audio.replace(/^\/+/, "")}`}
             className="w-full mt-4"
           />
+        )}
+
+        {/* Audio completo del ritmo */}
+        {ritmo.audio && (
+          <div className="mt-4">
+            <p className="text-sm text-gray-700 mb-1">Audio completo del ritmo:</p>
+            <audio
+              controls
+              src={`${base}ritmos/${ritmo.audio.replace(/^\/+/, "")}`}
+              className="w-full"
+            />
+          </div>
         )}
       </div>
 
