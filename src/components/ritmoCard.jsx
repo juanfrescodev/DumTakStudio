@@ -22,58 +22,56 @@ export default function RitmoCard({ ritmo }) {
   }));
 
   return (
-    <div className="w-screen min-h-screen bg-white">
+    <div className="w-full max-w-screen-sm mx-auto bg-white rounded-xl shadow px-4 py-6">
       {/* Cabecera informativa */}
-      <div className="px-4 py-6 md:px-12 lg:px-24">
-        <h2 className="text-2xl font-bold mb-2">{ritmo.nombre}</h2>
-        <p className="text-sm text-gray-600 mb-2">{ritmo.descripcion}</p>
-        <p className="text-xs text-gray-500 mb-4">Origen: {ritmo.origen}</p>
+      <h2 className="text-2xl font-bold mb-2">{ritmo.nombre}</h2>
+      <p className="text-sm text-gray-600 mb-2">{ritmo.descripcion}</p>
+      <p className="text-xs text-gray-500 mb-4">Origen: {ritmo.origen}</p>
 
-        {/* Selector de variante si existen */}
-        {tieneVariantes && (
-          <div className="mb-4">
-            <label className="text-sm font-medium text-gray-700 mr-2">Variante:</label>
-            <select
-              value={variante}
-              onChange={(e) => setVariante(e.target.value)}
-              className="border px-2 py-1 rounded"
-            >
-              {Object.keys(ritmo.variantes).map((v) => (
-                <option key={v} value={v}>
-                  {v}
-                </option>
-              ))}
-            </select>
-            <p className="text-xs text-gray-500 mt-1 italic">
-              {varianteData?.descripcion}
-            </p>
-          </div>
-        )}
+      {/* Selector de variante si existen */}
+      {tieneVariantes && (
+        <div className="mb-4">
+          <label className="text-sm font-medium text-gray-700 mr-2">Variante:</label>
+          <select
+            value={variante}
+            onChange={(e) => setVariante(e.target.value)}
+            className="border px-2 py-1 rounded"
+          >
+            {Object.keys(ritmo.variantes).map((v) => (
+              <option key={v} value={v}>
+                {v}
+              </option>
+            ))}
+          </select>
+          <p className="text-xs text-gray-500 mt-1 italic">
+            {varianteData?.descripcion}
+          </p>
+        </div>
+      )}
 
-        {/* Audio de variante */}
-        {varianteData?.audio && (
+      {/* Audio de variante */}
+      {varianteData?.audio && (
+        <audio
+          controls
+          src={`${base}ritmos/${varianteData.audio.replace(/^\/+/, "")}`}
+          className="w-full mt-4"
+        />
+      )}
+
+      {/* Audio completo del ritmo */}
+      {ritmo.audio && (
+        <div className="mt-4">
+          <p className="text-sm text-gray-700 mb-1">Audio completo del ritmo:</p>
           <audio
             controls
-            src={`${base}ritmos/${varianteData.audio.replace(/^\/+/, "")}`}
-            className="w-full mt-4"
+            src={`${base}ritmos/${ritmo.audio.replace(/^\/+/, "")}`}
+            className="w-full"
           />
-        )}
-
-        {/* Audio completo del ritmo */}
-        {ritmo.audio && (
-          <div className="mt-4">
-            <p className="text-sm text-gray-700 mb-1">Audio completo del ritmo:</p>
-            <audio
-              controls
-              src={`${base}ritmos/${ritmo.audio.replace(/^\/+/, "")}`}
-              className="w-full"
-            />
-          </div>
-        )}
-      </div>
+        </div>
+      )}
 
       {/* Visualización rítmica */}
-      <div className="w-full px-2 md:px-6 lg:px-12">
+      <div className="mt-6 overflow-x-auto">
         {stepsConRutaCompleta?.length > 0 ? (
           <MetronomeSequencer
             ritmo={{

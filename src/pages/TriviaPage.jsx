@@ -1,11 +1,71 @@
 // src/pages/TriviaPage.jsx
+import { useEffect, useState } from "react";
+import RitmoTrivia from "../components/RitmoTrivia";
+
 export default function TriviaPage() {
+  const [ranking, setRanking] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Activar backend
+    fetch("https://ritmos-backend.onrender.com/ping").catch(() => {});
+
+    // Obtener ranking
+    fetch("https://ritmos-backend.onrender.com/ranking")
+      .then((res) => res.json())
+      .then((data) => {
+        setRanking(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Error al cargar el ranking", err);
+        setLoading(false);
+      });
+  }, []);
+
   return (
-    <div className="min-h-screen bg-gradient-to-b from-purple-100 to-indigo-200 flex flex-col items-center px-6 py-10">
-      <h1 className="text-3xl font-bold text-gray-800 mb-4">🧠 Trivia musical</h1>
-      <p className="text-lg text-gray-700 text-center max-w-xl mb-6">
-        Pronto vas a poder poner a prueba tus conocimientos sobre ritmos, compases y estilos. ¡Con niveles, puntajes y desafíos!
-      </p>
+    <div className="min-h-screen bg-gradient-to-b from-yellow-50 to-orange-100 px-4 py-8">
+      <div className="max-w-screen-sm mx-auto">
+        <h1 className="text-3xl font-bold text-center mb-6">❓ Trivia de Ritmos</h1>
+        <p className="text-center mb-4 text-gray-700">
+          Poné a prueba tus conocimientos sobre ritmos, instrumentos y cultura musical.
+        </p>
+
+        {/* Ranking */}
+        <div className="bg-white rounded-xl shadow p-4 mb-6">
+          <h2 className="text-xl font-semibold mb-4 text-center">🏆 Mejores jugadores</h2>
+          {loading ? (
+            <p className="text-center text-gray-500">Cargando ranking...</p>
+          ) : ranking.length > 0 ? (
+            <ul className="space-y-2">
+              {ranking.map((jugador, index) => (
+                <li
+                  key={jugador.nombre + index}
+                  className="flex justify-between border-b pb-1 text-sm"
+                >
+                  <span>
+                    {index + 1}. {jugador.nombre}
+                  </span>
+                  <span className="font-semibold">{jugador.puntaje}</span>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-center text-gray-500">No hay puntajes registrados aún.</p>
+          )}
+        </div>
+
+        {/* Componente de trivia */}
+        <div className="bg-white rounded-xl shadow p-4">
+          <RitmoTrivia />
+        </div>
+
+        <div className="mt-6 text-center">
+          <a href="/" className="text-blue-600 underline">
+            ← Volver al inicio
+          </a>
+        </div>
+      </div>
     </div>
   );
 }
