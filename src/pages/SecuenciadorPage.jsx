@@ -1,4 +1,5 @@
 // src/pages/SecuenciadorPage.jsx
+import Navbar from "../components/Navbar";
 import { useEffect, useState } from "react";
 import RitmoPlaylist from "../components/RitmoPlaylist";
 import ritmosData from "../data/ritmos.json";
@@ -22,6 +23,9 @@ export default function SecuenciadorPage() {
   };
 
   return (
+    <div className="min-h-screen bg-gradient-to-b from-yellow-50 to-orange-100">
+      <Navbar />
+      <div className="px-4 py-8 max-w-screen-sm mx-auto"></div>
     <div className="min-h-screen bg-gradient-to-b from-yellow-100 to-orange-200">
       <div className="max-w-screen-sm w-full mx-auto px-4 py-6 flex flex-col items-center">
         <h1 className="text-3xl font-bold mb-6 text-center">🎛️ Secuenciador</h1>
@@ -58,6 +62,7 @@ export default function SecuenciadorPage() {
         {/* Secuencia personalizada */}
         <RitmoPlaylist playlist={playlist} initialBpm={90} />
       </div>
+    </div>
     </div>
   );
 }

@@ -1,10 +1,22 @@
 import { useState, useEffect, useRef } from "react";
 import ritmosData from "../data/ritmos.json";
+import confetti from "canvas-confetti";
 
 export default function RitmoTriviaSteps() {
   const base = import.meta.env.BASE_URL;
   const ritmosConRutas = ritmosData;
+  
+  const lanzarConfeti = () => {
+    confetti({
+      particleCount: 100,
+      spread: 70,
+      origin: { y: 0.6 }
+    });
+  };
 
+
+  const [nivel, setNivel] = useState(1);
+  const [aciertos, setAciertos] = useState(0);
   const [currentRitmo, setCurrentRitmo] = useState(null);
   const [options, setOptions] = useState([]);
   const [selected, setSelected] = useState(null);
@@ -15,9 +27,22 @@ export default function RitmoTriviaSteps() {
   const [nombreJugador, setNombreJugador] = useState("");
   const [juegoTerminado, setJuegoTerminado] = useState(false);
   const [ranking, setRanking] = useState([]);
+  const [animarNivel, setAnimarNivel] = useState(false);
+  const audio = new Audio(`${base}ritmos/festejo.mp3`);
+  const [logros, setLogros] = useState([]);
+  const [mostrarLogro, setMostrarLogro] = useState(null);
+  const fondoPorNivel = {
+  1: "bg-white",
+  2: "bg-yellow-100",
+  3: "bg-gradient-to-br from-gray-900 via-purple-900 to-black text-white"
+};
 
   const audioCtxRef = useRef(null);
   const samplesRef = useRef({});
+  const [modoDuelo, setModoDuelo] = useState(false);
+  const [jugadorActual, setJugadorActual] = useState(1);
+  const [puntajesDuelo, setPuntajesDuelo] = useState({ 1: 0, 2: 0 });
+  const [vidasDuelo, setVidasDuelo] = useState({ 1: 3, 2: 3 });
 
   useEffect(() => {
     const loadSamples = async () => {
@@ -58,11 +83,18 @@ export default function RitmoTriviaSteps() {
 
   useEffect(() => {
     generarNuevaPregunta();
-  }, []);
+  }, [nivel]);
 
   const generarNuevaPregunta = () => {
+    const dificultadPermitida = nivel === 1
+      ? ["facil"]
+      : nivel === 2
+      ? ["facil", "intermedio"]
+      : ["facil", "intermedio", "dificil"];
+
     const ritmosValidos = ritmosConRutas.filter((r) =>
-      r.steps || r.variantes?.base?.steps || r.variantes?.arreglo?.steps
+      dificultadPermitida.includes(r.dificultad) &&
+      (r.steps || r.variantes?.base?.steps || r.variantes?.arreglo?.steps)
     );
 
     const elegido = ritmosValidos[Math.floor(Math.random() * ritmosValidos.length)];
@@ -100,7 +132,9 @@ export default function RitmoTriviaSteps() {
     let steps;
 
     const variantes = currentRitmo.variantes;
-    if (variantes?.base?.steps && variantes?.arreglo?.steps) {
+    if (nivel === 1 && variantes?.base?.steps) {
+      steps = variantes.base.steps;
+    } else if (variantes?.base?.steps && variantes?.arreglo?.steps) {
       const modo = Math.random() < 0.5 ? "base" : "arreglo";
       steps = variantes[modo].steps;
     } else if (variantes?.base?.steps) {
@@ -131,19 +165,84 @@ export default function RitmoTriviaSteps() {
 
   const handleSelect = (id) => {
     setSelected(id);
+
+    if (modoDuelo) {
+      // 🎮 MODO DUELO
+      if (id === currentRitmo.id) {
+        setFeedback(`✅ Jugador ${jugadorActual} acertó!`);
+        setPuntajesDuelo((prev) => ({
+          ...prev,
+          [jugadorActual]: prev[jugadorActual] + 1
+        }));
+      } else {
+        setFeedback(`❌ Jugador ${jugadorActual} falló. Era: ${currentRitmo.nombre}`);
+        setVidasDuelo((prev) => {
+          const nuevas = prev[jugadorActual] - 1;
+          if (nuevas <= 0 && prev[jugadorActual === 1 ? 2 : 1] <= 0) {
+            setJuegoTerminado(true);
+          }
+          return { ...prev, [jugadorActual]: nuevas };
+        });
+      }
+
+      setJugadorActual(jugadorActual === 1 ? 2 : 1);
+      setTimeout(() => generarNuevaPregunta(), 1000);
+      return;
+    }
+
+    // 🎮 MODO INDIVIDUAL
     if (id === currentRitmo.id) {
       setFeedback("✅ ¡Correcto!");
       setPuntaje((prev) => prev + 1);
+
+      const nuevos = aciertos + 1;
+
+      // Logros
+      if (nuevos === 1 && !logros.includes("primer")) {
+        setLogros((prev) => [...prev, "primer"]);
+        setMostrarLogro("🥇 Primer acierto");
+      }
+      if (nuevos === 5 && !logros.includes("cinco")) {
+        setLogros((prev) => [...prev, "cinco"]);
+        setMostrarLogro("🔥 5 aciertos seguidos");
+      }
+      if (nuevos === 10 && nivel === 3 && vidas === 3 && !logros.includes("perfecto")) {
+        setLogros((prev) => [...prev, "perfecto"]);
+        setMostrarLogro("🎯 Nivel 3 sin perder vidas");
+      }
+
+      setTimeout(() => setMostrarLogro(null), 2000);
+
+      // Nivel
+      if (nuevos === 5) {
+        setNivel(2);
+        setAnimarNivel(true);
+        setTimeout(() => setAnimarNivel(false), 1000);
+        audio.play();
+        lanzarConfeti();
+      }
+      if (nuevos === 10) {
+        setNivel(3);
+        setAnimarNivel(true);
+        setTimeout(() => setAnimarNivel(false), 1000);
+        audio.play();
+        lanzarConfeti();
+      }
+
+      setAciertos(nuevos);
     } else {
       setFeedback(`❌ Incorrecto. Era: ${currentRitmo.nombre}`);
-      setPuntaje((prev) => Math.max(0, prev - 1));
-      setVidas((prev) => prev - 1);
-      if (vidas - 1 <= 0) {
-        setJuegoTerminado(true);
-        obtenerRanking();
-      }
+      setVidas((prev) => {
+        const nuevas = prev - 1;
+        if (nuevas <= 0) {
+          setJuegoTerminado(true);
+          obtenerRanking();
+        }
+        return nuevas;
+      });
     }
   };
+
 
   const enviarPuntaje = async () => {
     try {
@@ -176,12 +275,56 @@ export default function RitmoTriviaSteps() {
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-xl p-6 max-w-xl w-full mt-10">
+    <div className={`${fondoPorNivel[nivel]} rounded-2xl shadow-xl p-6 max-w-xl w-full mt-10`}>
       <h2 className="text-2xl font-bold mb-4 text-gray-800">🎧 ¿Qué ritmo estás escuchando?</h2>
 
       {!juegoTerminado && (
         <>
-          <p className="text-lg font-medium mb-2">❤️ Vidas: {vidas} | 🏆 Puntaje: {puntaje}</p>
+          {animarNivel && (
+            <p className="text-xl font-bold text-center text-green-600 mb-4 animate-bounce">
+              🎉 ¡Nivel {nivel} desbloqueado!
+            </p>
+          )}
+
+          <div className="mb-4">
+            <label className="mr-4 font-semibold">Modo de juego:</label>
+            <button
+              onClick={() => setModoDuelo(false)}
+              className={`px-3 py-1 rounded ${!modoDuelo ? "bg-blue-600 text-white" : "bg-gray-200"}`}
+            >
+              Individual
+            </button>
+            <button
+              onClick={() => setModoDuelo(true)}
+              className={`px-3 py-1 rounded ml-2 ${modoDuelo ? "bg-blue-600 text-white" : "bg-gray-200"}`}
+            >
+              Duelo
+            </button>
+          </div>
+
+          <div className="w-full bg-gray-200 rounded-full h-4 mb-4">
+            <div
+              className="bg-green-500 h-4 rounded-full transition-all duration-500"
+              style={{ width: `${(aciertos % 5) * 20}%` }}
+            />
+          </div>
+
+          {modoDuelo ? (
+            <div className="mb-4 text-center font-medium">
+              🎮 Turno de Jugador {jugadorActual} <br />
+              ❤️ Vidas: {vidasDuelo[jugadorActual]} | 🏆 Puntaje: {puntajesDuelo[jugadorActual]}
+            </div>
+          ) : (
+            <p className="text-lg font-medium mb-2">
+              ❤️ Vidas: {vidas} | 🏆 Puntaje: {puntaje} | 🔢 Nivel: {nivel}
+            </p>
+          )}
+
+          {mostrarLogro && (
+            <div className="text-center text-yellow-500 text-xl font-bold animate-bounce mb-4">
+              {mostrarLogro}
+            </div>
+          )}
 
           <button
             onClick={playSequence}
@@ -211,7 +354,6 @@ export default function RitmoTriviaSteps() {
               </button>
             ))}
           </div>
-
           {feedback && (
             <p className="text-lg font-medium text-center mb-4">{feedback}</p>
           )}
@@ -227,47 +369,78 @@ export default function RitmoTriviaSteps() {
 
       {juegoTerminado && (
         <div className="mt-6">
-          <p className="text-xl font-bold text-center mb-4">🎮 Juego terminado</p>
-          <p className="text-lg text-center mb-2">Tu puntaje final: {puntaje}</p>
-          <input
-            type="text"
-            placeholder="Tu nombre"
-            value={nombreJugador}
-            onChange={(e) => setNombreJugador(e.target.value)}
-            className="w-full px-4 py-2 border rounded mb-4"
-          />
-          <button
-            onClick={enviarPuntaje}
-            disabled={!nombreJugador}
-            className="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700 font-semibold mb-6"
-          >
-            Guardar puntaje
-          </button>
+          {modoDuelo ? (
+            <>
+              <p className="text-xl font-bold text-center mb-4">🎮 Duelo terminado</p>
+              <p className="text-lg text-center mb-2">Jugador 1: {puntajesDuelo[1]} pts</p>
+              <p className="text-lg text-center mb-2">Jugador 2: {puntajesDuelo[2]} pts</p>
+              <p className="text-center font-bold text-green-600">
+                🏆 Ganador: {puntajesDuelo[1] > puntajesDuelo[2] ? "Jugador 1" : puntajesDuelo[1] < puntajesDuelo[2] ? "Jugador 2" : "Empate"}
+              </p>
 
-          <h3 className="text-xl font-bold mb-2 text-center">🏅 Ranking Top 10</h3>
-          <ul className="bg-gray-100 rounded p-4">
-            {ranking.map((r, i) => (
-              <li key={r._id} className="flex justify-between py-1 px-2 border-b">
-                <span>{i + 1}. {r.nombre}</span>
-                <span>{r.puntaje} pts</span>
-              </li>
-            ))}
-            </ul>
+              <button
+                onClick={() => {
+                  setPuntajesDuelo({ 1: 0, 2: 0 });
+                  setVidasDuelo({ 1: 3, 2: 3 });
+                  setJugadorActual(1);
+                  setJuegoTerminado(false);
+                  generarNuevaPregunta();
+                }}
+                className="mt-6 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 font-semibold"
+              >
+                🔁 Volver a jugar
+              </button>
+            </>
+          ) : (
+            <>
+              <p className="text-xl font-bold text-center mb-4">🎮 Juego terminado</p>
+              <p className="text-lg text-center mb-2">Tu puntaje final: {puntaje}</p>
+              <input
+                type="text"
+                placeholder="Tu nombre"
+                value={nombreJugador}
+                onChange={(e) => setNombreJugador(e.target.value)}
+                className="w-full px-4 py-2 border rounded mb-4"
+              />
+              <button
+                onClick={enviarPuntaje}
+                disabled={!nombreJugador}
+                className="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700 font-semibold mb-6"
+              >
+                Guardar puntaje
+              </button>
 
-          <button
-            onClick={() => {
-              setPuntaje(0);
-              setVidas(3);
-              setJuegoTerminado(false);
-              setRanking([]);
-              generarNuevaPregunta();
-            }}
-            className="mt-6 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 font-semibold"
-          >
-            🔁 Volver a jugar
-          </button>
+              <h3 className="text-xl font-bold mb-2 text-center">🏅 Ranking Top 10</h3>
+              <ul className={`rounded p-4 ${
+                nivel === 3 ? "bg-gray-800 text-white border border-gray-600" : "bg-gray-100 text-black"
+              }`}>
+                {ranking.map((r, i) => (
+                  <li key={r._id} className="flex justify-between py-1 px-2 border-b border-gray-400">
+                    <span>{i + 1}. {r.nombre}</span>
+                    <span>{r.puntaje} pts</span>
+                  </li>
+                ))}
+              </ul>
+
+              <button
+                onClick={() => {
+                  setPuntaje(0);
+                  setVidas(3);
+                  setNivel(1);
+                  setAciertos(0);
+                  setJuegoTerminado(false);
+                  setRanking([]);
+                  generarNuevaPregunta();
+                }}
+                className="mt-6 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 font-semibold"
+              >
+                🔁 Volver a jugar
+              </button>
+            </>
+          )}
         </div>
       )}
+
     </div>
   );
 }

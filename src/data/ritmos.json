@@ -2,6 +2,7 @@
   {
     "id": "maksum",
     "nombre": "maksum",
+    "dificultad": "facil",
     "beatsPerBar": 4,
     "descripcion": "Ritmo egipcio muy usado en la danza oriental.",
     "origen": "Egipto",
@@ -54,6 +55,7 @@
   {
     "id": "saidi",
     "nombre": "Saidi",
+    "dificultad": "facil",
     "beatsPerBar": 4,
     "descripcion": "Ritmo egipcio muy usado en la danza oriental.",
     "origen": "Egipto",
@@ -106,6 +108,7 @@
   {
     "id": "baladi",
     "nombre": "baladi",
+    "dificultad": "facil",
     "beatsPerBar": 4,
     "descripcion": "Ritmo egipcio muy usado en la danza oriental.",
     "origen": "Egipto",
@@ -159,6 +162,7 @@
     {
     "id": "wahda",
     "nombre": "Wahda(Tawil)",
+    "dificultad": "facil",
     "beatsPerBar": 4,
     "descripcion": "Ritmo egipcio muy usado en la danza oriental.",
     "origen": "Egipto",
@@ -211,6 +215,7 @@
       {
     "id": "sombati",
     "nombre": "Sombati",
+    "dificultad": "intermedio",
     "beatsPerBar": 4,
     "descripcion": "Ritmo egipcio muy usado en la danza oriental.",
     "origen": "Egipto",
@@ -263,6 +268,7 @@
       {
     "id": "rumba masri",
     "nombre": "Rumba Masri",
+    "dificultad": "intermedio",
     "beatsPerBar": 4,
     "descripcion": "Ritmo egipcio muy usado en la danza oriental.",
     "origen": "Egipto",
@@ -289,6 +295,7 @@
       {
     "id": "conga masri",
     "nombre": "Conga Masri",
+    "dificultad": "intermedio",
     "beatsPerBar": 4,
     "descripcion": "Ritmo egipcio muy usado en la danza oriental.",
     "origen": "Egipto",
@@ -315,6 +322,7 @@
       {
     "id": "sherk",
     "nombre": "Sherk",
+    "dificultad": "intermedio",
     "beatsPerBar": 4,
     "descripcion": "Ritmo egipcio muy usado en la danza oriental.",
     "origen": "Egipto",
@@ -341,6 +349,7 @@
   {
     "id": "malfuf",
     "nombre": "Malfuf",
+    "dificultad": "facil",
     "beatsPerBar": 2,
     "descripcion": "Ritmo egipcio muy usado en la danza oriental.",
     "origen": "Egipto",
@@ -377,6 +386,7 @@
   {
     "id": "maksum sarie",
     "nombre": "Maksum Sarie",
+    "dificultad": "facil",
     "beatsPerBar": 2,
     "descripcion": "Ritmo egipcio muy usado en la danza oriental.",
     "origen": "Egipto",
@@ -413,6 +423,7 @@
     {
     "id": "wahda kebir",
     "nombre": "Wahda Kebir",
+    "dificultad": "dificil",
     "beatsPerBar": 8,
     "descripcion": "Ritmo egipcio muy usado en la danza oriental.",
     "origen": "Egipto",
@@ -455,6 +466,7 @@
         {
     "id": "cheftetelli",
     "nombre": "cheftetelli",
+    "dificultad": "dificil",
     "beatsPerBar": 8,
     "descripcion": "Ritmo egipcio muy usado en la danza oriental.",
     "origen": "Egipto",

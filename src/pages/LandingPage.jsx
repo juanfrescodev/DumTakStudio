@@ -19,6 +19,9 @@ export default function LandingPage() {
   ];
 
   return (
+    <div className="min-h-screen bg-gradient-to-b from-yellow-50 to-orange-100">
+      <Navbar />
+      <div className="px-4 py-8 max-w-screen-sm mx-auto"></div>
     <div className="min-h-screen bg-gradient-to-b from-yellow-100 to-orange-200 flex flex-col items-center justify-center px-4 py-10">
       <h1 className="text-4xl font-bold mb-8 text-center">Dumtak Studio</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full max-w-md">
@@ -32,6 +35,7 @@ export default function LandingPage() {
           </Link>
         ))}
       </div>
+    </div>
     </div>
   );
 }

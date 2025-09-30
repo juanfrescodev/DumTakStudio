@@ -20,6 +20,9 @@ export default function RitmoDetallePage() {
   }
 
   return (
+    <div className="min-h-screen bg-gradient-to-b from-yellow-50 to-orange-100">
+      <Navbar />
+      <div className="px-4 py-8 max-w-screen-sm mx-auto"></div>
     <div className="min-h-screen bg-gradient-to-b from-yellow-50 to-orange-100 px-4 py-8">
       <div className="max-w-screen-sm mx-auto">
         <h1 className="text-3xl font-bold text-center mb-6">{ritmo.nombre}</h1>
@@ -33,6 +36,7 @@ export default function RitmoDetallePage() {
           </Link>
         </div>
       </div>
+    </div>
     </div>
   );
 }

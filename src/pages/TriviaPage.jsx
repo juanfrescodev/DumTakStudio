@@ -12,7 +12,7 @@ export default function TriviaPage() {
     fetch("https://ritmos-backend.onrender.com/ping").catch(() => {});
 
     // Obtener ranking
-    fetch("https://ritmos-backend.onrender.com/ranking")
+    fetch("https://ritmos-backend.onrender.com/api/scores/top")
       .then((res) => res.json())
       .then((data) => {
         setRanking(data);

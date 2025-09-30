@@ -1,4 +1,5 @@
 // src/pages/RitmosPage.jsx
+import Navbar from "../components/Navbar";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import ritmosData from "../data/ritmos.json";
@@ -11,6 +12,9 @@ export default function RitmosPage() {
     .sort((a, b) => a.nombre.localeCompare(b.nombre));
 
   return (
+    <div className="min-h-screen bg-gradient-to-b from-yellow-50 to-orange-100">
+      <Navbar />
+      <div className="px-4 py-8 max-w-screen-sm mx-auto"></div>
     <div className="min-h-screen bg-gradient-to-b from-yellow-50 to-orange-100 px-4 py-8">
       <h1 className="text-3xl font-bold text-center mb-6">🥁 Ritmos Árabes</h1>
       <p className="text-center mb-4 text-gray-700">
@@ -43,6 +47,7 @@ export default function RitmosPage() {
           <p className="text-center col-span-2 text-gray-500">No se encontraron ritmos con ese nombre.</p>
         )}
       </div>
+    </div>
     </div>
   );
 }
