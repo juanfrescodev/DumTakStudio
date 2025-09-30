@@ -1,0 +1,92 @@
+[
+  {
+    "id": "baladi",
+    "nombre": "Baladi",
+    "pais": "Egipto",
+    "descripcion": "Danza popular egipcia, terrenal y emocional, con movimientos simples y conexión con la música.",
+    "elementos": ["Vestido largo", "Movimiento de cadera", "Improvisación", "Percusión Baladi"],
+    "video": "https://www.youtube.com/embed/0O6tN4gTTIE",
+    "imagen": "https://upload.wikimedia.org/wikipedia/commons/4/4f/Baladi_dancer_Egypt.jpg"
+  },
+  {
+    "id": "saidi",
+    "nombre": "Saidi",
+    "pais": "Egipto",
+    "descripcion": "Folklore del Alto Egipto, enérgico y masculino, con uso de bastón (tahtib).",
+    "elementos": ["Bastón", "Saltos", "Vestimenta tradicional", "Ritmo Saidi"],
+    "video": "https://www.youtube.com/embed/OIOgkbE70Ao",
+    "imagen": "https://upload.wikimedia.org/wikipedia/commons/6/6e/Saidi_dance_with_stick.jpg"
+  },
+  {
+    "id": "dabke",
+    "nombre": "Dabke",
+    "pais": "Líbano, Siria, Palestina, Jordania",
+    "descripcion": "Danza grupal con pasos fuertes, saltos y unidad comunitaria. Muy presente en celebraciones.",
+    "elementos": ["Grupo", "Saltos", "Zapatillas", "Música Dabke"],
+    "video": "https://www.youtube.com/embed/0vFqzYqjJqI",
+    "imagen": "https://upload.wikimedia.org/wikipedia/commons/3/3e/Dabke_dancers_Palestine.jpg"
+  },
+  {
+    "id": "kawleeya",
+    "nombre": "Kawleeya",
+    "pais": "Irak",
+    "descripcion": "Estilo gitano iraquí con cabello suelto, giros rápidos y expresividad intensa.",
+    "elementos": ["Cabello suelto", "Vestido ajustado", "Giros", "Música Kawleeya"],
+    "video": "https://www.youtube.com/embed/2X2gZ5KZK9g",
+    "imagen": "https://upload.wikimedia.org/wikipedia/commons/7/7f/Kawleeya_dancer_Iraq.jpg"
+  },
+  {
+    "id": "khaleegy",
+    "nombre": "Khaleegy",
+    "pais": "Arabia Saudita, Emiratos, Kuwait",
+    "descripcion": "Danza del Golfo con movimientos de cabello y manos, usada en bodas y celebraciones.",
+    "elementos": ["Thobe", "Cabello largo", "Movimientos ondulantes", "Música Khaleegy"],
+    "video": "https://www.youtube.com/embed/1YzK9KZK9gA",
+    "imagen": "https://upload.wikimedia.org/wikipedia/commons/2/2e/Khaleegy_dance_Gulf.jpg"
+  },
+  {
+    "id": "bandari",
+    "nombre": "Bandari",
+    "pais": "Irán (sur)",
+    "descripcion": "Danza costera iraní con ritmo alegre, movimientos ondulantes y uso de pañuelos.",
+    "elementos": ["Pañuelos", "Vestido colorido", "Percusión rápida", "Música Bandari"],
+    "video": "https://www.youtube.com/embed/4YzK9KZK9gB",
+    "imagen": "https://upload.wikimedia.org/wikipedia/commons/5/5e/Bandari_dance_Iran.jpg"
+  },
+  {
+    "id": "rom",
+    "nombre": "Rom (Gitano turco)",
+    "pais": "Turquía",
+    "descripcion": "Danza gitana turca con énfasis en cadera y torso, teatral y expresiva.",
+    "elementos": ["Falda amplia", "Castañuelas", "Improvisación", "Música Rom"],
+    "video": "https://www.youtube.com/embed/5YzK9KZK9gC",
+    "imagen": "https://upload.wikimedia.org/wikipedia/commons/9/9e/Romani_dancer_Turkey.jpg"
+  },
+  {
+    "id": "raqsharki",
+    "nombre": "Raqs Sharqi",
+    "pais": "Egipto",
+    "descripcion": "Danza oriental clásica, estilizada para escenario, con uso de velo y elementos escénicos.",
+    "elementos": ["Velo", "Crótalos", "Vestuario escénico", "Música clásica árabe"],
+    "video": "https://www.youtube.com/embed/6YzK9KZK9gD",
+    "imagen": "https://upload.wikimedia.org/wikipedia/commons/8/8e/Raqs_Sharqi_dancer_Egypt.jpg"
+  },
+  {
+    "id": "tribal",
+    "nombre": "Tribal Fusión",
+    "pais": "Global (influencia árabe)",
+    "descripcion": "Fusión moderna con estética tribal, movimientos lentos y uso de accesorios étnicos.",
+    "elementos": ["Tatuajes", "Piercings", "Vestuario étnico", "Música electrónica"],
+    "video": "https://www.youtube.com/embed/7YzK9KZK9gE",
+    "imagen": "https://upload.wikimedia.org/wikipedia/commons/1/1e/Tribal_fusion_dancer.jpg"
+  },
+  {
+    "id": "cabaret",
+    "nombre": "Cabaret",
+    "pais": "Global (influencia egipcia)",
+    "descripcion": "Estilo escénico y glamoroso, con movimientos sensuales y enfoque en espectáculo.",
+    "elementos": ["Bedlah", "Brillos", "Coreografía", "Música pop árabe"],
+    "video": "https://www.youtube.com/embed/8YzK9KZK9gF",
+    "imagen": "https://upload.wikimedia.org/wikipedia/commons/0/0e/Cabaret_bellydance.jpg"
+  }
+]
