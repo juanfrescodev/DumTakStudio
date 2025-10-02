@@ -1,176 +1,50 @@
-import { useState, useEffect, useRef } from "react";
-import ritmosData from "../data/ritmos.json";
+// components/RitmoPlaylist.jsx
+import React, { useState } from "react";
+import { MetronomeControls } from "./MetronomeControls";
+import RitmoBlock from "./RitmoBlock";
+import useAudioEngine from "../hooks/useAudioEngine";
 
-export default function RitmoPlaylist({ playlist, initialBpm = 90 }) {
-  const [editablePlaylist, setEditablePlaylist] = useState(playlist);
-  const [modoPorRitmo, setModoPorRitmo] = useState({});
-  const [currentBlockIndex, setCurrentBlockIndex] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [audioReady, setAudioReady] = useState(false);
+export default function RitmoPlaylist({ playlist, setPlaylist, initialBpm }) {
   const [bpm, setBpm] = useState(initialBpm);
+  const [metronomoOn, setMetronomoOn] = useState(true);
+  const [metronomoVolume, setMetronomoVolume] = useState(0.5);
+  const [masterVolume, setMasterVolumeState] = useState(1); // volumen global de la secuencia
 
-  const audioCtxRef = useRef(null);
-  const samplesRef = useRef({});
-  const scheduledEventsRef = useRef([]);
-  const visualTimerRef = useRef(null);
-  const sequenceStartTimeRef = useRef(0);
-  const totalDurationRef = useRef(0);
-  const isPlayingRef = useRef(false);
+  const {
+    playSample,
+    startSequence,
+    stopSequence,
+    isPlaying,
+    visualSyncRef,
+    audioCtxRef,
+    setMasterVolume,    // <- aplica al master gain
+    setMetronomeVolume, // <- aplica al metronomo
+  } = useAudioEngine({ bpm, metronomoVolume, metronomoOn, playlist, sequenceVolume: masterVolume });
 
-  const base = import.meta.env.BASE_URL;
-
-  const colorMap = {
-    maksum: "bg-red-500",
-    malfuf: "bg-blue-500",
-    baladi: "bg-green-500",
-    saidi: "bg-purple-500",
-    samai: "bg-teal-500",
-    default: "bg-gray-500",
+  const handleStart = async () => {
+    if (!audioCtxRef.current) return;
+    await audioCtxRef.current.resume(); // desbloquear AudioContext
+    startSequence();
   };
 
-  useEffect(() => {
-    setEditablePlaylist(playlist);
-  }, [playlist]);
-
-  const blocks = editablePlaylist.map(({ id, bars }) => {
-    const ritmo = ritmosData.find((r) => r.id === id);
-    if (!ritmo) return null;
-
-    const variantes = ritmo.variantes;
-    const modo = modoPorRitmo[id] || "base";
-    const steps = variantes?.[modo]?.steps ?? ritmo?.steps;
-    if (!steps) return null;
-
-    const stepsConRutaCompleta = steps.map((s) => ({
-      ...s,
-      sound: s.sound ? `${base}ritmos/${s.sound}` : null,
-      img: s.img ? `${base}ritmos/${s.img}` : null,
-    }));
-
-    return { ...ritmo, steps: stepsConRutaCompleta, bars, id };
-  }).filter(Boolean);
-
-  useEffect(() => {
-    const loadSamples = async () => {
-      const ctx = new (window.AudioContext || window.webkitAudioContext)();
-      audioCtxRef.current = ctx;
-
-      const allSteps = blocks.flatMap(b => b.steps);
-      await Promise.all(
-        allSteps.map(async (s) => {
-          if (s.sound && !samplesRef.current[s.sound]) {
-            try {
-              const res = await fetch(s.sound);
-              const buf = await res.arrayBuffer();
-              const audioBuf = await ctx.decodeAudioData(buf);
-              samplesRef.current[s.sound] = audioBuf;
-            } catch (err) {
-              console.warn("Error cargando sonido:", s.sound, err);
-            }
-          }
-        })
-      );
-
-      setAudioReady(true);
-    };
-
-    loadSamples();
-  }, [blocks]);
-
-  const playStep = (step, time) => {
-    const buffer = samplesRef.current[step?.sound];
-    if (buffer && audioCtxRef.current) {
-      const source = audioCtxRef.current.createBufferSource();
-      source.buffer = buffer;
-      source.connect(audioCtxRef.current.destination);
-      source.start(time);
-      scheduledEventsRef.current.push(source);
-    }
+  const handleMasterVolumeChange = (e) => {
+    const newVol = Number(e.target.value);
+    setMasterVolumeState(newVol);
+    setMasterVolume(newVol); // aplica al master gain inmediatamente
   };
 
-  const scheduleSequence = () => {
-    const ctx = audioCtxRef.current;
-    const startTime = ctx.currentTime;
-    sequenceStartTimeRef.current = startTime;
-    scheduledEventsRef.current = [];
-
-    let blockStart = startTime;
-    blocks.forEach((block) => {
-      const stepsPerBeat = block.steps.length / block.beatsPerBar;
-      const stepDuration = (60 / bpm) / stepsPerBeat;
-
-      for (let bar = 0; bar < block.bars; bar++) {
-        for (let i = 0; i < block.steps.length; i++) {
-          const time = blockStart + (bar * block.steps.length + i) * stepDuration;
-          playStep(block.steps[i], time);
-        }
-      }
-
-      const blockDuration = block.bars * block.steps.length * stepDuration;
-      blockStart += blockDuration;
-    });
-
-    totalDurationRef.current = blockStart - startTime;
-
-    if (visualTimerRef.current) cancelAnimationFrame(visualTimerRef.current);
-    const syncVisual = () => {
-      if (!isPlayingRef.current) return;
-      const now = ctx.currentTime;
-      const elapsed = now - sequenceStartTimeRef.current;
-      let acc = 0;
-      for (let i = 0; i < blocks.length; i++) {
-        const block = blocks[i];
-        const stepsPerBeat = block.steps.length / block.beatsPerBar;
-        const stepDuration = (60 / bpm) / stepsPerBeat;
-        const blockDuration = block.bars * block.steps.length * stepDuration;
-        if (elapsed < acc + blockDuration) {
-          setCurrentBlockIndex(i);
-          break;
-        }
-        acc += blockDuration;
-      }
-      visualTimerRef.current = requestAnimationFrame(syncVisual);
-    };
-    visualTimerRef.current = requestAnimationFrame(syncVisual);
-
-    setTimeout(() => {
-      if (!isPlayingRef.current) return;
-      scheduleSequence();
-    }, totalDurationRef.current * 1000);
-  };
-
-  const startSequence = async () => {
-    if (!audioCtxRef.current || audioCtxRef.current.state === "closed") {
-      audioCtxRef.current = new (window.AudioContext || window.webkitAudioContext)();
-    }
-
-    await audioCtxRef.current.resume().catch(() => {});
-    isPlayingRef.current = true;
-    setIsPlaying(true);
-    scheduleSequence();
-  };
-
-  const stopSequence = () => {
-    scheduledEventsRef.current.forEach(source => {
-      try {
-        source.stop();
-      } catch {}
-    });
-    scheduledEventsRef.current = [];
-    if (visualTimerRef.current) cancelAnimationFrame(visualTimerRef.current);
-    isPlayingRef.current = false;
-    setIsPlaying(false);
-    setCurrentBlockIndex(0);
+  const handleMetronomeVolumeChange = (e) => {
+    const newVol = Number(e.target.value);
+    setMetronomoVolume(newVol);
+    setMetronomeVolume(newVol); // aplica al metronomo inmediatamente
   };
 
   return (
-    <div className="w-full max-w-3xl bg-white rounded-2xl shadow-lg p-6 mt-6">
-      <h2 className="text-2xl font-bold text-gray-800 mb-6 tracking-wide">
-        🔁 Secuencia personalizada
-      </h2>
+    <div className="p-4 bg-white rounded-xl shadow-lg">
+      <h2 className="text-xl font-bold mb-4">🔁 Secuencia personalizada</h2>
 
       <div className="flex items-center gap-4 mb-6">
-        <label className="font-medium text-gray-700">🎚️ BPM</label>
+        <label className="font-medium">🎚️ BPM:</label>
         <input
           type="range"
           min="40"
@@ -179,91 +53,88 @@ export default function RitmoPlaylist({ playlist, initialBpm = 90 }) {
           onChange={(e) => setBpm(Number(e.target.value))}
           className="w-48 accent-orange-500"
         />
-        <span className="ml-2 text-lg font-semibold text-gray-800">{bpm}</span>
+        <span className="font-mono text-lg">{bpm}</span>
       </div>
 
-      <div className="flex gap-4 overflow-x-auto mb-6 pb-2">
-        {blocks.map((b, i) => {
-          const isActive = i === currentBlockIndex;
-          const color = colorMap[b.id] || colorMap.default;
-          const tieneVariantes = ritmosData.find(r => r.id === b.id)?.variantes;
+      <MetronomeControls
+        metronomoOn={metronomoOn}
+        setMetronomoOn={() => setMetronomoOn(!metronomoOn)}
+        metronomoVolume={metronomoVolume}
+        setMetronomoVolume={handleMetronomeVolumeChange}
+      />
 
-          return (
-            <div
-              key={i}
-              className={`flex-shrink-0 px-6 py-4 rounded-xl shadow-lg text-white font-bold text-lg transition-all duration-300
-                ${color} ${isActive ? "scale-105 ring-4 ring-yellow-300 animate-pulse" : "opacity-80 hover:opacity-100"}`}
-            >
-              <div className="flex items-center gap-2">
-                <span className="text-2xl">🎵</span>
-                <span>{b.nombre}</span>
-              </div>
-              <p className="text-sm mt-1">x{b.bars} compases</p>
-
-              {tieneVariantes && (
-                <div className="mt-2">
-                  <label className="text-sm text-white mr-2">Modo:</label>
-                  <select
-                    value={modoPorRitmo[b.id] || "base"}
-                    onChange={(e) => {
-                      setModoPorRitmo(prev => ({ ...prev, [b.id]: e.target.value }));
-                    }}
-                    className="text-sm px-2 py-1 rounded bg-white text-gray-800"
-                  >
-                    <option value="base">Base</option>
-                    <option value="arreglo">Arreglo</option>
-                  </select>
-                </div>
-              )}
-
-              <div className="flex gap-2 mt-2">
-                <button
-                  onClick={() => {
-                    const updated = [...editablePlaylist];
-                    updated.splice(i, 1);
-                    setEditablePlaylist(updated);
-                  }}
-                  className="bg-white text-red-600 font-bold px-2 py-1 rounded hover:bg-red-100"
-                >
-                  ❌
-                </button>
-                <button
-                  onClick={() => {
-                    if (i === 0) return;
-                    const updated = [...editablePlaylist];
-                    [updated[i - 1], updated[i]] = [updated[i], updated[i - 1]];
-                    setEditablePlaylist(updated);
-                  }}
-                  className="bg-white text-gray-800 font-bold px-2 py-1 rounded hover:bg-gray-100"
-                >
-                  ⬅️
-                </button>
-                <button
-                  onClick={() => {
-                    if (i === editablePlaylist.length - 1) return;
-                    const updated = [...editablePlaylist];
-                    [updated[i], updated[i + 1]] = [updated[i + 1], updated[i]];
-                    setEditablePlaylist(updated);
-                  }}
-                  className="bg-white text-gray-800 font-bold px-2 py-1 rounded hover:bg-gray-100"
-                >
-                  ➡️
-                </button>
-              </div>
-            </div>
-          );
-        })}
+      <div className="flex items-center gap-4 mb-6">
+        <label className="font-medium">🔊 Volumen Secuencia:</label>
+        <input
+          type="range"
+          min="0"
+          max="1"
+          step="0.01"
+          value={masterVolume}
+          onChange={handleMasterVolumeChange}
+          className="w-48 accent-orange-500"
+        />
+        <span className="font-mono">{Math.round(masterVolume * 100)}%</span>
       </div>
 
-      <button
-        disabled={!audioReady}
-        className={`px-6 py-3 rounded-xl font-bold text-white text-lg transition-all duration-200
-          ${isPlaying ? "bg-red-600 hover:bg-red-700" : "bg-green-600 hover:bg-green-700"}
-          ${!audioReady ? "opacity-50 cursor-not-allowed" : ""}`}
-        onClick={() => (isPlaying ? stopSequence() : startSequence())}
-      >
-        {isPlaying ? "Detener" : "▶️ Reproducir"}
-      </button>
+      <div className="flex items-center gap-4 mb-6">
+        <label className="font-medium">🔔 Volumen Metronomo:</label>
+        <input
+          type="range"
+          min="0"
+          max="1"
+          step="0.01"
+          value={metronomoVolume}
+          onChange={handleMetronomeVolumeChange}
+          className="w-48 accent-orange-500"
+        />
+        <span className="font-mono">{Math.round(metronomoVolume * 100)}%</span>
+      </div>
+
+      <div className="mb-4">
+        <h3 className="text-lg font-semibold mb-2">🧾 Ritmos en la secuencia:</h3>
+        {playlist.length === 0 ? (
+          <p className="text-gray-500 italic">No hay ritmos agregados.</p>
+        ) : (
+          <div className="flex flex-wrap gap-4">
+            {playlist.map((r, i) => (
+              <RitmoBlock
+                key={i}
+                ritmoId={r.id}
+                bars={r.bars}
+                index={i}
+                playlist={playlist}
+                setPlaylist={setPlaylist}
+                visualSyncRef={visualSyncRef}
+                audioCtxRef={audioCtxRef}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+
+      <div className="flex gap-4">
+        <button
+          className="px-4 py-2 bg-green-600 text-white rounded"
+          onClick={handleStart}
+        >
+          ▶️ Reproducir Secuencia
+        </button>
+
+        <button
+          className="px-4 py-2 bg-blue-600 text-white rounded"
+          onClick={() => playSample("ritmos/dum.mp3")}
+        >
+          🔊 Probar Dum
+        </button>
+
+        <button
+          className="px-4 py-2 bg-red-600 text-white rounded"
+          onClick={stopSequence}
+        >
+          ⏹️ Detener Secuencia
+        </button>
+      </div>
     </div>
   );
 }

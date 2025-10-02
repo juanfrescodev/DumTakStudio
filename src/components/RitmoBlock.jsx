@@ -1,0 +1,147 @@
+// components/RitmoBlock.jsx
+import React, { useState, useEffect } from "react";
+import ritmosData from "../data/ritmos.json";
+
+export default function RitmoBlock({
+  ritmoId,
+  bars,
+  index,
+  playlist,
+  setPlaylist,
+  visualSyncRef,
+  audioCtxRef,
+}) {
+  const [activeStep, setActiveStep] = useState(null);
+
+  const ritmo = ritmosData.find((r) => r.id === ritmoId);
+  const modo = playlist[index].modo || "base";
+  const steps = ritmo?.variantes?.[modo]?.steps ?? ritmo?.steps ?? [];
+
+  useEffect(() => {
+    let raf;
+
+    const updateStep = () => {
+      if (!visualSyncRef?.current || !audioCtxRef?.current) return;
+
+      const { currentRitmoIndex, currentStep } = visualSyncRef.current;
+
+      // Solo actualizar animación si este ritmo es el activo
+      if (currentRitmoIndex === index) {
+        setActiveStep(currentStep % steps.length);
+      } else {
+        setActiveStep(null);
+      }
+
+      raf = requestAnimationFrame(updateStep);
+    };
+
+    raf = requestAnimationFrame(updateStep);
+    return () => cancelAnimationFrame(raf);
+  }, [steps.length, index, visualSyncRef, audioCtxRef]);
+
+  const handleChangeModo = (nuevoModo) => {
+    const updated = [...playlist];
+    updated[index] = { ...updated[index], modo: nuevoModo };
+    setPlaylist(updated);
+  };
+
+  const handleEliminar = () => {
+    const updated = [...playlist];
+    updated.splice(index, 1);
+    setPlaylist(updated);
+  };
+
+  const handleMoverIzquierda = () => {
+    if (index === 0) return;
+    const updated = [...playlist];
+    [updated[index - 1], updated[index]] = [updated[index], updated[index - 1]];
+    setPlaylist(updated);
+  };
+
+  const handleMoverDerecha = () => {
+    if (index === playlist.length - 1) return;
+    const updated = [...playlist];
+    [updated[index], updated[index + 1]] = [updated[index + 1], updated[index]];
+    setPlaylist(updated);
+  };
+
+  const colorMap = {
+    maksum: "bg-red-500",
+    malfuf: "bg-blue-500",
+    baladi: "bg-green-500",
+    saidi: "bg-purple-500",
+    samai: "bg-teal-500",
+    default: "bg-gray-500",
+  };
+  const color = colorMap[ritmoId] || colorMap.default;
+
+  return (
+    <div
+      className={`px-6 py-4 rounded-xl shadow-lg text-white font-bold text-lg transition-all duration-300 ${color}`}
+    >
+      <span className="block mb-1 text-sm opacity-80">🎵</span>
+      <span className="block">{ritmo?.nombre || ritmoId}</span>
+      <span className="block text-sm font-normal">x{bars} compases</span>
+
+      {steps.length > 0 && (
+        <div className="mt-4 grid grid-cols-8 gap-1">
+          {steps.map((step, i) => {
+            const isActive = i === activeStep;
+            const hasSound = !!step.sound;
+            return (
+              <div
+                key={i}
+                className={`w-6 h-6 rounded flex items-center justify-center text-xs font-bold
+                  ${hasSound ? "bg-yellow-400 text-black" : "bg-gray-300 text-gray-500"}
+                  ${isActive ? "ring-2 ring-black scale-110" : ""}
+                  transition-all duration-150`}
+                title={step.sound?.replace(".mp3", "") || "silencio"}
+              >
+                {hasSound ? "●" : ""}
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {ritmo?.variantes && (
+        <div className="mt-2 flex items-center gap-2">
+          <label className="text-xs font-normal">Modo:</label>
+          <select
+            value={modo}
+            onChange={(e) => handleChangeModo(e.target.value)}
+            className="text-sm px-2 py-1 rounded bg-white text-gray-800"
+          >
+            {Object.keys(ritmo.variantes).map((v) => (
+              <option key={v} value={v}>
+                {v}
+              </option>
+            ))}
+          </select>
+        </div>
+      )}
+
+      <div className="mt-3 flex gap-2">
+        <button
+          onClick={handleEliminar}
+          className="bg-white text-red-600 font-bold px-2 py-1 rounded hover:bg-red-100 text-sm"
+          title="Eliminar"
+        >
+          ❌
+        </button>
+        <button
+          onClick={handleMoverIzquierda}
+          className="bg-white text-gray-800 font-bold px-2 py-1 rounded hover:bg-gray-100 text-sm"
+        >
+          ⬅️
+        </button>
+        <button
+          onClick={handleMoverDerecha}
+          className="bg-white text-gray-800 font-bold px-2 py-1 rounded hover:bg-gray-100 text-sm"
+        >
+          ➡️
+        </button>
+      </div>
+    </div>
+  );
+}
