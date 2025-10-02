@@ -56,12 +56,6 @@ export default function RitmoPlaylist({ playlist, setPlaylist, initialBpm }) {
         <span className="font-mono text-lg">{bpm}</span>
       </div>
 
-      <MetronomeControls
-        metronomoOn={metronomoOn}
-        setMetronomoOn={() => setMetronomoOn(!metronomoOn)}
-        metronomoVolume={metronomoVolume}
-        setMetronomoVolume={handleMetronomeVolumeChange}
-      />
 
       <div className="flex items-center gap-4 mb-6">
         <label className="font-medium">🔊 Volumen Secuencia:</label>
@@ -119,13 +113,6 @@ export default function RitmoPlaylist({ playlist, setPlaylist, initialBpm }) {
           onClick={handleStart}
         >
           ▶️ Reproducir Secuencia
-        </button>
-
-        <button
-          className="px-4 py-2 bg-blue-600 text-white rounded"
-          onClick={() => playSample("ritmos/dum.mp3")}
-        >
-          🔊 Probar Dum
         </button>
 
         <button
