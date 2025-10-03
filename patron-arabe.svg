@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="none">
+  <defs>
+    <pattern id="arabic-pattern" width="100" height="100" patternUnits="userSpaceOnUse">
+      <path d="M50 0 L100 25 L100 75 L50 100 L0 75 L0 25 Z" stroke="#e2e8f0" stroke-width="1" fill="none" />
+    </pattern>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#arabic-pattern)" />
+</svg>
