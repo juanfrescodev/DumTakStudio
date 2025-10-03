@@ -28,6 +28,7 @@ export default function RitmoTriviaSteps() {
   const [juegoTerminado, setJuegoTerminado] = useState(false);
   const [ranking, setRanking] = useState([]);
   const [animarNivel, setAnimarNivel] = useState(false);
+  const [animarNivelDuelo, setAnimarNivelDuelo] = useState({ 1: false, 2: false });
   const audio = new Audio(`${base}ritmos/festejo.mp3`);
   const [logros, setLogros] = useState([]);
   const [mostrarLogro, setMostrarLogro] = useState(null);
@@ -43,6 +44,8 @@ export default function RitmoTriviaSteps() {
   const [jugadorActual, setJugadorActual] = useState(1);
   const [puntajesDuelo, setPuntajesDuelo] = useState({ 1: 0, 2: 0 });
   const [vidasDuelo, setVidasDuelo] = useState({ 1: 3, 2: 3 });
+  const [nivelDuelo, setNivelDuelo] = useState({ 1: 1, 2: 1 });
+  const [rachaDuelo, setRachaDuelo] = useState({ 1: 0, 2: 0 });
 
   useEffect(() => {
     const loadSamples = async () => {
@@ -86,9 +89,10 @@ export default function RitmoTriviaSteps() {
   }, [nivel]);
 
   const generarNuevaPregunta = () => {
-    const dificultadPermitida = nivel === 1
+    const nivelActual = modoDuelo ? nivelDuelo[jugadorActual] : nivel;
+    const dificultadPermitida = nivelActual === 1
       ? ["facil"]
-      : nivel === 2
+      : nivelActual === 2
       ? ["facil", "intermedio"]
       : ["facil", "intermedio", "dificil"];
 
@@ -132,7 +136,9 @@ export default function RitmoTriviaSteps() {
     let steps;
 
     const variantes = currentRitmo.variantes;
-    if (nivel === 1 && variantes?.base?.steps) {
+    const nivelActual = modoDuelo ? nivelDuelo[jugadorActual] : nivel;
+
+    if (nivelActual === 1 && variantes?.base?.steps) {
       steps = variantes.base.steps;
     } else if (variantes?.base?.steps && variantes?.arreglo?.steps) {
       const modo = Math.random() < 0.5 ? "base" : "arreglo";
@@ -145,6 +151,7 @@ export default function RitmoTriviaSteps() {
       console.warn("Ritmo sin secuencia reproducible:", currentRitmo.id);
       return;
     }
+
 
     const stepsConRutaCompleta = steps.map((s) => ({
       ...s,
@@ -168,12 +175,37 @@ export default function RitmoTriviaSteps() {
 
     if (modoDuelo) {
       // 🎮 MODO DUELO
-      if (id === currentRitmo.id) {
+      const acierto = id === currentRitmo.id;
+
+      if (acierto) {
         setFeedback(`✅ Jugador ${jugadorActual} acertó!`);
         setPuntajesDuelo((prev) => ({
           ...prev,
           [jugadorActual]: prev[jugadorActual] + 1
         }));
+
+        setRachaDuelo((prev) => {
+          const nueva = prev[jugadorActual] + 1;
+          if (nueva === 3 && nivelDuelo[jugadorActual] < 3) {
+            setNivelDuelo((niveles) => ({
+              ...niveles,
+              [jugadorActual]: niveles[jugadorActual] + 1
+            }));
+
+            // 🎉 Animación de subida de nivel
+            setAnimarNivelDuelo((prev) => ({
+              ...prev,
+              [jugadorActual]: true
+            }));
+            setTimeout(() => {
+              setAnimarNivelDuelo((prev) => ({
+                ...prev,
+                [jugadorActual]: false
+              }));
+            }, 1000);
+          }
+          return { ...prev, [jugadorActual]: nueva };
+        });
       } else {
         setFeedback(`❌ Jugador ${jugadorActual} falló. Era: ${currentRitmo.nombre}`);
         setVidasDuelo((prev) => {
@@ -182,6 +214,17 @@ export default function RitmoTriviaSteps() {
             setJuegoTerminado(true);
           }
           return { ...prev, [jugadorActual]: nuevas };
+        });
+
+        setRachaDuelo((prev) => {
+          const nueva = 0;
+          if (nivelDuelo[jugadorActual] > 1) {
+            setNivelDuelo((niveles) => ({
+              ...niveles,
+              [jugadorActual]: niveles[jugadorActual] - 1
+            }));
+          }
+          return { ...prev, [jugadorActual]: nueva };
         });
       }
 
@@ -242,6 +285,7 @@ export default function RitmoTriviaSteps() {
       });
     }
   };
+
 
 
   const enviarPuntaje = async () => {
@@ -311,9 +355,27 @@ export default function RitmoTriviaSteps() {
 
           {modoDuelo ? (
             <div className="mb-4 text-center font-medium">
-              🎮 Turno de Jugador {jugadorActual} <br />
-              ❤️ Vidas: {vidasDuelo[jugadorActual]} | 🏆 Puntaje: {puntajesDuelo[jugadorActual]}
+            🎮 Turno de Jugador {jugadorActual}
+            {animarNivelDuelo[jugadorActual] && (
+              <p className="text-green-600 font-bold text-center animate-bounce mt-2">
+                🎉 ¡Jugador {jugadorActual} subió a nivel {nivelDuelo[jugadorActual]}!
+              </p>
+            )}
+            <div className="grid grid-cols-2 gap-2 mt-2 text-sm">
+              <div className="bg-gray-100 p-2 rounded">
+                <p className="font-semibold">Jugador 1</p>
+                ❤️ {vidasDuelo[1]} | 🏆 {puntajesDuelo[1]} | 🔢 Nivel: {nivelDuelo[1]}
+              </div>
+              <div className="bg-gray-100 p-2 rounded">
+                <p className="font-semibold">Jugador 2</p>
+                ❤️ {vidasDuelo[2]} | 🏆 {puntajesDuelo[2]} | 🔢 Nivel: {nivelDuelo[2]}
+              </div>
             </div>
+              <p className="text-sm text-gray-700 mt-1">
+                🔢 Nivel: {nivelDuelo[jugadorActual]}
+              </p>
+            </div>
+            
           ) : (
             <p className="text-lg font-medium mb-2">
               ❤️ Vidas: {vidas} | 🏆 Puntaje: {puntaje} | 🔢 Nivel: {nivel}

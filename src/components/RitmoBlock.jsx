@@ -1,4 +1,3 @@
-// components/RitmoBlock.jsx
 import React, { useState, useEffect } from "react";
 import ritmosData from "../data/ritmos.json";
 
@@ -15,7 +14,7 @@ export default function RitmoBlock({
 
   const ritmo = ritmosData.find((r) => r.id === ritmoId);
   const modo = playlist[index].modo || "base";
-  const steps = ritmo?.variantes?.[modo]?.steps ?? ritmo?.steps ?? [];
+  const steps = playlist[index].steps || ritmo?.variantes?.[modo]?.steps || ritmo?.steps || [];
 
   useEffect(() => {
     let raf;
@@ -25,7 +24,6 @@ export default function RitmoBlock({
 
       const { currentRitmoIndex, currentStep } = visualSyncRef.current;
 
-      // Solo actualizar animación si este ritmo es el activo
       if (currentRitmoIndex === index) {
         setActiveStep(currentStep % steps.length);
       } else {
@@ -40,8 +38,21 @@ export default function RitmoBlock({
   }, [steps.length, index, visualSyncRef, audioCtxRef]);
 
   const handleChangeModo = (nuevoModo) => {
+    const ritmo = ritmosData.find((r) => r.id === ritmoId);
+    const newSteps = ritmo?.variantes?.[nuevoModo]?.steps ?? ritmo?.steps ?? [];
+
+    const normalizedSteps = newSteps.map((s) => {
+      if (!s.sound) return s;
+      const clean = s.sound.startsWith("/") ? s.sound.slice(1) : s.sound;
+      return { ...s, sound: `ritmos/${clean}` };
+    });
+
     const updated = [...playlist];
-    updated[index] = { ...updated[index], modo: nuevoModo };
+    updated[index] = {
+      ...updated[index],
+      modo: nuevoModo,
+      steps: normalizedSteps,
+    };
     setPlaylist(updated);
   };
 
@@ -75,6 +86,15 @@ export default function RitmoBlock({
   };
   const color = colorMap[ritmoId] || colorMap.default;
 
+  const getColorByGolpe = (tipo) => {
+    switch (tipo) {
+      case "dum": return "bg-red-500";
+      case "tak": return "bg-green-500";
+      case "tek": return "bg-orange-500";
+      default: return "bg-gray-300";
+    }
+  };
+
   return (
     <div
       className={`px-6 py-4 rounded-xl shadow-lg text-white font-bold text-lg transition-all duration-300 ${color}`}
@@ -92,10 +112,10 @@ export default function RitmoBlock({
               <div
                 key={i}
                 className={`w-6 h-6 rounded flex items-center justify-center text-xs font-bold
-                  ${hasSound ? "bg-yellow-400 text-black" : "bg-gray-300 text-gray-500"}
+                  ${hasSound ? getColorByGolpe(step.tipoGolpe) + " text-white" : "bg-gray-300 text-gray-500"}
                   ${isActive ? "ring-2 ring-black scale-110" : ""}
                   transition-all duration-150`}
-                title={step.sound?.replace(".mp3", "") || "silencio"}
+                title={step.tipoGolpe || step.sound?.replace(".mp3", "") || "silencio"}
               >
                 {hasSound ? "●" : ""}
               </div>
@@ -141,6 +161,16 @@ export default function RitmoBlock({
         >
           ➡️
         </button>
+      </div>
+
+      {/* 🧠 Leyenda visual didáctica */}
+      <div className="mt-4 text-sm font-normal bg-white text-gray-800 p-2 rounded">
+        <p className="mb-1 font-semibold">🎨 Golpes:</p>
+        <div className="flex gap-2 items-center">
+          <div className="w-4 h-4 rounded bg-red-500"></div> <span>Dum</span>
+          <div className="w-4 h-4 rounded bg-green-500"></div> <span>Tak</span>
+          <div className="w-4 h-4 rounded bg-orange-500"></div> <span>Tek</span>
+        </div>
       </div>
     </div>
   );

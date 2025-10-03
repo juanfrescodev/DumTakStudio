@@ -1,4 +1,3 @@
-// src/hooks/useAudioEngine.js
 import { useEffect, useRef, useState } from "react";
 
 export default function useAudioEngine({
@@ -14,6 +13,7 @@ export default function useAudioEngine({
 
   const [isLoaded, setIsLoaded] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
+  let lastStepTime = performance.now();
 
   const visualSyncRef = useRef({
     startTime: 0,
@@ -21,6 +21,7 @@ export default function useAudioEngine({
     currentStep: 0,
     nextNoteTime: 0,
     currentRitmoIndex: 0,
+    compasesReproducidos: 0, // ✅ nuevo contador
   });
 
   const masterGainRef = useRef(null);
@@ -53,10 +54,16 @@ export default function useAudioEngine({
 
     const loadAll = async () => {
       const sounds = ["ritmos/dum.mp3", "ritmos/tak.mp3", "ritmos/tek.mp3", "ritmos/click.wav"];
-      for (const sound of sounds) await loadSample(sound);
-      setIsLoaded(true);
-    };
+      const promises = sounds.map((sound) => loadSample(sound));
 
+      try {
+        await Promise.all(promises);
+        setIsLoaded(true);
+      } catch (err) {
+        console.error("❌ Error al cargar los sonidos:", err);
+        alert("Hubo un problema al cargar los sonidos. Verificá tu conexión.");
+      }
+    };
     loadAll();
 
     return () => {
@@ -99,11 +106,20 @@ export default function useAudioEngine({
       const stepIndex = visualSyncRef.current.currentStep;
       const step = steps[stepIndex];
 
+      const now = performance.now();
+      const delta = now - lastStepTime;
+      lastStepTime = now;
+
+      const expectedStepDuration = (60 / bpm) / 4 * 1000; // en ms
+
+      if (delta > expectedStepDuration * 1.5) {
+        console.warn("⏱️ Glitch detectado:", delta.toFixed(2), "ms");
+      }
+
       if (step?.sound && samplesRef.current[step.sound]) {
         playSample(step.sound, visualSyncRef.current.nextNoteTime, masterGainRef.current);
       }
 
-      // Metronomo: cada beat tiene 4 steps
       if (metronomoOn && stepIndex % 4 === 0) {
         playSample("ritmos/click.wav", visualSyncRef.current.nextNoteTime, metronomoGainRef.current);
       }
@@ -112,14 +128,21 @@ export default function useAudioEngine({
 
       if (visualSyncRef.current.currentStep >= steps.length) {
         visualSyncRef.current.currentStep = 0;
-        visualSyncRef.current.currentRitmoIndex++;
+        visualSyncRef.current.compasesReproducidos++;
 
-        if (visualSyncRef.current.currentRitmoIndex >= playlist.length) {
-          visualSyncRef.current.currentRitmoIndex = 0; // loop playlist
+        const compasesEsperados = ritmo.bars || 1;
+
+        if (visualSyncRef.current.compasesReproducidos >= compasesEsperados) {
+          visualSyncRef.current.currentRitmoIndex++;
+          visualSyncRef.current.compasesReproducidos = 0;
+
+          if (visualSyncRef.current.currentRitmoIndex >= playlist.length) {
+            visualSyncRef.current.currentRitmoIndex = 0;
+          }
         }
       }
 
-      const stepDuration = secondsPerBeat / 4; // cada step = ¼ de beat
+      const stepDuration = secondsPerBeat / 4;
       visualSyncRef.current.nextNoteTime += stepDuration;
     }
   };
@@ -133,6 +156,7 @@ export default function useAudioEngine({
     visualSyncRef.current.nextNoteTime = audioCtxRef.current.currentTime + 0.1;
     visualSyncRef.current.currentStep = 0;
     visualSyncRef.current.currentRitmoIndex = 0;
+    visualSyncRef.current.compasesReproducidos = 0; // ✅ reinicio
     visualSyncRef.current.bpm = bpm;
 
     schedulerIdRef.current = setInterval(schedule, 25);

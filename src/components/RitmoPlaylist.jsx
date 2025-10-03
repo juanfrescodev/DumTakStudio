@@ -11,19 +11,32 @@ export default function RitmoPlaylist({ playlist, setPlaylist, initialBpm }) {
   const [masterVolume, setMasterVolumeState] = useState(1); // volumen global de la secuencia
 
   const {
-    playSample,
-    startSequence,
-    stopSequence,
-    isPlaying,
-    visualSyncRef,
-    audioCtxRef,
-    setMasterVolume,    // <- aplica al master gain
-    setMetronomeVolume, // <- aplica al metronomo
-  } = useAudioEngine({ bpm, metronomoVolume, metronomoOn, playlist, sequenceVolume: masterVolume });
+  playSample,
+  startSequence,
+  stopSequence,
+  isPlaying,
+  visualSyncRef,
+  audioCtxRef,
+  setMasterVolume,
+  setMetronomeVolume,
+  isLoaded, // ✅ agregalo acá
+} = useAudioEngine({ bpm, metronomoVolume, metronomoOn, playlist, sequenceVolume: masterVolume });
 
   const handleStart = async () => {
-    if (!audioCtxRef.current) return;
-    await audioCtxRef.current.resume(); // desbloquear AudioContext
+    if (!audioCtxRef.current || !isLoaded) {
+      alert("⏳ Esperá un momento, los sonidos aún se están cargando.");
+      return;
+    }
+
+    if (audioCtxRef.current.state === "suspended") {
+      try {
+        await audioCtxRef.current.resume();
+      } catch (err) {
+        alert("⚠️ El audio está bloqueado por el navegador. Tocá la pantalla o interactuá para activarlo.");
+        return;
+      }
+    }
+
     startSequence();
   };
 
@@ -114,6 +127,12 @@ export default function RitmoPlaylist({ playlist, setPlaylist, initialBpm }) {
         >
           ▶️ Reproducir Secuencia
         </button>
+
+        {!isLoaded && (
+          <div className="text-orange-600 font-semibold mb-4">
+            ⏳ Cargando sonidos... Esperá un momento antes de reproducir.
+          </div>
+        )}
 
         <button
           className="px-4 py-2 bg-red-600 text-white rounded"
