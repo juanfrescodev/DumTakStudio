@@ -3,19 +3,64 @@
     "id": "baladi",
     "nombre": "Baladi",
     "pais": "Egipto",
-    "descripcion": "Danza popular egipcia, terrenal y emocional, con movimientos simples y conexión con la música.",
-    "elementos": ["Vestido largo", "Movimiento de cadera", "Improvisación", "Percusión Baladi"],
-    "video": "https://www.youtube.com/embed/0O6tN4gTTIE",
-    "imagen": "https://upload.wikimedia.org/wikipedia/commons/4/4f/Baladi_dancer_Egypt.jpg"
+    "descripcion": "Danza popular egipcia, terrenal y emocional, que representa al pueblo.",
+    "elementos": ["Galabeya larga", "Pañuelo en la cadera", "Movimiento de cadera", "Improvisación tanto en la danza como en la música", "Percusión Baladi"],
+    "video": "https://www.youtube.com/embed/m1j6xc0AgDk?si=ZruLb3A_Z6wKDZra",
+    "imagen": "https://i.ytimg.com/vi/XW97WXU6yKE/maxresdefault.jpg"
   },
   {
-    "id": "saidi",
-    "nombre": "Saidi",
-    "pais": "Egipto",
-    "descripcion": "Folklore del Alto Egipto, enérgico y masculino, con uso de bastón (tahtib).",
+    "id": "raqs Al Assaya",
+    "nombre": "Raqs Al Assaya",
+    "pais": "Alto Egipto",
+    "descripcion": "Danza del Alto Egipto, enérgico, con uso de bastón (assaya).",
     "elementos": ["Bastón", "Saltos", "Vestimenta tradicional", "Ritmo Saidi"],
     "video": "https://www.youtube.com/embed/OIOgkbE70Ao",
-    "imagen": "https://upload.wikimedia.org/wikipedia/commons/6/6e/Saidi_dance_with_stick.jpg"
+    "imagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRreorxLTSzNmhO_X0uLDrk0K8rKmRJutcl6w&s"
+  },
+  {
+    "id": "haggalla",
+    "nombre": "Hagalla",
+    "pais": "Egipto",
+    "descripcion": "Danza folklorica centrada en su caracteristico movimiento de cadera haggalla.",
+    "elementos": ["Movimientos llamativos de cadera", "movimiento realizado por mujeres"],
+    "video": "https://www.youtube.com/embed/bBnJLfZk-08?si=v6Q5QMo1wKq5zPui",
+    "imagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTAtOgZsxevZiwFJ5qGAkW3ejastf3LK1balw&s"
+  },
+  {
+    "id": "nubio",
+    "nombre": "Nubio",
+    "pais": "Sur de Egipto, Norte de Sudán",
+    "descripcion": "...",
+    "elementos": [],
+    "video": "https://www.youtube.com/embed/0y6B9K3XmjA?si=LnSsHKnN7MKsv2S3",
+    "imagen": "https://www.bolanosdj.com.ar/hebedeldesierto/CAPITULO7P2/CAPITULO7P2_archivos/nubio.jpg"
+  },
+    {
+    "id": "falahi",
+    "nombre": "Falahi",
+    "pais": "Norte de Egipto",
+    "descripcion": "Danza inspirada en los campesinos de la zona del delta de Egipto. Llevada al escenario por Mahmoud Reda",
+    "elementos": ["Jarrones", "Vasijas"],
+    "video": "https://www.youtube.com/embed/OhoYpAV6vBg?si=bWn7vHSbHXwNejUV",
+    "imagen": "https://conaleptiare.wordpress.com/wp-content/uploads/2012/07/fellahi21.jpg"
+  },
+    {
+    "id": "gawazee",
+    "nombre": "Gawazee",
+    "pais": "Alto Egipto",
+    "descripcion": "Grupo de bailarinas gitanas.",
+    "elementos": [],
+    "video": "https://www.youtube.com/embed/A8kOjzcM19w?si=10pp6eLoePSSAVk3",
+    "imagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYZ0d6jB_Np3vZlV_6bz7mjcFZs3Jb6m2RNQ&s"
+  },
+    {
+    "id": "shaabi",
+    "nombre": "Shaabi",
+    "pais": "Bajo Egipto",
+    "descripcion": "...",
+    "elementos": [],
+    "video": "",
+    "imagen": ""
   },
   {
     "id": "dabke",
@@ -52,15 +97,6 @@
     "elementos": ["Pañuelos", "Vestido colorido", "Percusión rápida", "Música Bandari"],
     "video": "https://www.youtube.com/embed/4YzK9KZK9gB",
     "imagen": "https://upload.wikimedia.org/wikipedia/commons/5/5e/Bandari_dance_Iran.jpg"
-  },
-  {
-    "id": "rom",
-    "nombre": "Rom (Gitano turco)",
-    "pais": "Turquía",
-    "descripcion": "Danza gitana turca con énfasis en cadera y torso, teatral y expresiva.",
-    "elementos": ["Falda amplia", "Castañuelas", "Improvisación", "Música Rom"],
-    "video": "https://www.youtube.com/embed/5YzK9KZK9gC",
-    "imagen": "https://upload.wikimedia.org/wikipedia/commons/9/9e/Romani_dancer_Turkey.jpg"
   },
   {
     "id": "raqsharki",
