@@ -12,6 +12,7 @@ import InstrumentosPage from "./pages/InstrumentosPage";
 import FamiliaInstrumentosPage from "./pages/FamiliaInstrumentosPage";
 import TriviaPage from "./pages/TriviaPage";
 import DonarPage from "./pages/DonarPage";
+import PracticeAssistant from "./pages/PracticeAssistant"; // ✅ NUEVO IMPORT
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <HashRouter>
@@ -26,6 +27,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <Route path="/instrumentos/:familia" element={<FamiliaInstrumentosPage />} />
       <Route path="/trivia" element={<TriviaPage />} />
       <Route path="/donar" element={<DonarPage />} />
+      <Route path="/practice" element={<PracticeAssistant />} /> {/* ✅ NUEVA RUTA */}
     </Routes>
   </HashRouter>
 );

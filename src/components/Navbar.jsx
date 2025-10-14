@@ -8,6 +8,7 @@ export default function Navbar() {
   const links = [
     { path: "/", label: "🏠 Inicio" },
     { path: "/secuenciador", label: "🎛️ Secuenciador" },
+    { path: "/practice", label: "🧠 Práctica" },
     { path: "/ritmos", label: "🥁 Ritmos" },
     { path: "/info-cultural", label: "🌍 Info Cultural" },
     { path: "/instrumentos", label: "🎶 Instrumentos" },
@@ -18,7 +19,10 @@ export default function Navbar() {
   return (
     <nav className="bg-white shadow sticky top-0 z-50">
       <div className="max-w-screen-lg mx-auto px-4 py-3 flex items-center justify-between">
-        <h1 className="text-xl font-bold text-yellow-700">Dumtak Studio</h1>
+        {/* 🔗 Título clickeable */}
+        <Link to="/" className="text-xl font-bold text-yellow-700 hover:underline">
+          Dumtak Studio
+        </Link>
 
         {/* Botón hamburguesa */}
         <button

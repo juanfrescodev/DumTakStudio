@@ -6,10 +6,12 @@ export default function useAudioEngine({
   metronomoVolume = 0.5,
   metronomoOn = true,
   playlist = [],
+  isMuted = true,
 }) {
   const audioCtxRef = useRef(null);
   const samplesRef = useRef({});
   const schedulerIdRef = useRef(null);
+  const [isMutedState, setIsMutedState] = useState(isMuted);
 
   const [isLoaded, setIsLoaded] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -18,10 +20,10 @@ export default function useAudioEngine({
   const visualSyncRef = useRef({
     startTime: 0,
     bpm: bpm,
-    currentStep: 0,
+    currentStep: 0, // ✅ ahora es global
     nextNoteTime: 0,
     currentRitmoIndex: 0,
-    compasesReproducidos: 0, // ✅ nuevo contador
+    compasesReproducidos: 0,
   });
 
   const masterGainRef = useRef(null);
@@ -29,6 +31,11 @@ export default function useAudioEngine({
 
   const baseUrl = import.meta.env.BASE_URL;
 
+  useEffect(() => {
+    visualSyncRef.current.bpm = bpm;
+  }, [bpm]);
+
+  
   useEffect(() => {
     audioCtxRef.current = new (window.AudioContext || window.webkitAudioContext)();
 
@@ -94,7 +101,7 @@ export default function useAudioEngine({
   const schedule = () => {
     if (!playlist.length || !audioCtxRef.current) return;
 
-    const secondsPerBeat = 60 / bpm;
+    const secondsPerBeat = 60 / visualSyncRef.current.bpm;
     const lookahead = 0.1;
 
     while (visualSyncRef.current.nextNoteTime < audioCtxRef.current.currentTime + lookahead) {
@@ -104,30 +111,31 @@ export default function useAudioEngine({
 
       const steps = ritmo.steps;
       const stepIndex = visualSyncRef.current.currentStep;
-      const step = steps[stepIndex];
+      const step = steps[stepIndex % steps.length]; // ✅ usar módulo para acceder al paso actual
 
       const now = performance.now();
       const delta = now - lastStepTime;
       lastStepTime = now;
 
-      const expectedStepDuration = (60 / bpm) / 4 * 1000; // en ms
+      const expectedStepDuration = (60 / bpm) / 4 * 1000;
 
       if (delta > expectedStepDuration * 1.5) {
         console.warn("⏱️ Glitch detectado:", delta.toFixed(2), "ms");
       }
 
-      if (step?.sound && samplesRef.current[step.sound]) {
+      if (!isMutedState && step?.sound && samplesRef.current[step.sound]) {
         playSample(step.sound, visualSyncRef.current.nextNoteTime, masterGainRef.current);
       }
 
-      if (metronomoOn && stepIndex % 4 === 0) {
+      if (metronomoGainRef.current?.gain.value > 0 && stepIndex % 4 === 0) {
         playSample("ritmos/click.wav", visualSyncRef.current.nextNoteTime, metronomoGainRef.current);
       }
 
+      // ✅ avanzar el paso globalmente
       visualSyncRef.current.currentStep++;
 
-      if (visualSyncRef.current.currentStep >= steps.length) {
-        visualSyncRef.current.currentStep = 0;
+      // ✅ detectar si se completó un compás
+      if (visualSyncRef.current.currentStep % steps.length === 0) {
         visualSyncRef.current.compasesReproducidos++;
 
         const compasesEsperados = ritmo.bars || 1;
@@ -156,10 +164,8 @@ export default function useAudioEngine({
     visualSyncRef.current.nextNoteTime = audioCtxRef.current.currentTime + 0.1;
     visualSyncRef.current.currentStep = 0;
     visualSyncRef.current.currentRitmoIndex = 0;
-    visualSyncRef.current.compasesReproducidos = 0; // ✅ reinicio
+    visualSyncRef.current.compasesReproducidos = 0;
     visualSyncRef.current.bpm = bpm;
-
-    schedulerIdRef.current = setInterval(schedule, 25);
   };
 
   const stopSequence = () => {
@@ -169,6 +175,18 @@ export default function useAudioEngine({
       schedulerIdRef.current = null;
     }
   };
+
+  useEffect(() => {
+    if (isPlaying) {
+      schedulerIdRef.current = setInterval(schedule, 25);
+    }
+    return () => {
+      if (schedulerIdRef.current) {
+        clearInterval(schedulerIdRef.current);
+        schedulerIdRef.current = null;
+      }
+    };
+  }, [isPlaying]);
 
   return {
     playSample,
@@ -180,5 +198,7 @@ export default function useAudioEngine({
     audioCtxRef,
     setMasterVolume,
     setMetronomeVolume,
+    setIsMuted: setIsMutedState,
+    isMuted: isMutedState,
   };
 }

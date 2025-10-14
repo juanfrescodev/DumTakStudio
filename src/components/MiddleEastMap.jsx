@@ -9,6 +9,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useState, useRef } from "react";
 import "leaflet/dist/leaflet.css";
+import estilosData from "../data/estilosData.json";
 
 export default function MiddleEastMap() {
   const navigate = useNavigate();
@@ -16,115 +17,23 @@ export default function MiddleEastMap() {
   const [busqueda, setBusqueda] = useState("");
   const [seleccionado, setSeleccionado] = useState(null);
 
-  // Estilos con ubicación puntual
-  const estilos = [
-    {
-      nombre: "Baladi",
-      region: "baladi",
-      coords: [30.0, 31.2],
-      descripcion: "Danza popular egipcia, terrenal y emocional.",
-      bandera: "🇪🇬"
-    },
-    {
-      nombre: "Kawleeya",
-      region: "kawleeya",
-      coords: [33.3, 44.4],
-      descripcion: "Estilo gitano iraquí con giros y cabello suelto.",
-      bandera: "🇮🇶"
-    },
-    {
-      nombre: "Bandari",
-      region: "bandari",
-      coords: [27.2, 56.3],
-      descripcion: "Danza costera iraní con ritmo alegre y pañuelos.",
-      bandera: "🇮🇷"
-    },
-    {
-      nombre: "Rom",
-      region: "rom",
-      coords: [39.9, 32.8],
-      descripcion: "Danza gitana turca con énfasis en cadera y torso.",
-      bandera: "🇹🇷"
-    },
-    {
-      nombre: "Raqs Sharqi",
-      region: "raqsharki",
-      coords: [30.1, 31.3],
-      descripcion: "Danza oriental clásica estilizada para escenario.",
-      bandera: "🇪🇬"
-    }
-  ];
-
-  // Estilos que abarcan regiones
-  const regiones = [
-    {
-      nombre: "Saidi",
-      region: "saidi",
-      zona: [
-        [26.0, 31.0],
-        [25.7, 32.5],
-        [25.0, 32.9],
-        [24.1, 32.9]
-      ],
-      color: "green",
-      descripcion: "Folklore del Alto Egipto con bastón y saltos.",
-      bandera: "🇪🇬"
-    },
-    {
-      nombre: "Dabke",
-      region: "dabke",
-      zona: [
-        [33.8, 35.5],
-        [32.0, 36.0],
-        [31.9, 35.9]
-      ],
-      color: "purple",
-      descripcion: "Danza grupal con pasos fuertes y unidad cultural.",
-      bandera: "🇱🇧 🇸🇾 🇵🇸 🇯🇴"
-    },
-    {
-      nombre: "Khaleegy",
-      region: "khaleegy",
-      zona: [
-        [24.7, 46.7],
-        [25.3, 55.3],
-        [29.3, 48.0]
-      ],
-      color: "orange",
-      descripcion: "Danza del Golfo con movimientos de cabello y manos.",
-      bandera: "🇸🇦 🇦🇪 🇰🇼"
-    }
-  ];
-
-  // Estilos globales sin ubicación
-  const estilosGlobales = [
-    {
-      nombre: "Tribal Fusión",
-      region: "tribal",
-      descripcion: "Fusión moderna con estética tribal y música electrónica.",
-      bandera: "🌍"
-    },
-    {
-      nombre: "Cabaret",
-      region: "cabaret",
-      descripcion: "Estilo escénico glamoroso con movimientos sensuales.",
-      bandera: "🌍"
-    }
-  ];
-
-  const handleClick = (region) => {
-    navigate(`/info-cultural/${region}`);
-  };
+  const estilosConCoords = estilosData.filter((e) => e.coords);
+  const estilosConZona = estilosData.filter((e) => e.zona);
+  const estilosSinUbicacion = estilosData.filter((e) => !e.coords && !e.zona);
 
   const todosEstilos = [
-    ...estilos.map((e) => ({ ...e, tipo: "local" })),
-    ...regiones.map((r) => ({ ...r, tipo: "regional" })),
-    ...estilosGlobales.map((g) => ({ ...g, tipo: "global" }))
+    ...estilosConCoords.map((e) => ({ ...e, tipo: "local" })),
+    ...estilosConZona.map((e) => ({ ...e, tipo: "regional" })),
+    ...estilosSinUbicacion.map((e) => ({ ...e, tipo: "global" }))
   ];
 
   const sugerencias = todosEstilos.filter((e) =>
     e.nombre.toLowerCase().includes(busqueda.toLowerCase())
   );
+
+  const handleClick = (region) => {
+    navigate(`/info-cultural/${region}`);
+  };
 
   const handleSeleccion = (estilo) => {
     setSeleccionado(estilo);
@@ -138,7 +47,7 @@ export default function MiddleEastMap() {
       <div className="mb-4">
         <input
           type="text"
-          placeholder="🔍 Buscar estilo..."
+          placeholder="🔍 Buscá un estilo musical, de danza o cultural..."
           value={busqueda}
           onChange={(e) => setBusqueda(e.target.value)}
           className="w-full max-w-md px-4 py-2 border rounded shadow-sm"
@@ -147,18 +56,18 @@ export default function MiddleEastMap() {
           <div className="bg-white border rounded shadow mt-2 max-w-md">
             {sugerencias.map((e) => (
               <div
-                key={e.region}
+                key={e.id}
                 className="px-4 py-2 hover:bg-yellow-100 cursor-pointer flex justify-between items-center"
                 onClick={() => handleSeleccion(e)}
               >
                 <div>
-                  <strong>{e.bandera} {e.nombre}</strong>
+                  <strong>{e.bandera || "🎭"} {e.nombre}</strong>
                   <div className="text-xs text-gray-600">{e.descripcion}</div>
                 </div>
                 <button
                   onClick={(ev) => {
                     ev.stopPropagation();
-                    handleClick(e.region);
+                    handleClick(e.id);
                   }}
                   className="bg-yellow-300 hover:bg-yellow-400 text-xs px-2 py-1 rounded"
                 >
@@ -173,13 +82,13 @@ export default function MiddleEastMap() {
       {/* Leyenda visual */}
       <div className="mb-4 flex gap-6 text-sm">
         <div className="flex items-center gap-2">
-          <span className="w-4 h-4 bg-purple-500 rounded-sm"></span> Regional
+          <span className="w-4 h-4 bg-purple-500 rounded-sm"></span> Zona regional (varios países)
         </div>
         <div className="flex items-center gap-2">
-          <span className="w-4 h-4 bg-blue-500 rounded-full"></span> Local
+          <span className="w-4 h-4 bg-blue-500 rounded-full"></span> Estilo local (una ciudad o región)
         </div>
         <div className="flex items-center gap-2">
-          <span className="w-4 h-4 bg-gray-400 rounded"></span> Global
+          <span className="w-4 h-4 bg-gray-400 rounded"></span> Estilo global (sin ubicación fija)
         </div>
       </div>
 
@@ -196,12 +105,11 @@ export default function MiddleEastMap() {
           attribution='&copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors'
         />
 
-        {/* Marcadores individuales */}
-        {estilos.map(({ nombre, region, coords, descripcion }) => (
+        {estilosConCoords.map(({ nombre, id, coords, descripcion }) => (
           <Marker
-            key={region}
+            key={id}
             position={coords}
-            eventHandlers={{ click: () => handleClick(region) }}
+            eventHandlers={{ click: () => handleClick(id) }}
           >
             <Popup>{nombre}</Popup>
             <Tooltip direction="top" offset={[0, -10]} opacity={1}>
@@ -214,13 +122,12 @@ export default function MiddleEastMap() {
           </Marker>
         ))}
 
-        {/* Zonas regionales */}
-        {regiones.map(({ nombre, region, zona, color, descripcion }) => (
+        {estilosConZona.map(({ nombre, id, zona, color = "purple", descripcion }) => (
           <Polygon
-            key={region}
+            key={id}
             positions={zona}
             pathOptions={{ color, fillOpacity: 0.3 }}
-            eventHandlers={{ click: () => handleClick(region) }}
+            eventHandlers={{ click: () => handleClick(id) }}
           >
             <Tooltip direction="center" opacity={1}>
               <div className="text-center">
@@ -232,18 +139,17 @@ export default function MiddleEastMap() {
           </Polygon>
         ))}
       </MapContainer>
-
       {/* Estilos globales */}
       <div className="mt-8">
         <h2 className="text-xl font-semibold mb-2">🌍 Estilos globales</h2>
         <div className="flex flex-wrap gap-4">
-          {estilosGlobales.map(({ nombre, region, descripcion, bandera }) => (
+          {estilosSinUbicacion.map(({ nombre, id, descripcion, bandera }) => (
             <button
-              key={region}
-              onClick={() => handleClick(region)}
+              key={id}
+              onClick={() => handleClick(id)}
               className="bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded shadow text-left w-full sm:w-auto"
             >
-              <strong>{bandera} {nombre}</strong>
+              <strong>{bandera || "🌍"} {nombre}</strong>
               <br />
               <span className="text-xs text-gray-600">{descripcion}</span>
             </button>

@@ -90,11 +90,13 @@ export default function RitmoTriviaSteps() {
 
   const generarNuevaPregunta = () => {
     const nivelActual = modoDuelo ? nivelDuelo[jugadorActual] : nivel;
-    const dificultadPermitida = nivelActual === 1
-      ? ["facil"]
-      : nivelActual === 2
-      ? ["facil", "intermedio"]
-      : ["facil", "intermedio", "dificil"];
+
+    const dificultadPermitida =
+      nivelActual === 1
+        ? ["facil"]
+        : nivelActual === 2
+        ? ["facil", "intermedio"]
+        : ["facil", "intermedio", "dificil"];
 
     const ritmosValidos = ritmosConRutas.filter((r) =>
       dificultadPermitida.includes(r.dificultad) &&
@@ -103,6 +105,22 @@ export default function RitmoTriviaSteps() {
 
     const elegido = ritmosValidos[Math.floor(Math.random() * ritmosValidos.length)];
 
+    // 🔀 Elegir modo aleatorio (base o arreglo) solo una vez
+    const variantes = elegido.variantes;
+    let modoTrivia = "base";
+
+    if (variantes?.base?.steps && variantes?.arreglo?.steps) {
+      modoTrivia = Math.random() < 0.5 ? "base" : "arreglo";
+    } else if (variantes?.arreglo?.steps) {
+      modoTrivia = "arreglo";
+    } else if (variantes?.base?.steps) {
+      modoTrivia = "base";
+    }
+
+    // 🧠 Guardar ritmo con modoTrivia fijo
+    setCurrentRitmo({ ...elegido, modoTrivia });
+
+    // 🧩 Generar opciones
     const opciones = [elegido];
     while (opciones.length < 4) {
       const candidato = ritmosValidos[Math.floor(Math.random() * ritmosValidos.length)];
@@ -111,11 +129,11 @@ export default function RitmoTriviaSteps() {
       }
     }
 
-    setCurrentRitmo(elegido);
     setOptions(shuffleArray(opciones));
     setSelected(null);
     setFeedback("");
   };
+
 
   const shuffleArray = (arr) => [...arr].sort(() => Math.random() - 0.5);
 
@@ -141,8 +159,8 @@ export default function RitmoTriviaSteps() {
     if (nivelActual === 1 && variantes?.base?.steps) {
       steps = variantes.base.steps;
     } else if (variantes?.base?.steps && variantes?.arreglo?.steps) {
-      const modo = Math.random() < 0.5 ? "base" : "arreglo";
-      steps = variantes[modo].steps;
+      const modo = currentRitmo.modoTrivia || "base";
+      steps = variantes?.[modo]?.steps || currentRitmo.steps;
     } else if (variantes?.base?.steps) {
       steps = variantes.base.steps;
     } else if (currentRitmo.steps) {
@@ -319,42 +337,42 @@ export default function RitmoTriviaSteps() {
   };
 
   return (
-    <div className={`${fondoPorNivel[nivel]} rounded-2xl shadow-xl p-6 max-w-xl w-full mt-10`}>
-      <h2 className="text-2xl font-bold mb-4 text-gray-800">🎧 ¿Qué ritmo estás escuchando?</h2>
+  <div className={`${fondoPorNivel[nivel]} rounded-2xl shadow-xl p-6 max-w-xl w-full mt-10`}>
+    <h2 className="text-2xl font-bold mb-4 text-gray-800">🎧 ¿Qué ritmo estás escuchando?</h2>
 
-      {!juegoTerminado && (
-        <>
-          {animarNivel && (
-            <p className="text-xl font-bold text-center text-green-600 mb-4 animate-bounce">
-              🎉 ¡Nivel {nivel} desbloqueado!
-            </p>
-          )}
+    {!juegoTerminado && (
+      <>
+        {animarNivel && (
+          <p className="text-xl font-bold text-center text-green-600 mb-4 animate-bounce">
+            🎉 ¡Nivel {nivel} desbloqueado! Seguí avanzando.
+          </p>
+        )}
 
-          <div className="mb-4">
-            <label className="mr-4 font-semibold">Modo de juego:</label>
-            <button
-              onClick={() => setModoDuelo(false)}
-              className={`px-3 py-1 rounded ${!modoDuelo ? "bg-blue-600 text-white" : "bg-gray-200"}`}
-            >
-              Individual
-            </button>
-            <button
-              onClick={() => setModoDuelo(true)}
-              className={`px-3 py-1 rounded ml-2 ${modoDuelo ? "bg-blue-600 text-white" : "bg-gray-200"}`}
-            >
-              Duelo
-            </button>
-          </div>
+        <div className="mb-4">
+          <label className="mr-4 font-semibold">Modo de juego:</label>
+          <button
+            onClick={() => setModoDuelo(false)}
+            className={`px-3 py-1 rounded ${!modoDuelo ? "bg-blue-600 text-white" : "bg-gray-200"}`}
+          >
+            Individual
+          </button>
+          <button
+            onClick={() => setModoDuelo(true)}
+            className={`px-3 py-1 rounded ml-2 ${modoDuelo ? "bg-blue-600 text-white" : "bg-gray-200"}`}
+          >
+            Duelo
+          </button>
+        </div>
 
-          <div className="w-full bg-gray-200 rounded-full h-4 mb-4">
-            <div
-              className="bg-green-500 h-4 rounded-full transition-all duration-500"
-              style={{ width: `${(aciertos % 5) * 20}%` }}
-            />
-          </div>
+        <div className="w-full bg-gray-200 rounded-full h-4 mb-4">
+          <div
+            className="bg-green-500 h-4 rounded-full transition-all duration-500"
+            style={{ width: `${(aciertos % 5) * 20}%` }}
+          />
+        </div>
 
-          {modoDuelo ? (
-            <div className="mb-4 text-center font-medium">
+        {modoDuelo ? (
+          <div className="mb-4 text-center font-medium">
             🎮 Turno de Jugador {jugadorActual}
             {animarNivelDuelo[jugadorActual] && (
               <p className="text-green-600 font-bold text-center animate-bounce mt-2">
@@ -371,139 +389,139 @@ export default function RitmoTriviaSteps() {
                 ❤️ {vidasDuelo[2]} | 🏆 {puntajesDuelo[2]} | 🔢 Nivel: {nivelDuelo[2]}
               </div>
             </div>
-              <p className="text-sm text-gray-700 mt-1">
-                🔢 Nivel: {nivelDuelo[jugadorActual]}
-              </p>
-            </div>
-            
-          ) : (
-            <p className="text-lg font-medium mb-2">
-              ❤️ Vidas: {vidas} | 🏆 Puntaje: {puntaje} | 🔢 Nivel: {nivel}
+            <p className="text-sm text-gray-700 mt-1">
+              🔢 Nivel actual: {nivelDuelo[jugadorActual]}
             </p>
-          )}
-
-          {mostrarLogro && (
-            <div className="text-center text-yellow-500 text-xl font-bold animate-bounce mb-4">
-              {mostrarLogro}
-            </div>
-          )}
-
-          <button
-            onClick={playSequence}
-            disabled={!audioReady}
-            className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 font-semibold mb-6"
-          >
-            ▶️ Reproducir ritmo
-          </button>
-
-          <div className="grid grid-cols-2 gap-4 mb-4">
-            {options.map((r) => (
-              <button
-                key={r.id}
-                onClick={() => handleSelect(r.id)}
-                disabled={!!selected}
-                className={`px-4 py-2 rounded-lg font-semibold text-white transition ${
-                  selected
-                    ? r.id === currentRitmo.id
-                      ? "bg-green-600"
-                      : r.id === selected
-                      ? "bg-red-500"
-                      : "bg-gray-400"
-                    : "bg-orange-600 hover:bg-orange-700"
-                }`}
-              >
-                {r.nombre}
-              </button>
-            ))}
           </div>
-          {feedback && (
-            <p className="text-lg font-medium text-center mb-4">{feedback}</p>
-          )}
+        ) : (
+          <p className="text-lg font-medium mb-2">
+            ❤️ Vidas: {vidas} | 🏆 Puntaje: {puntaje} | 🔢 Nivel: {nivel}
+          </p>
+        )}
 
-          <button
-            onClick={generarNuevaPregunta}
-            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 font-semibold"
-          >
-            Siguiente
-          </button>
-        </>
-      )}
+        {mostrarLogro && (
+          <div className="text-center text-yellow-500 text-xl font-bold animate-bounce mb-4">
+            {mostrarLogro}
+          </div>
+        )}
 
-      {juegoTerminado && (
-        <div className="mt-6">
-          {modoDuelo ? (
-            <>
-              <p className="text-xl font-bold text-center mb-4">🎮 Duelo terminado</p>
-              <p className="text-lg text-center mb-2">Jugador 1: {puntajesDuelo[1]} pts</p>
-              <p className="text-lg text-center mb-2">Jugador 2: {puntajesDuelo[2]} pts</p>
-              <p className="text-center font-bold text-green-600">
-                🏆 Ganador: {puntajesDuelo[1] > puntajesDuelo[2] ? "Jugador 1" : puntajesDuelo[1] < puntajesDuelo[2] ? "Jugador 2" : "Empate"}
-              </p>
+        <button
+          onClick={playSequence}
+          disabled={!audioReady}
+          className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 font-semibold mb-6"
+        >
+          ▶️ Escuchar ritmo
+        </button>
 
-              <button
-                onClick={() => {
-                  setPuntajesDuelo({ 1: 0, 2: 0 });
-                  setVidasDuelo({ 1: 3, 2: 3 });
-                  setJugadorActual(1);
-                  setJuegoTerminado(false);
-                  generarNuevaPregunta();
-                }}
-                className="mt-6 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 font-semibold"
-              >
-                🔁 Volver a jugar
-              </button>
-            </>
-          ) : (
-            <>
-              <p className="text-xl font-bold text-center mb-4">🎮 Juego terminado</p>
-              <p className="text-lg text-center mb-2">Tu puntaje final: {puntaje}</p>
-              <input
-                type="text"
-                placeholder="Tu nombre"
-                value={nombreJugador}
-                onChange={(e) => setNombreJugador(e.target.value)}
-                className="w-full px-4 py-2 border rounded mb-4"
-              />
-              <button
-                onClick={enviarPuntaje}
-                disabled={!nombreJugador}
-                className="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700 font-semibold mb-6"
-              >
-                Guardar puntaje
-              </button>
-
-              <h3 className="text-xl font-bold mb-2 text-center">🏅 Ranking Top 10</h3>
-              <ul className={`rounded p-4 ${
-                nivel === 3 ? "bg-gray-800 text-white border border-gray-600" : "bg-gray-100 text-black"
-              }`}>
-                {ranking.map((r, i) => (
-                  <li key={r._id} className="flex justify-between py-1 px-2 border-b border-gray-400">
-                    <span>{i + 1}. {r.nombre}</span>
-                    <span>{r.puntaje} pts</span>
-                  </li>
-                ))}
-              </ul>
-
-              <button
-                onClick={() => {
-                  setPuntaje(0);
-                  setVidas(3);
-                  setNivel(1);
-                  setAciertos(0);
-                  setJuegoTerminado(false);
-                  setRanking([]);
-                  generarNuevaPregunta();
-                }}
-                className="mt-6 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 font-semibold"
-              >
-                🔁 Volver a jugar
-              </button>
-            </>
-          )}
+        <div className="grid grid-cols-2 gap-4 mb-4">
+          {options.map((r) => (
+            <button
+              key={r.id}
+              onClick={() => handleSelect(r.id)}
+              disabled={!!selected}
+              className={`px-4 py-2 rounded-lg font-semibold text-white transition ${
+                selected
+                  ? r.id === currentRitmo.id
+                    ? "bg-green-600"
+                    : r.id === selected
+                    ? "bg-red-500"
+                    : "bg-gray-400"
+                  : "bg-orange-600 hover:bg-orange-700"
+              }`}
+            >
+              {r.nombre}
+            </button>
+          ))}
         </div>
-      )}
 
-    </div>
-  );
+        {feedback && (
+          <p className="text-lg font-medium text-center mb-4">{feedback}</p>
+        )}
+
+        <button
+          onClick={generarNuevaPregunta}
+          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 font-semibold"
+        >
+          ➡️ Siguiente pregunta
+        </button>
+      </>
+    )}
+
+    {juegoTerminado && (
+      <div className="mt-6">
+        {modoDuelo ? (
+          <>
+            <p className="text-xl font-bold text-center mb-4">🎮 Duelo terminado</p>
+            <p className="text-lg text-center mb-2">Jugador 1: {puntajesDuelo[1]} pts</p>
+            <p className="text-lg text-center mb-2">Jugador 2: {puntajesDuelo[2]} pts</p>
+            <p className="text-center font-bold text-green-600">
+              🏆 Ganador: {puntajesDuelo[1] > puntajesDuelo[2] ? "Jugador 1" : puntajesDuelo[1] < puntajesDuelo[2] ? "Jugador 2" : "Empate"}
+            </p>
+
+            <button
+              onClick={() => {
+                setPuntajesDuelo({ 1: 0, 2: 0 });
+                setVidasDuelo({ 1: 3, 2: 3 });
+                setJugadorActual(1);
+                setJuegoTerminado(false);
+                generarNuevaPregunta();
+              }}
+              className="mt-6 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 font-semibold"
+            >
+              🔁 Volver a jugar
+            </button>
+          </>
+        ) : (
+          <>
+            <p className="text-xl font-bold text-center mb-4">🎮 Juego terminado</p>
+            <p className="text-lg text-center mb-2">Tu puntaje final: {puntaje}</p>
+            <input
+              type="text"
+              placeholder="Escribí tu nombre para guardar el puntaje"
+              value={nombreJugador}
+              onChange={(e) => setNombreJugador(e.target.value)}
+              className="w-full px-4 py-2 border rounded mb-4"
+            />
+            <button
+              onClick={enviarPuntaje}
+              disabled={!nombreJugador}
+              className="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700 font-semibold mb-6"
+            >
+              💾 Guardar puntaje
+            </button>
+
+            <h3 className="text-xl font-bold mb-2 text-center">🏅 Ranking Top 10</h3>
+            <ul className={`rounded p-4 ${
+              nivel === 3 ? "bg-gray-800 text-white border border-gray-600" : "bg-gray-100 text-black"
+            }`}>
+              {ranking.map((r, i) => (
+                <li key={r._id} className="flex justify-between py-1 px-2 border-b border-gray-400">
+                  <span>{i + 1}. {r.nombre}</span>
+                  <span>{r.puntaje} pts</span>
+                </li>
+              ))}
+            </ul>
+
+            <button
+              onClick={() => {
+                setPuntaje(0);
+                setVidas(3);
+                setNivel(1);
+                setAciertos(0);
+                setJuegoTerminado(false);
+                setRanking([]);
+                generarNuevaPregunta();
+              }}
+              className="mt-6 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 font-semibold"
+            >
+              🔁 Volver a jugar
+            </button>
+          </>
+        )}
+      </div>
+    )}
+  </div>
+);
+
 }
 

@@ -28,19 +28,17 @@ export default function TriviaPage() {
     <div className="min-h-screen bg-gradient-to-b from-yellow-50 to-orange-100">
       <Navbar />
       <div className="px-4 py-8 max-w-screen-sm mx-auto">
-        {/* contenido de la trivia */}    
-    <div className="min-h-screen bg-gradient-to-b from-yellow-50 to-orange-100 px-4 py-8">
-      <div className="max-w-screen-sm mx-auto">
         <h1 className="text-3xl font-bold text-center mb-6">❓ Trivia de Ritmos</h1>
-        <p className="text-center mb-4 text-gray-700">
-          Poné a prueba tus conocimientos sobre ritmos, instrumentos y cultura musical.
+
+        <p className="text-center mb-4 text-gray-700 text-sm">
+          Poné a prueba tu oído, memoria y conocimiento sobre ritmos árabes, instrumentos y cultura musical. Cada pregunta te ayuda a aprender mientras jugás.
         </p>
 
         {/* Ranking */}
         <div className="bg-white rounded-xl shadow p-4 mb-6">
           <h2 className="text-xl font-semibold mb-4 text-center">🏆 Mejores jugadores</h2>
           {loading ? (
-            <p className="text-center text-gray-500">Cargando ranking...</p>
+            <p className="text-center text-gray-500">⏳ Cargando ranking...</p>
           ) : ranking.length > 0 ? (
             <ul className="space-y-2">
               {ranking.map((jugador, index) => (
@@ -56,12 +54,16 @@ export default function TriviaPage() {
               ))}
             </ul>
           ) : (
-            <p className="text-center text-gray-500">No hay puntajes registrados aún.</p>
+            <p className="text-center text-gray-500">No hay puntajes registrados aún. ¡Sé el primero en jugar!</p>
           )}
         </div>
 
         {/* Componente de trivia */}
         <div className="bg-white rounded-xl shadow p-4">
+          <h2 className="text-lg font-semibold mb-2 text-center">🎯 Comenzá el desafío</h2>
+          <p className="text-sm text-gray-600 mb-4 text-center">
+            Respondé preguntas sobre ritmos y estilos. Cada respuesta correcta suma puntos. ¡Jugá, aprendé y subí en el ranking!
+          </p>
           <RitmoTrivia />
         </div>
 
@@ -70,8 +72,6 @@ export default function TriviaPage() {
             ← Volver al inicio
           </a>
         </div>
-      </div>
-    </div>
       </div>
     </div>
   );

@@ -8,19 +8,26 @@ export default function RitmoPlaylist({ playlist, setPlaylist, initialBpm }) {
   const [bpm, setBpm] = useState(initialBpm);
   const [metronomoOn, setMetronomoOn] = useState(true);
   const [metronomoVolume, setMetronomoVolume] = useState(0.5);
-  const [masterVolume, setMasterVolumeState] = useState(1); // volumen global de la secuencia
+  const [masterVolume, setMasterVolumeState] = useState(1);
 
   const {
-  playSample,
-  startSequence,
-  stopSequence,
-  isPlaying,
-  visualSyncRef,
-  audioCtxRef,
-  setMasterVolume,
-  setMetronomeVolume,
-  isLoaded, // ✅ agregalo acá
-} = useAudioEngine({ bpm, metronomoVolume, metronomoOn, playlist, sequenceVolume: masterVolume });
+    playSample,
+    startSequence,
+    stopSequence,
+    isPlaying,
+    visualSyncRef,
+    audioCtxRef,
+    setMasterVolume,
+    setMetronomeVolume,
+    isLoaded,
+  } = useAudioEngine({
+    bpm,
+    metronomoVolume,
+    metronomoOn,
+    playlist,
+    sequenceVolume: masterVolume,
+    isMuted: false,
+  });
 
   const handleStart = async () => {
     if (!audioCtxRef.current || !isLoaded) {
@@ -43,21 +50,25 @@ export default function RitmoPlaylist({ playlist, setPlaylist, initialBpm }) {
   const handleMasterVolumeChange = (e) => {
     const newVol = Number(e.target.value);
     setMasterVolumeState(newVol);
-    setMasterVolume(newVol); // aplica al master gain inmediatamente
+    setMasterVolume(newVol);
   };
 
   const handleMetronomeVolumeChange = (e) => {
     const newVol = Number(e.target.value);
     setMetronomoVolume(newVol);
-    setMetronomeVolume(newVol); // aplica al metronomo inmediatamente
+    setMetronomeVolume(newVol);
   };
 
   return (
     <div className="p-4 bg-white rounded-xl shadow-lg">
       <h2 className="text-xl font-bold mb-4">🔁 Secuencia personalizada</h2>
 
+      <p className="text-sm text-gray-700 mb-6">
+        Ajustá el tempo, el volumen general y el volumen del metrónomo. Reproducí tu secuencia para practicar, ensayar o visualizar cómo se combinan los ritmos.
+      </p>
+
       <div className="flex items-center gap-4 mb-6">
-        <label className="font-medium">🎚️ BPM:</label>
+        <label className="font-medium">🎚️ Tempo (BPM):</label>
         <input
           type="range"
           min="40"
@@ -69,9 +80,8 @@ export default function RitmoPlaylist({ playlist, setPlaylist, initialBpm }) {
         <span className="font-mono text-lg">{bpm}</span>
       </div>
 
-
       <div className="flex items-center gap-4 mb-6">
-        <label className="font-medium">🔊 Volumen Secuencia:</label>
+        <label className="font-medium">🔊 Volumen general:</label>
         <input
           type="range"
           min="0"
@@ -85,7 +95,7 @@ export default function RitmoPlaylist({ playlist, setPlaylist, initialBpm }) {
       </div>
 
       <div className="flex items-center gap-4 mb-6">
-        <label className="font-medium">🔔 Volumen Metronomo:</label>
+        <label className="font-medium">🔔 Volumen del metrónomo:</label>
         <input
           type="range"
           min="0"
@@ -101,7 +111,7 @@ export default function RitmoPlaylist({ playlist, setPlaylist, initialBpm }) {
       <div className="mb-4">
         <h3 className="text-lg font-semibold mb-2">🧾 Ritmos en la secuencia:</h3>
         {playlist.length === 0 ? (
-          <p className="text-gray-500 italic">No hay ritmos agregados.</p>
+          <p className="text-gray-500 italic">Todavía no agregaste ritmos. Usá el selector para armar tu secuencia.</p>
         ) : (
           <div className="flex flex-wrap gap-4">
             {playlist.map((r, i) => (
@@ -120,25 +130,25 @@ export default function RitmoPlaylist({ playlist, setPlaylist, initialBpm }) {
         )}
       </div>
 
-      <div className="flex gap-4">
+      <div className="flex gap-4 mt-4">
         <button
-          className="px-4 py-2 bg-green-600 text-white rounded"
+          className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition"
           onClick={handleStart}
         >
-          ▶️ Reproducir Secuencia
+          ▶️ Reproducir secuencia
         </button>
 
         {!isLoaded && (
-          <div className="text-orange-600 font-semibold mb-4">
+          <div className="text-orange-600 font-semibold mt-2">
             ⏳ Cargando sonidos... Esperá un momento antes de reproducir.
           </div>
         )}
 
         <button
-          className="px-4 py-2 bg-red-600 text-white rounded"
+          className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition"
           onClick={stopSequence}
         >
-          ⏹️ Detener Secuencia
+          ⏹️ Detener secuencia
         </button>
       </div>
     </div>

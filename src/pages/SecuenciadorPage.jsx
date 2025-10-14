@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import RitmoPlaylist from "../components/RitmoPlaylist";
 import ritmosData from "../data/ritmos.json";
 
-
 export default function SecuenciadorPage() {
   useEffect(() => {
     fetch("https://ritmos-backend.onrender.com/ping")
@@ -28,21 +27,16 @@ export default function SecuenciadorPage() {
     const ritmo = ritmosData.find((r) => r.id === selectedRitmo);
     if (!ritmo) return;
 
-    // buscamos los steps del modo base
     const steps = ritmo.variantes?.base?.steps || ritmo.steps || [];
 
-    // ⚠️ normalizamos paths para que coincidan con useAudioEngine
     const normalizedSteps = steps.map((s) => {
       if (!s.sound) return s;
-
-      // Si empieza con "/" → le saco el slash y lo meto en "ritmos/"
       const clean = s.sound.startsWith("/") ? s.sound.slice(1) : s.sound;
       return {
         ...s,
         sound: `ritmos/${clean}`
       };
     });
-
 
     setPlaylist((prev) => [
       ...prev,
@@ -56,8 +50,12 @@ export default function SecuenciadorPage() {
       <div className="max-w-screen-sm w-full mx-auto px-4 py-6 flex flex-col items-center">
         <h1 className="text-3xl font-bold mb-6 text-center">🎛️ Secuenciador</h1>
 
+        <p className="text-center text-gray-700 mb-4 text-sm max-w-md">
+          Combiná ritmos y compases para crear tu propia secuencia. Ideal para ensayar, coreografiar o enseñar con precisión musical. Podés ajustar el número de compases y escuchar el resultado.
+        </p>
+
         <div className="bg-white rounded-xl shadow p-4 mb-6 w-full">
-          <h2 className="text-lg font-bold mb-2">🧩 Armá tu secuencia</h2>
+          <h2 className="text-lg font-bold mb-2">🧩 Armá tu secuencia personalizada</h2>
           <div className="flex flex-wrap gap-4 items-center">
             <select
               value={selectedRitmo}
@@ -71,19 +69,22 @@ export default function SecuenciadorPage() {
               ))}
             </select>
 
-            <input
-              type="number"
-              min="1"
-              value={bars}
-              onChange={(e) => setBars(Number(e.target.value))}
-              className="p-2 rounded border w-20"
-            />
+            <div className="flex flex-col">
+              <label className="text-sm text-gray-600 mb-1">Compases:</label>
+              <input
+                type="number"
+                min="1"
+                value={bars}
+                onChange={(e) => setBars(Number(e.target.value))}
+                className="p-2 rounded border w-20"
+              />
+            </div>
 
             <button
-              className="px-4 py-2 bg-blue-600 text-white rounded"
+              className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
               onClick={addToPlaylist}
             >
-              Agregar
+              ➕ Agregar a la secuencia
             </button>
           </div>
         </div>

@@ -6,7 +6,9 @@
     "descripcion": "Danza popular egipcia, terrenal y emocional, que representa al pueblo.",
     "elementos": ["Galabeya larga", "Pañuelo en la cadera", "Movimiento de cadera", "Improvisación tanto en la danza como en la música", "Percusión Baladi"],
     "video": "https://www.youtube.com/embed/m1j6xc0AgDk?si=ZruLb3A_Z6wKDZra",
-    "imagen": "https://i.ytimg.com/vi/XW97WXU6yKE/maxresdefault.jpg"
+    "imagen": "https://i.ytimg.com/vi/XW97WXU6yKE/maxresdefault.jpg",
+    "coords": [30.0, 31.2],
+    "bandera": "🇪🇬"
   },
   {
     "id": "raqs Al Assaya",
@@ -15,7 +17,9 @@
     "descripcion": "Danza del Alto Egipto, enérgico, con uso de bastón (assaya).",
     "elementos": ["Bastón", "Saltos", "Vestimenta tradicional", "Ritmo Saidi"],
     "video": "https://www.youtube.com/embed/OIOgkbE70Ao",
-    "imagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRreorxLTSzNmhO_X0uLDrk0K8rKmRJutcl6w&s"
+    "imagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRreorxLTSzNmhO_X0uLDrk0K8rKmRJutcl6w&s",
+    "zona": [[26.0, 31.0], [25.7, 32.5], [25.0, 32.9], [24.1, 32.9]],
+    "bandera": "🇪🇬"
   },
   {
     "id": "haggalla",
@@ -24,7 +28,9 @@
     "descripcion": "Danza folklorica centrada en su caracteristico movimiento de cadera haggalla.",
     "elementos": ["Movimientos llamativos de cadera", "movimiento realizado por mujeres"],
     "video": "https://www.youtube.com/embed/bBnJLfZk-08?si=v6Q5QMo1wKq5zPui",
-    "imagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTAtOgZsxevZiwFJ5qGAkW3ejastf3LK1balw&s"
+    "imagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTAtOgZsxevZiwFJ5qGAkW3ejastf3LK1balw&s",
+    "coords": [30.1, 31.3],
+    "bandera": "🇪🇬"
   },
   {
     "id": "nubio",
@@ -33,34 +39,42 @@
     "descripcion": "...",
     "elementos": [],
     "video": "https://www.youtube.com/embed/0y6B9K3XmjA?si=LnSsHKnN7MKsv2S3",
-    "imagen": "https://www.bolanosdj.com.ar/hebedeldesierto/CAPITULO7P2/CAPITULO7P2_archivos/nubio.jpg"
+    "imagen": "https://www.bolanosdj.com.ar/hebedeldesierto/CAPITULO7P2/CAPITULO7P2_archivos/nubio.jpg",
+    "zona": [[21.5, 30.0], [21.0, 31.5], [20.5, 32.0]],
+    "bandera": "🇪🇬 🇸🇩"
   },
-    {
+  {
     "id": "falahi",
     "nombre": "Falahi",
     "pais": "Norte de Egipto",
     "descripcion": "Danza inspirada en los campesinos de la zona del delta de Egipto. Llevada al escenario por Mahmoud Reda",
     "elementos": ["Jarrones", "Vasijas"],
     "video": "https://www.youtube.com/embed/OhoYpAV6vBg?si=bWn7vHSbHXwNejUV",
-    "imagen": "https://conaleptiare.wordpress.com/wp-content/uploads/2012/07/fellahi21.jpg"
+    "imagen": "https://conaleptiare.wordpress.com/wp-content/uploads/2012/07/fellahi21.jpg",
+    "coords": [31.0, 31.2],
+    "bandera": "🇪🇬"
   },
-    {
+  {
     "id": "gawazee",
     "nombre": "Gawazee",
     "pais": "Alto Egipto",
     "descripcion": "Grupo de bailarinas gitanas.",
     "elementos": [],
     "video": "https://www.youtube.com/embed/A8kOjzcM19w?si=10pp6eLoePSSAVk3",
-    "imagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYZ0d6jB_Np3vZlV_6bz7mjcFZs3Jb6m2RNQ&s"
+    "imagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYZ0d6jB_Np3vZlV_6bz7mjcFZs3Jb6m2RNQ&s",
+    "coords": [25.5, 32.0],
+    "bandera": "🇪🇬"
   },
-    {
+  {
     "id": "shaabi",
     "nombre": "Shaabi",
     "pais": "Bajo Egipto",
     "descripcion": "...",
     "elementos": [],
     "video": "",
-    "imagen": ""
+    "imagen": "",
+    "coords": [30.2, 31.3],
+    "bandera": "🇪🇬"
   },
   {
     "id": "dabke",
@@ -69,7 +83,9 @@
     "descripcion": "Danza grupal con pasos fuertes, saltos y unidad comunitaria. Muy presente en celebraciones.",
     "elementos": ["Grupo", "Saltos", "Zapatillas", "Música Dabke"],
     "video": "https://www.youtube.com/embed/0vFqzYqjJqI",
-    "imagen": "https://upload.wikimedia.org/wikipedia/commons/3/3e/Dabke_dancers_Palestine.jpg"
+    "imagen": "https://upload.wikimedia.org/wikipedia/commons/3/3e/Dabke_dancers_Palestine.jpg",
+    "zona": [[33.8, 35.5], [32.0, 36.0], [31.9, 35.9]],
+    "bandera": "🇱🇧 🇸🇾 🇵🇸 🇯🇴"
   },
   {
     "id": "kawleeya",
@@ -78,7 +94,9 @@
     "descripcion": "Estilo gitano iraquí con cabello suelto, giros rápidos y expresividad intensa.",
     "elementos": ["Cabello suelto", "Vestido ajustado", "Giros", "Música Kawleeya"],
     "video": "https://www.youtube.com/embed/2X2gZ5KZK9g",
-    "imagen": "https://upload.wikimedia.org/wikipedia/commons/7/7f/Kawleeya_dancer_Iraq.jpg"
+    "imagen": "https://upload.wikimedia.org/wikipedia/commons/7/7f/Kawleeya_dancer_Iraq.jpg",
+    "coords": [33.3, 44.4],
+    "bandera": "🇮🇶"
   },
   {
     "id": "khaleegy",
@@ -87,7 +105,9 @@
     "descripcion": "Danza del Golfo con movimientos de cabello y manos, usada en bodas y celebraciones.",
     "elementos": ["Thobe", "Cabello largo", "Movimientos ondulantes", "Música Khaleegy"],
     "video": "https://www.youtube.com/embed/1YzK9KZK9gA",
-    "imagen": "https://upload.wikimedia.org/wikipedia/commons/2/2e/Khaleegy_dance_Gulf.jpg"
+    "imagen": "https://upload.wikimedia.org/wikipedia/commons/2/2e/Khaleegy_dance_Gulf.jpg",
+    "zona": [[24.7, 46.7], [25.3, 55.3], [29.3, 48.0]],
+    "bandera": "🇸🇦 🇦🇪 🇰🇼"
   },
   {
     "id": "bandari",
@@ -96,7 +116,9 @@
     "descripcion": "Danza costera iraní con ritmo alegre, movimientos ondulantes y uso de pañuelos.",
     "elementos": ["Pañuelos", "Vestido colorido", "Percusión rápida", "Música Bandari"],
     "video": "https://www.youtube.com/embed/4YzK9KZK9gB",
-    "imagen": "https://upload.wikimedia.org/wikipedia/commons/5/5e/Bandari_dance_Iran.jpg"
+    "imagen": "https://upload.wikimedia.org/wikipedia/commons/5/5e/Bandari_dance_Iran.jpg",
+    "coords": [27.2, 56.3],
+    "bandera": "🇮🇷"
   },
   {
     "id": "raqsharki",
@@ -105,7 +127,9 @@
     "descripcion": "Danza oriental clásica, estilizada para escenario, con uso de velo y elementos escénicos.",
     "elementos": ["Velo", "Crótalos", "Vestuario escénico", "Música clásica árabe"],
     "video": "https://www.youtube.com/embed/6YzK9KZK9gD",
-    "imagen": "https://upload.wikimedia.org/wikipedia/commons/8/8e/Raqs_Sharqi_dancer_Egypt.jpg"
+    "imagen": "https://upload.wikimedia.org/wikipedia/commons/8/8e/Raqs_Sharqi_dancer_Egypt.jpg",
+    "coords": [30.1, 31.3],
+    "bandera": "🇪🇬"
   },
   {
     "id": "tribal",
@@ -114,7 +138,8 @@
     "descripcion": "Fusión moderna con estética tribal, movimientos lentos y uso de accesorios étnicos.",
     "elementos": ["Tatuajes", "Piercings", "Vestuario étnico", "Música electrónica"],
     "video": "https://www.youtube.com/embed/7YzK9KZK9gE",
-    "imagen": "https://upload.wikimedia.org/wikipedia/commons/1/1e/Tribal_fusion_dancer.jpg"
+    "imagen": "https://upload.wikimedia.org/wikipedia/commons/1/1e/Tribal_fusion_dancer.jpg",
+    "bandera": "🌍"
   },
   {
     "id": "cabaret",
@@ -123,6 +148,7 @@
     "descripcion": "Estilo escénico y glamoroso, con movimientos sensuales y enfoque en espectáculo.",
     "elementos": ["Bedlah", "Brillos", "Coreografía", "Música pop árabe"],
     "video": "https://www.youtube.com/embed/8YzK9KZK9gF",
-    "imagen": "https://upload.wikimedia.org/wikipedia/commons/0/0e/Cabaret_bellydance.jpg"
+    "imagen": "https://upload.wikimedia.org/wikipedia/commons/0/0e/Cabaret_bellydance.jpg",
+    "bandera": "🌍"
   }
 ]
