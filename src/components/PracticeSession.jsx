@@ -103,17 +103,36 @@ export default function PracticeSession({ ritmoId, initialBpm = 90 }) {
     return () => window.removeEventListener("keydown", handleKey);
   }, [canPlay, showFeedback]);
 
-  const handleStart = async () => {
-    if (!audioCtxRef.current || !isLoaded) return;
+  const handleStart = () => {
+    console.log("🔊 handleStart ejecutado");
+
+    // Forzamos creación de AudioContext si no existe
+    if (!audioCtxRef.current) {
+      audioCtxRef.current = new (window.AudioContext || window.webkitAudioContext)();
+    }
 
     const ctx = audioCtxRef.current;
+    if (!ctx || !isLoaded) {
+      console.warn("⚠️ Audio no listo");
+      return;
+    }
+
+    // Obtenemos duración del compás desde el ritmo
+    const ritmo = ritmos.find((r) => r.id === ritmoId);
+    const beatsPerBar = ritmo?.beatsPerBar || 4;
+    const bars = playlist[0]?.bars || 1;
+    const totalBeats = beatsPerBar * bars;
     const beatInterval = 60 / bpm;
-    const startAt = ctx.currentTime + beatInterval * 4;
 
-    setCounting(true);
+    // Calculamos tiempo de inicio real
+    const startAt = ctx.currentTime + beatInterval * totalBeats;
+    visualSyncRef.current.nextNoteTime = startAt;
+    visualSyncRef.current.startTime = startAt;
 
-    let count = 4;
+    // Iniciamos cuenta regresiva visual
+    let count = totalBeats;
     setCountdownStep(count);
+    setCounting(true);
 
     const countdownInterval = setInterval(() => {
       count--;
@@ -122,17 +141,15 @@ export default function PracticeSession({ ritmoId, initialBpm = 90 }) {
       } else {
         setCountdownStep(null);
         clearInterval(countdownInterval);
-        setCounting(false); // ✅ solo acá
+        setCounting(false);
       }
-    }, (60 / bpm) * 1000); // sincronizado con el metrónomo
+    }, beatInterval * 1000);
 
+    // Habilitamos interacción y arrancamos secuencia
     setCanPlay(true);
-
-    visualSyncRef.current.nextNoteTime = startAt;
-    visualSyncRef.current.startTime = startAt;
-
     startSequence();
   };
+
 
 
   const handleGolpe = (tipoGolpe) => {
@@ -216,8 +233,12 @@ export default function PracticeSession({ ritmoId, initialBpm = 90 }) {
     });
 
     setTimeout(() => setPopupPuntaje(null), 1000);
-    setStreak(nuevaRacha);
-    setMaxStreak((prev) => Math.max(prev, nuevaRacha));
+    setStreak((prevStreak) => {
+      const nuevaRacha = precision === "perfecto" ? prevStreak + 1 : 0;
+      setMaxStreak((prevMax) => Math.max(prevMax, nuevaRacha));
+      return nuevaRacha;
+    });
+
 
 
 
@@ -288,6 +309,12 @@ export default function PracticeSession({ ritmoId, initialBpm = 90 }) {
     setShowFeedback(false);
     setIsMuted(true);
     setPuntajeEnviado(false);
+    setPoints(0);        // 👈 reinicia puntos
+    setStreak(0);        // 👈 reinicia racha
+    setMaxStreak(0);     // 👈 reinicia racha máxima
+    setPopupPuntaje(null);
+    setNombreJugador("");
+    setPuntajeGuardado(false);
   };
 
   const getColor = (precision) => {
