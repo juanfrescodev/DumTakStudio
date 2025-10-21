@@ -3,8 +3,11 @@ import React, { useState } from "react";
 import { MetronomeControls } from "./MetronomeControls";
 import RitmoBlock from "./RitmoBlock";
 import useAudioEngine from "../hooks/useAudioEngine";
+import { useAuthStore } from "../store/useAuthStore";
 
 export default function RitmoPlaylist({ playlist, setPlaylist, initialBpm }) {
+  const { isLoggedIn, user } = useAuthStore();
+  const [startTime, setStartTime] = useState(null);
   const [bpm, setBpm] = useState(initialBpm);
   const [metronomoOn, setMetronomoOn] = useState(true);
   const [metronomoVolume, setMetronomoVolume] = useState(0.5);
@@ -43,7 +46,7 @@ export default function RitmoPlaylist({ playlist, setPlaylist, initialBpm }) {
         return;
       }
     }
-
+    setStartTime(Date.now());
     startSequence();
   };
 
@@ -57,6 +60,31 @@ export default function RitmoPlaylist({ playlist, setPlaylist, initialBpm }) {
     const newVol = Number(e.target.value);
     setMetronomoVolume(newVol);
     setMetronomeVolume(newVol);
+  };
+
+  const handleStopAndSave = () => {
+    stopSequence();
+
+    if (isLoggedIn && startTime) {
+      const duracion = Math.round((Date.now() - startTime) / 1000);
+      const ritmosUsados = playlist.map((r) => r.id);
+
+      fetch("https://ritmos-backend.onrender.com/api/sequencer-stats", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          userId: user.id,
+          ritmosUsados,
+          duracion,
+          fecha: new Date().toISOString()
+        })
+      }).then((res) => {
+        if (res.ok) console.log("✅ Secuenciador registrado");
+        else console.error("❌ Error al guardar secuencia");
+      }).catch((err) => console.error("❌ Error de red:", err));
+    }
   };
 
   return (
@@ -146,7 +174,7 @@ export default function RitmoPlaylist({ playlist, setPlaylist, initialBpm }) {
 
         <button
           className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition"
-          onClick={stopSequence}
+          onClick={handleStopAndSave}
         >
           ⏹️ Detener secuencia
         </button>

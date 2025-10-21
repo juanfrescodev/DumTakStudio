@@ -1,3 +1,4 @@
+//compoents/MetronomeSequencer.jsx
 import React, { useEffect, useRef, useState } from "react";
 
 export default function MetronomeSequencer({ ritmo, variante = "base", initialBpm = 90 }) {

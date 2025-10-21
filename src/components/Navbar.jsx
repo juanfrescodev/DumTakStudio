@@ -1,9 +1,12 @@
+//components/Navbar.jsx
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { useAuthStore } from '../store/useAuthStore';
 
 export default function Navbar() {
   const location = useLocation();
   const [menuAbierto, setMenuAbierto] = useState(false);
+  const { isLoggedIn, user, logout } = useAuthStore();
 
   const links = [
     { path: "/", label: "🏠 Inicio" },
@@ -33,7 +36,7 @@ export default function Navbar() {
         </button>
 
         {/* Links en desktop */}
-        <div className="hidden sm:flex gap-4">
+        <div className="hidden sm:flex gap-4 items-center">
           {links.map(({ path, label }) => (
             <Link
               key={path}
@@ -47,6 +50,36 @@ export default function Navbar() {
               {label}
             </Link>
           ))}
+
+          {/* 📊 Estadísticas personales */}
+          {isLoggedIn && (
+            <Link
+              to="/estadisticas"
+              className="text-sm font-medium px-3 py-1 rounded text-gray-700 hover:bg-yellow-100"
+            >
+              📊 Mis estadísticas
+            </Link>
+          )}
+
+          {/* 🔐 Login o Usuario */}
+          {isLoggedIn ? (
+            <div className="flex items-center gap-2 text-sm text-gray-700">
+              👋 Hola, <span className="font-semibold">{user?.nombre}</span>
+              <button
+                onClick={logout}
+                className="ml-2 px-2 py-1 text-red-600 hover:underline"
+              >
+                Salir
+              </button>
+            </div>
+          ) : (
+            <Link
+              to="/login"
+              className="text-sm font-medium px-3 py-1 rounded text-gray-700 hover:bg-yellow-100"
+            >
+              🔑 Iniciar sesión
+            </Link>
+          )}
         </div>
       </div>
 
@@ -68,6 +101,41 @@ export default function Navbar() {
                 {label}
               </Link>
             ))}
+
+            {/* 📊 Estadísticas personales en mobile */}
+            {isLoggedIn && (
+              <Link
+                to="/estadisticas"
+                onClick={() => setMenuAbierto(false)}
+                className="text-sm font-medium px-3 py-2 rounded text-gray-700 hover:bg-yellow-100"
+              >
+                📊 Mis estadísticas
+              </Link>
+            )}
+
+            {/* 🔐 Login o Usuario en mobile */}
+            {isLoggedIn ? (
+              <div className="mt-2 text-sm text-gray-700">
+                👋 Hola, <span className="font-semibold">{user?.nombre}</span>
+                <button
+                  onClick={() => {
+                    logout();
+                    setMenuAbierto(false);
+                  }}
+                  className="block mt-1 text-red-600 hover:underline"
+                >
+                  Salir
+                </button>
+              </div>
+            ) : (
+              <Link
+                to="/login"
+                onClick={() => setMenuAbierto(false)}
+                className="text-sm font-medium px-3 py-2 rounded text-gray-700 hover:bg-yellow-100"
+              >
+                🔑 Iniciar sesión
+              </Link>
+            )}
           </div>
         </div>
       )}

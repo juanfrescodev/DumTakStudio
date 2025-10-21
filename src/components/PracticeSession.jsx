@@ -1,8 +1,12 @@
+//components/PracticeSession.jsx
 import React, { useState, useEffect, useRef } from "react";
 import RitmoBlock from "./RitmoBlock";
 import { MetronomeControls } from "./MetronomeControls";
 import useAudioEngine from "../hooks/useAudioEngine";
 import ritmos from "../data/ritmos.json";
+
+import { useAuthStore } from '../store/useAuthStore';
+
 
 export default function PracticeSession({ ritmoId, initialBpm = 90 }) {
   const countingRef = useRef(false);
@@ -27,8 +31,8 @@ export default function PracticeSession({ ritmoId, initialBpm = 90 }) {
   const [puntajeGuardado, setPuntajeGuardado] = useState(false);
   const [popupPuntaje, setPopupPuntaje] = useState(null);
 
-
-  
+  const { user, token, isLoggedIn } = useAuthStore();
+ 
   const [ranking, setRanking] = useState([]);
 
   const obtenerRanking = async () => {
@@ -252,18 +256,27 @@ export default function PracticeSession({ ritmoId, initialBpm = 90 }) {
     pasosEvaluadosRef.current.add(stepIndex);
   };
 
-  const enviarPuntajePractica = async (nombre) => {
+  const enviarPuntajePractica = async (nombreManual = null) => {
     if (puntajeEnviado) return;
+
+    const nombreFinal = isLoggedIn ? user.nombre : nombreManual;
 
     try {
       const res = await fetch("https://ritmos-backend.onrender.com/api/scores", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          ...(isLoggedIn && { Authorization: `Bearer ${token}` })
+        },
         body: JSON.stringify({
-          nombre,
+          nombre: nombreFinal,
+          userId: isLoggedIn ? user.id : null,
           puntaje: points,
           ritmo: ritmoId,
-          modo: "practica"
+          modo: "practica",
+          notaFinal: calcularNotaFinal(),
+          tendencia: stats.tendencia,
+          erroresPorGolpe: stats.erroresPorGolpe
         })
       });
 
@@ -280,23 +293,22 @@ export default function PracticeSession({ ritmoId, initialBpm = 90 }) {
     }
   };
 
+
   const handleFinalizar = () => {
     if (puntajeEnviado) return;
 
     stopSequence();
-    setShowFeedback(true); // 🔍 esto activa el análisis y ranking
+    setShowFeedback(true);
 
-    let nombreFinal = nombreJugador;
-
-    if (!nombreFinal || nombreFinal.trim() === "") {
+    if (isLoggedIn) {
+      enviarPuntajePractica(); // usa nombre del usuario
+    } else {
       const nombre = prompt("Ingresá tu nombre para guardar tu puntaje:");
-      if (!nombre || nombre.trim() === "") return; // no se guarda, pero sí se muestra el ranking
-      nombreFinal = nombre.trim();
-      setNombreJugador(nombreFinal);
+      if (!nombre || nombre.trim() === "") return;
+      enviarPuntajePractica(nombre.trim());
     }
-
-    enviarPuntajePractica(nombreFinal); // solo si hay nombre
   };
+
 
 
 
@@ -500,6 +512,11 @@ return (
   {showFeedback && (
     <>
       <div className="mt-6 bg-white p-6 rounded-xl shadow-xl border border-gray-200">
+        {isLoggedIn && (
+          <p className="text-sm text-gray-600 mt-2">
+            👋 ¡Buen trabajo, <span className="font-semibold">{user.nombre}</span>! Tu precisión fue del {Math.round((stats.correct / stats.total) * 100)}%.
+          </p>
+        )}
         <h3 className="text-2xl font-bold mb-4 text-purple-700">🧠 Análisis de tu práctica</h3>
 
         <div className="grid grid-cols-2 gap-4 text-sm text-gray-800">

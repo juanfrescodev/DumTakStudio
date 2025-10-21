@@ -1,3 +1,4 @@
+//main.jsx
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import { HashRouter, Routes, Route } from "react-router-dom";
@@ -13,6 +14,9 @@ import FamiliaInstrumentosPage from "./pages/FamiliaInstrumentosPage";
 import TriviaPage from "./pages/TriviaPage";
 import DonarPage from "./pages/DonarPage";
 import PracticeAssistant from "./pages/PracticeAssistant"; // ✅ NUEVO IMPORT
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
+import UserStats from './pages/UserStats';
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <HashRouter>
@@ -28,6 +32,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <Route path="/trivia" element={<TriviaPage />} />
       <Route path="/donar" element={<DonarPage />} />
       <Route path="/practice" element={<PracticeAssistant />} /> {/* ✅ NUEVA RUTA */}
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/register" element={<RegisterPage />} />
+      <Route path="/estadisticas" element={<UserStats />} />
     </Routes>
   </HashRouter>
 );

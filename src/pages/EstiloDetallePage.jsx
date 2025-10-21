@@ -1,3 +1,4 @@
+//pages/EstiloDetallePage.jsx
 import { useParams, Link } from "react-router-dom";
 import estilosData from "../data/estilosData.json";
 import Navbar from "../components/Navbar";

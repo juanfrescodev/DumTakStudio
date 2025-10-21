@@ -1,4 +1,4 @@
-//PracticeAssistant.tsx
+//pages/PracticeAssistant.tsx
 import Navbar from "../components/Navbar";
 import React, { useState } from "react";
 import PracticeSession from "../components/PracticeSession";

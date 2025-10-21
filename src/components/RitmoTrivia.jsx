@@ -1,3 +1,4 @@
+//components/RitmoTrivia.jsx
 import { useState, useEffect, useRef } from "react";
 import ritmosData from "../data/ritmos.json";
 import confetti from "canvas-confetti";

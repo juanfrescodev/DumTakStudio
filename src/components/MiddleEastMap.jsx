@@ -1,3 +1,4 @@
+//components/MiddleEastMap.jsx
 import {
   MapContainer,
   TileLayer,

@@ -1,5 +1,3 @@
-// src/data/instrumentosData.js
-
 const instrumentosData = [
     {
         id: "percusion",

@@ -1,3 +1,5 @@
+//componets/RitmoBlock.jsx
+
 import React, { useState, useEffect } from "react";
 import ritmosData from "../data/ritmos.json";
 

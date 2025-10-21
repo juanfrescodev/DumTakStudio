@@ -1,3 +1,4 @@
+//hooks/usePracticeAnalyzer.ts
 export function usePracticeAnalyzer({ userEvents, steps = [], bpm }) {
   if (!Array.isArray(steps) || steps.length === 0) return [];
 

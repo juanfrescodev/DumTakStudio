@@ -1,3 +1,4 @@
+//pages/RitmosPage.jsx
 import Navbar from "../components/Navbar";
 import { useState } from "react";
 import { Link } from "react-router-dom";

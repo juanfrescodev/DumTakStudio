@@ -1,3 +1,4 @@
+//components/EstiloCard.jsx
 export default function EstiloCard({ estilo }) {
   return (
     <div className="max-w-screen-md mx-auto p-6">

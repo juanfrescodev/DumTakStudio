@@ -1,3 +1,4 @@
+//pages/LandingPage.jsx
 import Navbar from "../components/Navbar";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";

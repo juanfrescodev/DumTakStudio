@@ -1,3 +1,4 @@
+//compoents/FeedbackPanel.tsx
 import React from 'react';
 
 export default function FeedbackPanel({ feedback }) {

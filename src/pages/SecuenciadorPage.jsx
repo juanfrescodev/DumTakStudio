@@ -1,4 +1,4 @@
-//SecuenciadorPage.jsxS
+//pages/SecuenciadorPage.jsxS
 import Navbar from "../components/Navbar";
 import { useEffect, useState } from "react";
 import RitmoPlaylist from "../components/RitmoPlaylist";
