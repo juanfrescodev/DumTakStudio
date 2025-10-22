@@ -272,7 +272,7 @@ export default function PracticeSession({ ritmoId, initialBpm = 90 }) {
           nombre: nombreFinal,
           userId: isLoggedIn ? user.id : null,
           puntaje: points,
-          ritmo: ritmoId,
+          ritmos: [ritmoId],
           modo: "practica",
           notaFinal: calcularNotaFinal(),
           tendencia: stats.tendencia,

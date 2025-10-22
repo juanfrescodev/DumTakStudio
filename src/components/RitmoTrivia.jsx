@@ -2,8 +2,9 @@
 import { useState, useEffect, useRef } from "react";
 import ritmosData from "../data/ritmos.json";
 import confetti from "canvas-confetti";
+import { useAuthStore } from "../store/useAuthStore";
 
-export default function RitmoTriviaSteps() {
+export default function RitmoTriviaSteps({ onRankingUpdate }) {
   const base = import.meta.env.BASE_URL;
   const ritmosConRutas = ritmosData;
   
@@ -15,7 +16,10 @@ export default function RitmoTriviaSteps() {
     });
   };
 
-
+  const [historialPreguntas, setHistorialPreguntas] = useState([]);
+  const [ritmosUsados, setRitmosUsados] = useState([]);
+  const [startTime, setStartTime] = useState(null);
+  const { isLoggedIn, user } = useAuthStore();
   const [nivel, setNivel] = useState(1);
   const [aciertos, setAciertos] = useState(0);
   const [currentRitmo, setCurrentRitmo] = useState(null);
@@ -89,7 +93,20 @@ export default function RitmoTriviaSteps() {
     generarNuevaPregunta();
   }, [nivel]);
 
+  useEffect(() => {
+    obtenerRanking(); // carga el ranking al abrir la página
+  }, []);
+
+  useEffect(() => {
+    if (!juegoTerminado) {
+      setTimeout(() => {
+        obtenerRanking();
+      }, 500);
+    }
+  }, [juegoTerminado]);
+
   const generarNuevaPregunta = () => {
+    if (!startTime) setStartTime(Date.now());
     const nivelActual = modoDuelo ? nivelDuelo[jugadorActual] : nivel;
 
     const dificultadPermitida =
@@ -105,6 +122,7 @@ export default function RitmoTriviaSteps() {
     );
 
     const elegido = ritmosValidos[Math.floor(Math.random() * ritmosValidos.length)];
+    setRitmosUsados((prev) => [...prev, elegido.nombre]);
 
     // 🔀 Elegir modo aleatorio (base o arreglo) solo una vez
     const variantes = elegido.variantes;
@@ -211,7 +229,6 @@ export default function RitmoTriviaSteps() {
               [jugadorActual]: niveles[jugadorActual] + 1
             }));
 
-            // 🎉 Animación de subida de nivel
             setAnimarNivelDuelo((prev) => ({
               ...prev,
               [jugadorActual]: true
@@ -257,9 +274,16 @@ export default function RitmoTriviaSteps() {
       setFeedback("✅ ¡Correcto!");
       setPuntaje((prev) => prev + 1);
 
+      setHistorialPreguntas((prev) => [
+        ...prev,
+        {
+          ritmo: currentRitmo.nombre,
+          acierto: id === currentRitmo.id
+        }
+      ]);
+
       const nuevos = aciertos + 1;
 
-      // Logros
       if (nuevos === 1 && !logros.includes("primer")) {
         setLogros((prev) => [...prev, "primer"]);
         setMostrarLogro("🥇 Primer acierto");
@@ -275,7 +299,6 @@ export default function RitmoTriviaSteps() {
 
       setTimeout(() => setMostrarLogro(null), 2000);
 
-      // Nivel
       if (nuevos === 5) {
         setNivel(2);
         setAnimarNivel(true);
@@ -294,11 +317,29 @@ export default function RitmoTriviaSteps() {
       setAciertos(nuevos);
     } else {
       setFeedback(`❌ Incorrecto. Era: ${currentRitmo.nombre}`);
+      setHistorialPreguntas((prev) => [
+        ...prev,
+        {
+          ritmo: currentRitmo.nombre,
+          acierto: false
+        }
+      ]);
       setVidas((prev) => {
         const nuevas = prev - 1;
         if (nuevas <= 0) {
           setJuegoTerminado(true);
-          obtenerRanking();
+
+          (async () => {
+            try {
+              await enviarPuntaje();
+              
+              setTimeout(() => {
+                obtenerRanking();
+              }, 500);
+            } catch (err) {
+              console.error("❌ Error al guardar puntaje o estadísticas:", err);
+            }
+          })();
         }
         return nuevas;
       });
@@ -306,30 +347,97 @@ export default function RitmoTriviaSteps() {
   };
 
 
+  const enviarEstadisticaTrivia = async () => {
+    console.log("Usuario logueado:", user);
+
+    const nombre = isLoggedIn ? user.nombre : nombreJugador;
+    const duracion = startTime ? Math.round((Date.now() - startTime) / 1000) : 0;
+    
+    const aciertosPorRitmo = {};
+    const erroresPorRitmo = {};
+
+historialPreguntas.forEach(({ ritmo, acierto }) => {
+  if (acierto) {
+    aciertosPorRitmo[ritmo] = (aciertosPorRitmo[ritmo] || 0) + 1;
+  } else {
+    erroresPorRitmo[ritmo] = (erroresPorRitmo[ritmo] || 0) + 1;
+  }
+});
+
+
+
+    const stat = {
+      userId: isLoggedIn ? user.id : null,
+      nombre,
+      puntaje,
+      aciertosPorRitmo,
+      erroresPorRitmo,
+      nivelMaximo: nivel,
+      rachaMaxima: 4,
+      logros,
+      duracion: Math.round((Date.now() - startTime) / 1000),
+      fecha: new Date().toISOString()
+    };
+
+    try {
+      await fetch("https://ritmos-backend.onrender.com/api/trivia-stats", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(stat)
+      });
+      console.log("✅ Estadística de trivia guardada");
+    } catch (err) {
+      console.error("❌ Error al guardar estadística:", err);
+    }
+  };
 
   const enviarPuntaje = async () => {
+    const nombre = isLoggedIn ? user.nombre : nombreJugador;
+
+    if (!nombre) {
+      alert("Por favor ingresá tu nombre para guardar el puntaje.");
+      return;
+    }
+
+    console.log("Enviando puntaje:", {
+      nombre,
+      userId: isLoggedIn ? user.id : null,
+      puntaje,
+      ritmos: ritmosUsados,
+      modo: "trivia"
+    });
+
     try {
       await fetch("https://ritmos-backend.onrender.com/api/scores", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          nombre: nombreJugador,
+          nombre,
+          userId: isLoggedIn ? user.id : null,
           puntaje,
-          ritmo: currentRitmo?.nombre,
-          modo: "descubrir"
+          ritmos: ritmosUsados,
+          modo: "trivia"
         })
       });
       alert("✅ Puntaje guardado con éxito!");
-      setNombreJugador("");
+      if (!isLoggedIn) setNombreJugador("");
+
+      await enviarEstadisticaTrivia();
+      setTimeout(() => {
+        obtenerRanking(); // actualiza el ranking local
+        if (onRankingUpdate) onRankingUpdate(); // actualiza el ranking general
+      }, 500);
     } catch (err) {
       console.error("Error al guardar puntaje:", err);
       alert("❌ Hubo un error al guardar tu puntaje.");
     }
   };
 
+
+
   const obtenerRanking = async () => {
     try {
-      const res = await fetch("https://ritmos-backend.onrender.com/api/scores/top");
+      const res = await fetch("https://ritmos-backend.onrender.com/api/scores/top?modo=trivia");
       const data = await res.json();
       setRanking(data);
     } catch (err) {
@@ -466,6 +574,7 @@ export default function RitmoTriviaSteps() {
                 setJugadorActual(1);
                 setJuegoTerminado(false);
                 generarNuevaPregunta();
+                obtenerRanking();
               }}
               className="mt-6 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 font-semibold"
             >
@@ -476,16 +585,18 @@ export default function RitmoTriviaSteps() {
           <>
             <p className="text-xl font-bold text-center mb-4">🎮 Juego terminado</p>
             <p className="text-lg text-center mb-2">Tu puntaje final: {puntaje}</p>
-            <input
-              type="text"
-              placeholder="Escribí tu nombre para guardar el puntaje"
-              value={nombreJugador}
-              onChange={(e) => setNombreJugador(e.target.value)}
-              className="w-full px-4 py-2 border rounded mb-4"
-            />
+            {!isLoggedIn && (
+              <input
+                type="text"
+                placeholder="Escribí tu nombre para guardar el puntaje"
+                value={nombreJugador}
+                onChange={(e) => setNombreJugador(e.target.value)}
+                className="w-full px-4 py-2 border rounded mb-4"
+              />
+            )}
             <button
               onClick={enviarPuntaje}
-              disabled={!nombreJugador}
+              disabled={!isLoggedIn && !nombreJugador}
               className="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700 font-semibold mb-6"
             >
               💾 Guardar puntaje

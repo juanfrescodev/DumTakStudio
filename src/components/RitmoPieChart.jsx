@@ -4,7 +4,9 @@ const COLORS = ['#6366f1', '#10b981', '#f59e0b', '#ef4444', '#3b82f6'];
 
 export default function RitmoPieChart({ scores }) {
   const ritmos = scores.reduce((acc, s) => {
-    acc[s.ritmo] = (acc[s.ritmo] || 0) + 1;
+    s.ritmos.forEach((r) => {
+      acc[r] = (acc[r] || 0) + 1;
+    });
     return acc;
   }, {});
 

@@ -6,13 +6,23 @@ import RitmoTrivia from "../components/RitmoTrivia";
 export default function TriviaPage() {
   const [ranking, setRanking] = useState([]);
   const [loading, setLoading] = useState(true);
+  const actualizarRanking = () => {
+    fetch("https://ritmos-backend.onrender.com/api/scores/top?modo=trivia")
+      .then((res) => res.json())
+      .then((data) => {
+        setRanking(data);
+      })
+      .catch((err) => {
+        console.error("Error al actualizar el ranking", err);
+      });
+  };
 
   useEffect(() => {
     // Activar backend
     fetch("https://ritmos-backend.onrender.com/ping").catch(() => {});
 
     // Obtener ranking
-    fetch("https://ritmos-backend.onrender.com/api/scores/top")
+    fetch("https://ritmos-backend.onrender.com/api/scores/top?modo=trivia")
       .then((res) => res.json())
       .then((data) => {
         setRanking(data);
@@ -64,7 +74,7 @@ export default function TriviaPage() {
           <p className="text-sm text-gray-600 mb-4 text-center">
             Respondé preguntas sobre ritmos y estilos. Cada respuesta correcta suma puntos. ¡Jugá, aprendé y subí en el ranking!
           </p>
-          <RitmoTrivia />
+          <RitmoTrivia onRankingUpdate={actualizarRanking} />
         </div>
 
         <div className="mt-6 text-center">
