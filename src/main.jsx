@@ -2,6 +2,7 @@
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import { HashRouter, Routes, Route } from "react-router-dom";
+import "abcjs/abcjs-audio.css";
 
 import LandingPage from "./pages/LandingPage";
 import SecuenciadorPage from "./pages/SecuenciadorPage";
@@ -17,7 +18,10 @@ import PracticeAssistant from "./pages/PracticeAssistant"; // ✅ NUEVO IMPORT
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import UserStats from './pages/UserStats';
+import ReadingTrainerPage from "./pages/ReadingTrainerPage";
 
+
+ 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <HashRouter>
     <Routes>
@@ -35,6 +39,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/estadisticas" element={<UserStats />} />
+      <Route path="/lectura" element={<ReadingTrainerPage />} />
+
+
     </Routes>
   </HashRouter>
 );

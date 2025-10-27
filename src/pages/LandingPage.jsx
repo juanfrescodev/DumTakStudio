@@ -66,14 +66,10 @@ export default function LandingPage() {
     <>
       <Navbar />
 
-      {/* Fondo visual envolvente */}
       <div className="relative min-h-screen bg-gradient-to-br from-yellow-100 via-orange-50 to-purple-100 overflow-hidden">
-        {/* Patrón superpuesto */}
         <div className="absolute inset-0 bg-[url('/patron-arabe.svg')] bg-repeat opacity-20 pointer-events-none z-0" />
 
-        {/* Contenido principal */}
         <div className="relative z-10 container mx-auto px-4 py-12 text-center max-w-6xl animate-fade-in-slow">
-          {/* HERO */}
           <div className="text-center mb-10">
             <h1 className="text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-yellow-500 to-purple-600 tracking-tight leading-tight">
               Dumtak Studio
@@ -83,12 +79,10 @@ export default function LandingPage() {
             </p>
           </div>
 
-          {/* FRASE GUÍA */}
           <p className="text-lg text-gray-600 mb-6 font-medium italic">
             Elegí tu camino: explorá ritmos, jugá con tu oído, creá secuencias o aprendé el contexto cultural detrás de cada compás.
           </p>
 
-          {/* CARDS */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mb-12">
             {featuredSections.map(({ path, label, icon, description, color }, index) => (
               <Link
@@ -102,6 +96,30 @@ export default function LandingPage() {
                 <p className="text-sm text-gray-700">{description}</p>
               </Link>
             ))}
+          </div>
+
+          {/* CTA REGISTRO */}
+          <div className="bg-purple-50 p-6 rounded-xl shadow-inner border border-purple-200 mb-12">
+            <h3 className="text-2xl font-semibold text-purple-700 mb-4">
+              📊 Registrate gratis y accedé a tu evolución musical
+            </h3>
+            <p className="text-gray-700 mb-4 text-sm sm:text-base">
+              Al crear tu cuenta, vas a poder guardar tus puntajes, ver estadísticas detalladas de práctica y trivia, recibir recomendaciones personalizadas y seguir tu progreso rítmico a lo largo del tiempo.
+            </p>
+            <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-6">
+              <Link
+                to="/register"
+                className="bg-purple-600 text-white font-bold py-3 px-8 rounded-full shadow-lg hover:bg-purple-700 transform hover:scale-105 transition duration-200 text-lg uppercase tracking-wide"
+              >
+                ✍️ Crear cuenta
+              </Link>
+              <Link
+                to="/login"
+                className="text-purple-600 hover:text-purple-800 font-medium py-3 px-8 text-sm"
+              >
+                Ya tengo cuenta
+              </Link>
+            </div>
           </div>
 
           {/* CTA DONAR */}

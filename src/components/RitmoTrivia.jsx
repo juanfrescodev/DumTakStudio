@@ -38,10 +38,12 @@ export default function RitmoTriviaSteps({ onRankingUpdate }) {
   const [logros, setLogros] = useState([]);
   const [mostrarLogro, setMostrarLogro] = useState(null);
   const fondoPorNivel = {
-  1: "bg-white",
-  2: "bg-yellow-100",
-  3: "bg-gradient-to-br from-gray-900 via-purple-900 to-black text-white"
-};
+    1: "bg-white",
+    2: "bg-yellow-100",
+    3: "bg-gradient-to-br from-gray-900 via-purple-900 to-black text-white",
+    4: "bg-gradient-to-br from-red-900 via-yellow-900 to-black text-white"
+  };
+
 
   const audioCtxRef = useRef(null);
   const samplesRef = useRef({});
@@ -114,7 +116,10 @@ export default function RitmoTriviaSteps({ onRankingUpdate }) {
         ? ["facil"]
         : nivelActual === 2
         ? ["facil", "intermedio"]
-        : ["facil", "intermedio", "dificil"];
+        : nivelActual === 3
+        ? ["facil", "intermedio", "dificil"]
+        : ["facil", "intermedio", "dificil", "avanzado"];
+
 
     const ritmosValidos = ritmosConRutas.filter((r) =>
       dificultadPermitida.includes(r.dificultad) &&
@@ -296,6 +301,11 @@ export default function RitmoTriviaSteps({ onRankingUpdate }) {
         setLogros((prev) => [...prev, "perfecto"]);
         setMostrarLogro("🎯 Nivel 3 sin perder vidas");
       }
+      if (nuevos === 15 && nivel === 4 && vidas === 3 && !logros.includes("maestro")) {
+        setLogros((prev) => [...prev, "maestro"]);
+        setMostrarLogro("🏅 Nivel 4 sin perder vidas");
+      }
+  
 
       setTimeout(() => setMostrarLogro(null), 2000);
 
@@ -308,6 +318,13 @@ export default function RitmoTriviaSteps({ onRankingUpdate }) {
       }
       if (nuevos === 10) {
         setNivel(3);
+        setAnimarNivel(true);
+        setTimeout(() => setAnimarNivel(false), 1000);
+        audio.play();
+        lanzarConfeti();
+      }
+      if (nuevos === 15) {
+        setNivel(4);
         setAnimarNivel(true);
         setTimeout(() => setAnimarNivel(false), 1000);
         audio.play();
@@ -549,10 +566,16 @@ historialPreguntas.forEach(({ ritmo, acierto }) => {
 
         <button
           onClick={generarNuevaPregunta}
-          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 font-semibold"
+          disabled={!selected}
+          className={`px-4 py-2 rounded font-semibold ${
+            selected
+              ? "bg-blue-600 text-white hover:bg-blue-700"
+              : "bg-gray-400 text-gray-200 cursor-not-allowed"
+          }`}
         >
           ➡️ Siguiente pregunta
         </button>
+
       </>
     )}
 
